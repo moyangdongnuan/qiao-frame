@@ -166,11 +166,9 @@ export default {
 <style lang="stylus" type="text/stylus">
   @import "./login.styl"
   .code
-    margin 20px auto
     width 114px
     height 40px
     border 1px solid red
-
   h1
     font-weight normal
 
