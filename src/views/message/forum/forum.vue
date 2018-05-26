@@ -30,7 +30,7 @@
           {prop: 'type', label: '留言分类'},
           {prop: 'category', label: '审核标识'},
           {prop: 'categorytype', label: '类型标识'},
-          {prop: 'categoryName', label: '类型标识'}
+          {prop: 'categoryName', label: '审核状态'}
         ],
         forumDialog: [
           {id: 'add', dialog: 'QiaoForumAdd'},

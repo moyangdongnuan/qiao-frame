@@ -5,7 +5,7 @@
     v-bind:targetURL="replyURL"
     v-bind:bizDialog="replyDialog"
     v-bind:btnList="replyBtnList"
-    bizSearch="QiaoReplySearch")
+    bizSearch="QiaoReplySearch" v-bind:dictDefine="dictDefine")
 </template>
 
 <script type="text/ecmascript-6">
@@ -17,10 +17,16 @@
     data() {
       return {
         replyURL: QiaoReplyURL,
+        dictDefine: [{ // 定义数据字典的显示
+          cacheKey: 'QIAO-DICT-KEY',
+          type: '审核标识',
+          targetField: 'categoryName',
+          sourceField: 'category'
+        }],
         tableFields: [
           {prop: 'username', label: '回复人姓名'},
           {prop: 'content', label: '回复内容'},
-          {prop: 'category', label: '审核标识'}
+          {prop: 'categoryName', label: '审核状态'}
         ],
         replyDialog: [
           {id: 'add', dialog: 'QiaoReplyAdd'},
