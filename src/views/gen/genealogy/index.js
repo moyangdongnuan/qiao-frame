@@ -1,7 +1,15 @@
-import Genealogy from './genealogy'
+import Genealogy from './genealogy.vue'
+import GenealogyAdd from './genealogyAdd.vue'
+import GenealogyEdit from './genealogyEdit.vue'
+import GenealogySearch from './genealogySearch.vue'
+import GenealogyView from './genealogyView.vue'
 
 const components = [
-  Genealogy
+  Genealogy,
+  GenealogyAdd,
+  GenealogyEdit,
+  GenealogySearch,
+  GenealogyView
 ]
 
 const main = {
