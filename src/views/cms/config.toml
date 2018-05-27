@@ -6,4 +6,4 @@ QiaoContentURL = "/camel/rest/contents"
 # 菜单管理
 QiaoMenuURL = "/camel/rest/menus"
 #栏目菜单级联查询
-QiaoCMURL = "/camel/rest/contents/getColumnAndMenu"
+QiaoCMURL = "/camel/rest/contents/getMenuByColumnId"

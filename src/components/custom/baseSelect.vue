@@ -65,7 +65,6 @@
       initOptions() {
         const DictKey = `${this.appName.toUpperCase()}-KEY`
         if (!Cache.get(DictKey)) {
-//          console.log('this.requestUrl 111:')
           this.$http
             .get(this.requestUrl, {
               // params: {page: 1, start: 0, limit: 20}

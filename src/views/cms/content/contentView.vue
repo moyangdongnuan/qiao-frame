@@ -9,8 +9,6 @@
         el-input(v-model="formModel.sequence")
       el-form-item(label="内容" prop="content" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.content")
-      <!--el-form-item(label="菜单id" prop="listid" v-bind:label-width="labelWidth")-->
-      <!--el-input(v-model="formModel.listid")-->
 </template>
 
 <script type="text/ecmascript-6">
