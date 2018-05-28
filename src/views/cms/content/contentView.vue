@@ -2,13 +2,13 @@
   kalix-dialog.user-add(title='查看' bizKey="column" ref="kalixBizDialog" v-bind:formModel.sync="formModel" isView)
     div.el-form(slot="dialogFormSlot")
       el-form-item(label="标题" prop="title" v-bind:label-width="labelWidth")
-        el-input(v-model="formModel.title")
+        el-input(v-model="formModel.title" readonly)
       el-form-item(label="次标题" prop="subtitle" v-bind:label-width="labelWidth")
-        el-input(v-model="formModel.subtitle")
+        el-input(v-model="formModel.subtitle" readonly)
       el-form-item(label="排序" prop="sequence" v-bind:label-width="labelWidth")
-        el-input(v-model="formModel.sequence")
+        el-input(v-model="formModel.sequence" readonly)
       el-form-item(label="内容" prop="content" v-bind:label-width="labelWidth")
-        el-input(v-model="formModel.content")
+        el-input(v-model="formModel.content" readonly)
 </template>
 
 <script type="text/ecmascript-6">
