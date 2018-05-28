@@ -3,7 +3,7 @@
  * add by sunli 2018-5-26
  **/
 const startedCond = (scope) => {
-  return scope.row.category === '0'
+  return scope.row.category === 0
 }
 
 const forumConfigBtnList = [

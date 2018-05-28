@@ -27,7 +27,7 @@
           {prop: 'idcard', label: '发帖人别名'},
           {prop: 'title', label: '帖子标题'},
           {prop: 'content', label: '帖子内容'},
-          {prop: 'type', label: '留言分类'},
+          {prop: 'menuId', label: '留言分类'},
           {prop: 'category', label: '审核标识'},
           {prop: 'categorytype', label: '类型标识'},
           {prop: 'categoryName', label: '审核状态'}

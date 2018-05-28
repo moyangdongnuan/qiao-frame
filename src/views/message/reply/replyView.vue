@@ -7,6 +7,8 @@
         el-input(v-model="formModel.content" readonly)
       el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.category" readonly)
+      el-form-item(label="回复时间" prop="creationDate" v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.creationDate" readonly)
 </template>
 
 <script type="text/ecmascript-6">

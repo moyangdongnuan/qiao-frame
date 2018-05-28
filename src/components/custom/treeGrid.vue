@@ -75,10 +75,11 @@
     ON_SEARCH_BUTTON_CLICK,
     ON_REFRESH_DATA
   } from './event.toml'
+
   export default {
     name: 'treeGrid',
     props: {
-      title: {  // 表格组件标题名
+      title: { // 表格组件标题名
         type: String,
         required: true
       },
@@ -90,19 +91,19 @@
         type: Boolean,
         default: false
       },
-      toolbarBtnList: {   //  toolBar 中按钮数组
+      toolbarBtnList: {// toolBar 中按钮数组
         type: Array,
         default: () => {
           return []
         }
       },
-      bizSearch: {  //  使用的搜索组件名称
+      bizSearch: {//  使用的搜索组件名称
         type: String
       },
-      bizDialog: {  //  使用的对话框组件名称
+      bizDialog: { //   使用的对话框组件名称
         type: Array
       },
-      bizKey: {  // 主鍵
+      bizKey: { //  主鍵
         type: String
       },
       columns: Array,
@@ -236,7 +237,7 @@
         that._getTableHeight()
       })
       EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', () => {
-//        console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
+      // console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
         this.whichBizDialog = ''
       })
       //  绑定表格 icon 图标
@@ -267,7 +268,7 @@
               firstNode.click()
             }
           })
-//          this._getTableHeight()
+          // this._getTableHeight()
           if (this.customRender) { // 对table的数据进行自定义的修饰
             this.customRender(this.items)
           }
@@ -323,12 +324,12 @@
           this.bizDialog.filter((item) => {
             return item.id === 'add'
           })
-//        console.log(dig[0].dialog)3
+        // console.log(dig[0].dialog)3
         this.whichBizDialog = dig[0].dialog
         console.log('[onAddClick]', dig[0].dialog)
-//        this.$emit('update:formModel', {})
+        // this.$emit('update:formModel', {})
         setTimeout(() => {
-//          EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, JSON.parse(this.tempFormModel))
+          // EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, JSON.parse(this.tempFormModel))
           if (this.checkId === 1) {
             this.checkedItem = this.initItems[0]
             this.formModel.parentName = '职能类别'
@@ -644,8 +645,8 @@
             console.log('[kalix] edit dialog is: ' + dig[0].dialog)
             this.whichBizDialog = dig[0].dialog
             setTimeout(() => {
-//              this.$emit('update:formModel', row)
-//              EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, row)
+              //  this.$emit('update:formModel', row)
+              //  EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, row)
               this.$refs.kalixDialog.$refs.kalixBizDialog.open('编辑', true, result)
               if (typeof (this.$refs.kalixDialog.init) === 'function') {
                 this.$refs.kalixDialog.init(this.dialogOptions, row)
