@@ -4,6 +4,6 @@ const FormModel = {
   subtitle: null,
   content: null,
   sequence: null,
-  columnId: null
+  menuId: null
 }
 export default FormModel
