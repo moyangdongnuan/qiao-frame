@@ -1,6 +1,8 @@
 <template lang="pug">
   kalix-dialog.user-add(title='修改' bizKey="content" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
+      el-form-item(label="所属菜单" v-bind:label-width="labelWidth")
+        kalix-cascader(v-on:getMenuId="setMenuId" v-bind:queryOneUrl="getMenuByIdURL" v-bind:value="formModel.menuId" v-bind:defaultSelect="true" v-bind:requestUrl="cmURL" v-bind:appName="allMenu")
       el-form-item(label="标题" prop="title" v-bind:label-width="labelWidth" v-bind:rules="rules.title")
         el-input(v-model="formModel.title")
       el-form-item(label="次标题" prop="subtitle" v-bind:label-width="labelWidth" v-bind:rules="rules.subtitle")
@@ -13,9 +15,13 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoContentURL} from '../config.toml'
+  import {QiaoContentURL, QiaoCMURL, queryMenuById} from '../config.toml'
+  import kalixCascader from '../../../components/cascader/cascader'
 
   export default {
+    components: {
+      kalixCascader
+    },
     name: 'QiaoContentEdit',
     data() {
       return {
@@ -27,11 +33,17 @@
           content: [{required: true, message: '请输内容', trigger: 'blur'}],
           sequence: [{required: true, message: '请输入排序号', trigger: 'blur'}]
         },
-        targetURL: QiaoContentURL
+        targetURL: QiaoContentURL,
+        getMenuByIdURL: queryMenuById,
+        cmURL: QiaoCMURL,
+        allMenu: 'allMenu'
       }
     },
     methods: {
       init(dialogOption) {
+      },
+      setMenuId(val) {
+        this.formModel.menuId = val
       }
     }
   }

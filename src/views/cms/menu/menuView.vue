@@ -10,7 +10,7 @@
       el-form-item(label="是否展示" prop="show" v-bind:label-width="labelWidth")
         el-checkbox(v-model="formModel.show" disabled)
       el-form-item(label="是否留言" prop="message" v-bind:label-width="labelWidth")
-        el-checkbox(v-model="formModel.message" disabled)
+        el-checkbox(v-model="formModel.forum" disabled)
 </template>
 
 <script type="text/ecmascript-6">

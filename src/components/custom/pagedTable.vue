@@ -40,7 +40,7 @@
           | 刷新
 </template>
 <script type="text/ecmascript-6">
-  import Message from 'common/message'
+  import Message from 'common/forum'
   import KalixTableTool from './baseTableTool'
   import {PageConfig} from 'config/global.toml'
 

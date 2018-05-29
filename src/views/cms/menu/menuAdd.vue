@@ -1,11 +1,11 @@
 <template lang="pug">
   kalix-dialog.user-add(title='添加' bizKey="menu" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
-      el-form-item(label="所属栏目" prop="navid" v-bind:label-width="labelWidth")
+      el-form-item(label="所属栏目" prop="columnId" v-bind:label-width="labelWidth")
         //<kalix-select v-model="formModel.navid" placeholder="请选择">
         //  <el-option v-for="item in options" :key="item.navid" :label="item.name" :value="item.navid"> </el-option>
         //</el-select>
-        kalix-select(v-model="formModel.navid" v-bind:requestUrl="columnURL"
+        kalix-select(v-model="formModel.columnId" v-bind:requestUrl="columnURL"
           appName="menuColumn"  placeholder="请选择栏目"
           v-bind:paramObj="columnParam"
           v-bind:defaultSelect="true" v-on:vauleSetForm="setGroup")
@@ -18,7 +18,7 @@
       el-form-item(label="是否展示" prop="show" v-bind:label-width="labelWidth")
         el-checkbox(v-model="formModel.show")
       el-form-item(label="是否留言" prop="message" v-bind:label-width="labelWidth")
-        el-checkbox(v-model="formModel.message")
+        el-checkbox(v-model="formModel.forum")
 </template>
 
 <script type="text/ecmascript-6">
@@ -47,7 +47,7 @@
       init(dialogOption) {
       },
       setGroup(val) {
-        this.formModel.navid = val
+        this.formModel.columnId = val
       }
     }
   }

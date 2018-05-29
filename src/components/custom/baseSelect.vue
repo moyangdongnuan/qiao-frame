@@ -7,7 +7,7 @@
 </template>
 <script type="text/ecmascript-6">
   import Cache from 'common/cache'
-  import Message from 'common/message'
+  import Message from 'common/forum'
 
   export default {
     props: {
@@ -107,7 +107,6 @@
     watch: {
       value(newValue, oldValue) {
         this.currentValue = newValue
-//        this.$emit('input', newValue)
       }
     }
   }

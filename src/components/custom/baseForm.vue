@@ -7,7 +7,7 @@
       el-button(type="primary" v-on:click="onSubmitClick") 提 交
 </template>
 <script type="text/ecmascript-6">
-  import Message from 'common/message'
+  import Message from 'common/forum'
   import Vue from 'vue'
   import EventBus from 'common/eventbus'
   import {ON_REFRESH_DATA} from './event.toml'

@@ -1,56 +1,173 @@
 <template lang="pug">
-  keep-alive
-    kalix-table(bizKey="genealogy" title='家谱列表' ref="kalixTable"
-    v-bind:tableFields="tableFields"
-    v-bind:targetURL="genealogyURL"
-    v-bind:bizDialog="genealogyDialog"
-    v-bind:btnList="genealogyBtnList"
-    bizSearch="QiaoGenealogySearch"
-    v-bind:isFixedColumn="isFixedColumn"
-    )
+  div.kalix-article
+    keep-alive
+      el-row.duty-row(:gutter="0")
+        el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
+          kalix-qiao-tree(v-on:orgTreeClick="onOrgTreeClick")
+        el-col.duty-col(:span="16")
+          kalix-table.duty-wrapper(ref="kalixBaseTable"
+          bizKey='genealogy' title='家谱录入' v-bind:targetURL='targetURL'
+          v-bind:bizDialog='bizDialog' v-bind:btnList='btnList' v-bind:customRender="customRender"
+          v-bind:isFixedColumn="isFixedColumn" v-bind:dialogOptions="dialogOptions"
+          v-bind:customTableTool="customTableTool")
+            template(slot="tableColumnSlot")
+              el-table-column(prop="genealogyname"  label="家谱名称")
 </template>
 
-<script type="text/ecmascript-6">
-  import {QiaoGenealogyURL} from '../config.toml'
-  import {genealogyConfigBtnList} from './config'
+<script>
+  import {GenealogyButtonList} from '../config.toml'
+  import QiaoTree from '../../../components/tree/OrgTree'
 
   export default {
     name: 'kalix-qiao-genealogy',
+    watch: {},
+    methods: {
+      customTableTool(row, btnId, that) {
+        switch (btnId) {
+          case 'addUser': {
+            // 增加用户
+            that.whichBizDialog = ''
+            let dig =
+              that.bizDialog.filter((item) => {
+                return item.id === 'addUser'
+              })
+            that.whichBizDialog = dig[0].dialog
+            setTimeout(() => {
+              that.$refs.kalixDialog.$refs.kalixBizDialog.open('添加用户', false, row)
+            }, 20)
+            break
+          }
+        }
+      },
+      onOrgTreeClick(data) {
+      // console.log('org data is ', data.id)
+        this.orgId = data.id
+        this.orgName = data.name
+        this.targetURL = `/camel/rest/orgs/${data.id}/dutys`
+        this.dialogOptions = {
+          orgId: this.orgId,
+          orgName: this.orgName,
+          targetURL: this.targetURL
+        }
+        console.log('org targetURL data is ', this.targetURL)
+        // this.$refs.kalixBaseTable.getData()
+      },
+      customRender(_data) {
+        let that = this
+        console.log('org _data data is ', _data)
+        _data.forEach(function (e) {
+          e.orgNameCol = that.orgName
+        })
+        console.log('org _data data is ', _data)
+      }
+    },
+
     data() {
       return {
+        dialogOptions: {},
         isFixedColumn: true,
-        genealogyURL: QiaoGenealogyURL,
-        tableFields: [
-          {prop: 'genealogyname', label: '家谱名称'},
-          {prop: 'area', label: '区'},
-          {prop: 'category', label: '审核标识'},
-          {prop: 'city', label: '市'},
-          {prop: 'country', label: '国家'},
-          {prop: 'county', label: '县'},
-          {prop: 'encoding', label: '地区编码'},
-          {prop: 'genealogysite', label: '谱属地'},
-          {prop: 'hamlet', label: '村'},
-          {prop: 'listid', label: '栏目id（打印菜单）'},
-          {prop: 'parentid', label: '父id'},
-          {prop: 'part', label: '部id（字典表）'},
-          {prop: 'province', label: '省'},
-          {prop: 'remarks', label: '备注'},
-          {prop: 'streets', label: '街道'},
-          {prop: 'summarize', label: '概况'},
-          {prop: 'unit', label: '卷id（字典表）'},
-          {prop: 'volume', label: '册id（字典表）'}
+        btnList: GenealogyButtonList,
+        targetURL: '',
+        orgId: -1,
+        orgName: '',
+        bizDialog: [
+          {id: 'view', dialog: 'GenealogyView'},
+          {id: 'edit', dialog: 'GenealogyEdit'},
+          {id: 'add', dialog: 'GenealogyAdd'},
+          {id: 'addUser', dialog: 'GenealogyAddUser'}
         ],
-        genealogyDialog: [
-          {id: 'add', dialog: 'QiaoGenealogyAdd'},
-          {id: 'view', dialog: 'QiaoGenealogyView'},
-          {id: 'edit', dialog: 'QiaoGenealogyEdit'}
-        ],
-        genealogyBtnList: genealogyConfigBtnList
+        tableHeight: 0 //  列表组件高度
+        // bizSearch: 'AdminDutySearch'
       }
+    },
+    mounted() {
+    },
+    components: {
+      kalixQiaoTree: QiaoTree
     }
   }
 </script>
+<style scoped lang="stylus" type="text/stylus">
+  @import "../../../assets/stylus/baseTable.styl"
+  @import "../../../assets/stylus/color.styl"
+  .kalix-search
+    position relative
+    margin 5px
+    border 1px solid border-color_1
+    box-sizing border-box
+    .kalix-search-hd
+      background-color #5fa2dd
+      color txt-color_1
+      line-height 44px
+      padding 0 15px
+      text-align left
+    .kalix-search-bd
+      position absolute
+      border-top 1px solid border-color_1
+      font-size 0
+      padding 5px 15px
+      text-align left
+      top 44px
+      left 0
+      bottom: 0;
+      width: 100%;
+      box-sizing: border-box;
+      .search-container
+        display flex
+      .kalix-tree-wrapper
+        position: absolute;
+        top 60px
+        right 10px
+        bottom 10px
+        left 10px
+        padding-right 16px
+        box-sizing border-box
+        overflow auto
 
-<style scoped lang="stylus">
+    .el-button
+      .iconfont
+        font-size 14px
 
+  .kalix-article
+    position relative
+    height 100%
+    overflow hidden
+    box-sizing border-box
+    .kalix-search,
+    .kalix-wrapper
+      height 100%
+      margin 0
+      box-sizing border-box
+    .kalix-search
+      margin-top 0 !important
+    .kalix-wrapper
+      margin-bottom 0 !important
+      position relative
+      top 0
+      .kalix-wrapper-hd
+        height 44px
+      .kalix-wrapper-bd
+        position absolute
+        top 44px
+        bottom 0
+        left 0
+        width 100%
+        box-sizing border-box
+        padding 12px
+        .kalix-table-container
+          position relative
+          top 0
+          height 100%
+          margin 0
+
+  .duty-row
+    height 100%
+    .duty-col
+      height 100%
+      box-sizing border-box
+
+  .duty-wrapper
+    margin 8px 0
+    .kalix-wrapper
+      bottom 0 !important
 </style>

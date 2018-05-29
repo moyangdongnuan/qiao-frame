@@ -1,8 +1,8 @@
 <template lang="pug">
   kalix-dialog.user-add(title='添加' bizKey="content" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
-      el-form-item(label="级联菜单" v-bind:label-width="labelWidth")
-      kalix-cascader(v-on:cascad="getMenuId" v-bind:requestUrl="cmURL" v-bind:appName="allMenu" v-bind:rules="rules.menu")
+      el-form-item(label="所属菜单" v-bind:label-width="labelWidth")
+        kalix-cascader(v-on:getMenuId="setMenuId" v-bind:requestUrl="cmURL" v-bind:appName="allMenu")
       el-form-item(label="标题" prop="title" v-bind:label-width="labelWidth" v-bind:rules="rules.title")
         el-input(v-model="formModel.title")
       el-form-item(label="次标题" prop="subtitle" v-bind:label-width="labelWidth" v-bind:rules="rules.subtitle")
@@ -38,20 +38,11 @@
         allMenu: 'allMenu'
       }
     },
-    watch: {},
-    mounted() {
-    },
     methods: {
-      getMenuId(val) {
-        this.formModel.menuId = val
-      },
-      handleChange(value) {
-        console.log(value)
-      },
       init(dialogOption) {
       },
-      setGroup(val) {
-        this.formModel.listid = val
+      setMenuId(val) {
+        this.formModel.menuId = val
       }
     }
   }

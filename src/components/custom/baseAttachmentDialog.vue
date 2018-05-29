@@ -34,7 +34,7 @@
       el-button(type="primary" v-on:click="onCancelClick") 关 闭
 </template>
 <script type="text/ecmascript-6">
-  import Message from 'common/message'
+  import Message from 'common/forum'
   import EventBus from 'common/eventbus'
   import {AttachmentURL} from 'config/global.toml'
   import PagedTable from './pagedTable'

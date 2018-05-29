@@ -67,17 +67,17 @@
 <script>
   import Cache from 'common/cache'
   import EventBus from 'common/eventbus'
-  import TableTool from './baseTableTool'
-  import ToolBar from './baseToolBar'
-  import Dialog from './baseDialog'
+  import TableTool from '../custom/baseTableTool'
+  import ToolBar from '../custom/baseToolBar'
+  import Dialog from '../custom/baseDialog'
   import Message from 'common/message'
   import {
     ON_SEARCH_BUTTON_CLICK,
     ON_REFRESH_DATA
-  } from './event.toml'
+  } from '../custom/event.toml'
 
   export default {
-    name: 'treeGrid',
+    name: 'replytreeGrid',
     props: {
       title: { // 表格组件标题名
         type: String,
@@ -338,7 +338,7 @@
             this.formModel.parentName = this.checkedItem.name
             this.formModel.parentId = this.checkedItem.id
           }
-          let len = this.checkedItem.code.length
+          let len = this.checkedItem.id.length
           if (len > 6 && this.isLimitLayer) {
             this.$alert('无法在该层级下增加节点！')
           } else {

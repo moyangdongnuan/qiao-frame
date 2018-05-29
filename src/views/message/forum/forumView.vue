@@ -7,13 +7,14 @@
         el-input(v-model="formModel.title" readonly)
       el-form-item(label="帖子内容" prop="content" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.content" readonly)
-      el-form-item(label="留言分类" prop="type" v-bind:label-width="labelWidth")
-        el-input(v-model="formModel.type" type="number" min="1" readonly)
+      el-form-item(label="留言分类" prop="menuId" v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.menuId" type="number" min="1" readonly)
       el-form-item(label="审核标识" prop="categoryName" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.categoryName" readonly)
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.categorytype" readonly)
-
+      el-form-item(label="发帖时间" prop="creationDate" v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.creationDate" readonly)
 </template>
 
 <script type="text/ecmascript-6">
