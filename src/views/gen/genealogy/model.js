@@ -1,22 +1,10 @@
 const FormModel = {
-  id: null,
-  genealogyname: null,
-  area: null,
-  category: null,
-  city: null,
-  country: null,
-  county: null,
-  encoding: null,
-  genealogysite: null,
-  hamlet: null,
-  listid: null,
-  parentid: null,
-  part: null,
-  province: null,
-  remarks: null,
-  streets: null,
-  summarize: null,
-  unit: null,
-  volume: null
+  name: null, // 职务名称
+  comment: null, // 职务描述
+  createBy: null, // 创建人
+  orgid: null, // 创建人
+  orgNameCol: null, // 创建人
+  creationDate: null// 创建日期
 }
+
 export default FormModel
