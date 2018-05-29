@@ -25,7 +25,7 @@
         el-table-column(prop="address" label="地址" align="center" width="150px")
         el-table-column(prop="apanage" label="谱属地" align="center" width="150px")
         el-table-column(prop="ancestralhome" label="祖籍" align="center" width="150px")
-        el-table-column(prop="audit" label="审核标识" align="center" width="150px")
+        el-table-column(prop="auditName" label="审核状态" align="center" width="150px")
 </template>
 <script type="text/ecmascript-6">
   import {usersURL, userBtnPermissionPrefix} from '../../config.toml'
@@ -56,20 +56,15 @@
       return {
         dictDefine: [{ // 定义数据字典的显示
           cacheKey: 'ADMIN-DICT-KEY',
-          type: '用户类型',
-          targetField: 'userTypeName',
-          sourceField: 'userType'
-        }, {
-          cacheKey: 'ADMIN-DICT-KEY',
-          type: '岗位名称',
-          targetField: 'positionName',
-          sourceField: 'position'
+          type: '审核标识',
+          targetField: 'auditName',
+          sourceField: 'audit'
         }],
         btnList: userBtnList,
         buttonPermissionPrefix: userBtnPermissionPrefix,
         // targetURL: usersURL,
         tableFields: [
-          {prop: 'userTypeName', label: '用户类型'},
+          // {prop: 'userTypeName', label: '用户类型'},
           {prop: 'code', label: '用户代码'},
           {prop: 'loginName', label: '登录名'},
           {prop: 'name', label: '名称'},
