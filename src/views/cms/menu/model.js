@@ -5,6 +5,6 @@ const FormModel = {
   url: null,
   message: null,
   show: null,
-  navid: null
+  columnId: null
 }
 export default FormModel

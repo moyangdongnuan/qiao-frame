@@ -1,6 +1,9 @@
 <template lang="pug">
   kalix-dialog.user-add(title='添加' bizKey="reply" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
+      input(v-model="formModel.parentid" type="hidden")
+      el-form-item(label="上级回复人姓名" prop="replyName" label-width="120px")
+        el-input(v-model="formModel.replyName" readonly)
       el-form-item(label="回复人姓名" prop="username" v-bind:label-width="labelWidth" v-bind:rules="rules.username")
         el-input(v-model="formModel.username")
       el-form-item(label="回复内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
@@ -17,6 +20,7 @@
     name: 'QiaoReplyAdd',
     data() {
       return {
+        replyName: '',
         formModel: Object.assign({}, FormModel),
         labelWidth: '120px',
         rules: {
@@ -29,6 +33,9 @@
     },
     methods: {
       init(dialogOption) {
+        this.formModel.parentid = dialogOption.parentid
+        this.formModel.replyName = dialogOption.replyName
+        console.log('this.formModel', this.formModel)
       }
     }
   }

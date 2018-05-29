@@ -1,6 +1,11 @@
 <template lang="pug">
   kalix-dialog.user-add(title='修改' bizKey="menu" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
+      el-form-item(label="所属栏目" prop="columnId" v-bind:label-width="labelWidth")
+      kalix-select(v-model="formModel.columnId" v-bind:requestUrl="columnURL"
+      appName="menuColumn"  placeholder="请选择栏目"
+      v-bind:paramObj="columnParam"
+      v-bind:defaultSelect="true" v-bind:defaultSelectLabel="formModel.columnId")
       el-form-item(label="菜单名称" prop="name" v-bind:label-width="labelWidth" v-bind:rules="rules.name")
         el-input(v-model="formModel.name")
       el-form-item(label="排序号" prop="sequence" v-bind:label-width="labelWidth" v-bind:rules="rules.sequence")
@@ -15,7 +20,7 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoMenuURL} from '../config.toml'
+  import {QiaoMenuURL, QiaoColumnURL} from '../config.toml'
 
   export default {
     name: 'QiaoMenuEdit',
@@ -28,7 +33,8 @@
           sequence: [{required: true, message: '请输入排序号', trigger: 'blur'}],
           url: [{required: true, message: '请输入菜单路由', trigger: 'blur'}]
         },
-        targetURL: QiaoMenuURL
+        targetURL: QiaoMenuURL,
+        columnURL: QiaoColumnURL
       }
     },
     methods: {

@@ -1,42 +1,62 @@
 <template lang="pug">
-  el-cascader(v-bind:options="options" v-model="selectedOptions" style="width:80%;" v-on:change="change")
+  el-cascader(v-bind:options="options" v-model="selectedOptions" style="width:100%;" v-on:change="change")
 </template>
 <script type="text/ecmascript-6">
   import Cache from '../../common/cache'
-  //  import Message from '../message'
+
   export default {
     name: 'kalix-cascader',
     props: {
-      requestUrl: {
+      requestUrl: { // 查全部请求路径
         type: String, default: ''
       },
-      value: null,
-      appName: {
+      queryOneUrl: { // 默认选中查询
         type: String, default: ''
       },
-      disabled: {
+      value: null, // 默认选中子菜单id
+      appName: { // 缓存name
+        type: String, default: ''
+      },
+      disabled: { // 是否可用
+        type: Boolean, default: false
+      },
+      defaultSelect: { // 是否开启默认选中
         type: Boolean, default: false
       }
     },
     data() {
       return {
-        selectedOptions: [],
-        initOpt: []
+        initOpt: [],
+        defaultOptions: []
       }
     },
     created() {
-      this.initOptions()
+      this.initOptions() // 加载执行
     },
     mounted() {
     },
     computed: {
-      options: function () {
+      options: function () { // 所有选项集合
         // `this` points to the vm instance
         return this.initOpt
+      },
+      selectedOptions: function () { // 默认选中选项的value ['101', '201']
+        return this.defaultOptions
       }
     },
     methods: {
       initOptions() {
+        if (this.defaultSelect) {
+          let _data = {
+            model_id: this.value
+          }
+          this.$http
+            .get(this.queryOneUrl, {params: _data})
+            .then(res => {
+              this.defaultOptions = JSON.parse(res.data.data)
+            })
+        }
+        this.defaultOptions = []
         const DictKey = `${this.appName.toUpperCase()}-KEY`
         if (!Cache.get(DictKey)) {
           this.$http
