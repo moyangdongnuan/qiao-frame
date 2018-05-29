@@ -1,46 +1,43 @@
+<!--
+描述：办公自动化-应聘人员管理-新增组件
+开发人：hqj
+开发日期：2017年10月30日
+-->
+
 <template lang="pug">
-  kalix-dialog.user-add(title='添加' bizKey="reply" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
+  kalix-dialog.user-add(bizKey="duty" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
-      input(v-model="formModel.parentid" type="hidden")
-      el-form-item(label="上级回复人姓名" prop="replyName" label-width="120px")
-        el-input(v-model="formModel.replyName" readonly)
-      el-form-item(label="回复人姓名" prop="username" v-bind:label-width="labelWidth" v-bind:rules="rules.username")
-        el-input(v-model="formModel.username")
-      el-form-item(label="回复内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
-        el-input(v-model="formModel.content")
-      el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")
-        el-input(v-model="formModel.category")
+      input(v-model="formModel.parentId" type="hidden")
+      el-form-item(label="上级机构" prop="orgName" label-width="120px")
+        el-input(v-model="formModel.orgName" readonly)
+      el-form-item(label="机构名称" prop="name" label-width="120px"  v-bind:rules="rules.name")
+        el-input(v-model="formModel.name")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoReplyURL} from '../../message/config.toml'
+  import {orgURL} from '../config.toml'
 
   export default {
-    name: 'QiaoReplyAdd',
+    name: 'replyAdd',
     data() {
       return {
-        replyName: '',
+        orgName: '',
         formModel: Object.assign({}, FormModel),
-        labelWidth: '120px',
         rules: {
-          username: [{required: true, message: '请输入回复人姓名', trigger: 'blur'}],
-          content: [{required: true, message: '请输入回复内容', trigger: 'blur'}],
-          category: [{required: true, message: '请输入审核标识', trigger: 'blur'}]
+          name: [{required: true, message: '请输入组织机构名称', trigger: 'blur'}]
         },
-        targetURL: QiaoReplyURL
+        targetURL: orgURL,
+        labelWidth: '110px'
       }
+    },
+    created() {
     },
     methods: {
       init(dialogOption) {
-        this.formModel.parentid = dialogOption.parentid
-        this.formModel.replyName = dialogOption.replyName
-        console.log('this.formModel', this.formModel)
+        this.formModel.parentId = dialogOption.parentId
+        this.formModel.orgName = dialogOption.orgName
       }
     }
   }
 </script>
-
-<style scoped lang="stylus" type="text/stylus">
-
-</style>

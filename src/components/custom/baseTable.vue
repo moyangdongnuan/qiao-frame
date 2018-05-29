@@ -83,7 +83,7 @@
   import TableTool from './baseTableTool'
   import ToolBar from './baseToolBar'
   import Dialog from './baseDialog'
-  import Message from 'common/message'
+  import Message from 'common/forum'
   import EventBus from 'common/eventbus'
   import Cache from 'common/cache'
   import {DictKeyValueObject} from 'common/keyValueObject'

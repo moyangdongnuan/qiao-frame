@@ -94,7 +94,7 @@ if (navigator.userAgent.indexOf('Firefox') === -1) {
     Message.error(err.message)
     // loadinginstace.close()
     // Message.error({
-    //   message: LoadingFailure
+    //   forum: LoadingFailure
     // })
     return Promise.reject(err)
   })

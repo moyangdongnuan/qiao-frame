@@ -1,39 +1,36 @@
+<!--
+描述：办公自动化-应聘人员管理-新增组件
+开发人：hqj
+开发日期：2017年10月30日
+-->
+
 <template lang="pug">
-  kalix-dialog.user-add(title='修改' bizKey="reply" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
+  kalix-dialog.user-add(bizKey="reply" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
-      el-form-item(label="回复人姓名" prop="username" v-bind:label-width="labelWidth" v-bind:rules="rules.username")
+      el-form-item(label="回复名称" prop="username" label-width="120px"  v-bind:rules="rules.username")
         el-input(v-model="formModel.username")
-      el-form-item(label="回复内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
-        el-input(v-model="formModel.content")
-      el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")
-        el-input(v-model="formModel.category")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoReplyURL} from '../../message/config.toml'
+  import {QiaoReplyURL} from '../config.toml'
 
   export default {
-    name: 'QiaoReplyEdit',
+    name: 'replyEdit',
     data() {
       return {
+        replyName: '',
         formModel: Object.assign({}, FormModel),
-        labelWidth: '120px',
         rules: {
-          username: [{required: true, message: '请输入回复人姓名', trigger: 'blur'}],
-          content: [{required: true, message: '请输入回复内容', trigger: 'blur'}],
-          category: [{required: true, message: '请输入审核标识', trigger: 'blur'}]
+          name: [{required: true, message: '请输入组织机构名称', trigger: 'blur'}]
         },
-        targetURL: QiaoReplyURL
+        targetURL: QiaoReplyURL,
+        labelWidth: '110px'
       }
     },
     methods: {
-      init(dialogOption) {
+      init(dialogOption, row) {
       }
     }
   }
 </script>
-
-<style scoped lang="stylus" type="text/stylus">
-
-</style>

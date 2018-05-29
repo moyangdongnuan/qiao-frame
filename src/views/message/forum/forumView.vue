@@ -13,7 +13,8 @@
         el-input(v-model="formModel.categoryName" readonly)
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.categorytype" readonly)
-
+      el-form-item(label="发帖时间" prop="creationDate" v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.creationDate" readonly)
 </template>
 
 <script type="text/ecmascript-6">

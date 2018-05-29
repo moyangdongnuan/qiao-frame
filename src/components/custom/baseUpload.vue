@@ -31,7 +31,7 @@
   import {baseURL, uploadURL, couchdbDelURL} from 'config/global.toml'
   import Cache from 'common/cache.js'
   import Vue from 'vue'
-  import Message from 'common/message'
+  import Message from 'common/forum'
 
   let fileCount = 0
   export default {

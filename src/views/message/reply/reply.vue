@@ -1,18 +1,18 @@
+<!--
+描述：系统应用-机构管理
+开发人：fengjing
+开发日期：2018年01月18日
+-->
+
 <template lang="pug">
   keep-alive
-    <!--kalix-table(bizKey="reply" title='回复列表' ref="kalixTable"-->
-    <!--v-bind:tableFields="tableFields"-->
-    <!--v-bind:targetURL="replyURL"-->
-    <!--v-bind:bizDialog="replyDialog"-->
-    <!--v-bind:btnList="replyBtnList"-->
-    <!--bizSearch="QiaoReplySearch" v-bind:dictDefine="dictDefine")-->
     kalix-tree-grid(
-    v-bind:tableFields="tableFields"
-    v-bind:targetURL="replyURL"
-    title="回复列表"
-    v-bind:bizSearch="'QiaoReplySearch'"
-    v-bind:btnList="replyBtnList"
-    v-bind:bizDialog="replyDialog"
+    v-bind:columns='columns'
+    v-bind:targetURL="targetURL"
+    title="机构列表"
+    v-bind:bizSearch="'AdminOrgSearch'"
+    v-bind:btnList="btnList"
+    v-bind:bizDialog="bizDialog"
     v-bind:formModel="formModel"
     v-bind:dialogOptions="dialogOptions"
     v-on:selectedRow="selectedRow"
@@ -23,53 +23,82 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoReplyURL} from '../../message/config.toml'
-  import {replyConfigBtnList} from './config'
+  import {replyBtnList} from './config'
+  import {orgURL} from '../config.toml'
 
   export default {
-    name: 'kalix-qiao-reply',
+    name: 'kalix-admin-org',
     data() {
       return {
-        replyURL: QiaoReplyURL,
+        btnList: replyBtnList,
+        targetURL: orgURL,
         formModel: Object.assign({}, FormModel),
-        dictDefine: [{ // 定义数据字典的显示
-          cacheKey: 'QIAO-DICT-KEY',
-          type: '审核标识',
-          targetField: 'categoryName',
-          sourceField: 'category'
+        columns: [{
+          type: 'hidden',
+          key: 'id',
+          width: '0'
+        }, {
+          type: 'hidden',
+          key: 'parentId',
+          width: '0'
+        }, {
+          title: '名称',
+          key: 'name',
+          width: '150'
+        }, {
+          title: '机构代码',
+          key: 'code',
+          sortable: true,
+          width: '150'
+        }, {
+          title: '创建人',
+          key: 'createBy',
+          width: '150'
+        }, {
+          title: '创建日期',
+          key: 'creationDate',
+          width: '150'
+        }, {
+          title: '操作',
+          type: 'action',
+          actions: [{
+            type: 'edit',
+            text: '编辑',
+            icon: 'el-icon-edit'
+          }, {
+            type: 'delete',
+            text: '删除',
+            icon: 'el-icon-delete'
+          }],
+          width: '150'
         }],
-        tableFields: [
-          {prop: 'username', label: '回复人姓名'},
-          {prop: 'content', label: '回复内容'},
-          {prop: 'categoryName', label: '审核状态'},
-          {prop: 'parentid', type: 'hidden'},
-          {prop: 'id', type: 'hidden'}
+        bizDialog: [
+          {id: 'edit', dialog: 'AdminOrgEdit'},
+          {id: 'add', dialog: 'replyAdd'}
         ],
-        replyDialog: [
-          {id: 'add', dialog: 'QiaoReplyAdd'},
-          {id: 'view', dialog: 'QiaoReplyView'},
-          {id: 'edit', dialog: 'QiaoReplyEdit'}
-        ],
-        replyBtnList: replyConfigBtnList,
         dialogOptions: {}
       }
+    },
+    created() {
+    },
+    mounted() {
     },
     methods: {
       selectedRow(row) {
         if (row) {
           this.dialogOptions = {
-            parentid: row.id,
-            // 选中以后replyName 为当前选中行的值
-            replyName: row.username
+            parentId: row.id,
+            // 选中以后orgName 为当前选中行的值
+            orgName: row.name
           }
         }
       },
       handleAfterSearch(tableData) {
         if (tableData && tableData.length) {
           this.dialogOptions = {
-            parentid: tableData[0].parentid,
-            // 未被选中时replyName 为父节点名
-            replyName: tableData[0].parentName
+            parentId: tableData[0].parentId,
+            // 未被选中时orgName 为父节点名
+            orgName: tableData[0].parentName
           }
         }
       }
