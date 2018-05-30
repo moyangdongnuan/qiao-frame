@@ -3,7 +3,7 @@
     keep-alive
       el-row.duty-row(:gutter="0")
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
-          kalix-table-tree()
+          kalix-table-tree(v-on:tableTreeClick="onTableTreeClick")
         el-col.duty-col(:span="16")
           kalix-table.duty-wrapper(bizKey="content" title='内容列表' ref="kalixBaseTable"
           v-bind:tableFields="tableFields"
@@ -15,7 +15,6 @@
               el-table-column(prop="subtitle"  label="次标题")
               el-table-column(prop="content"  label="内容")
               el-table-column(prop="sequence"  label="排序")
-
 </template>
 
 <script type="text/ecmascript-6">
@@ -29,9 +28,9 @@
     data() {
       return {
         isFixedColumn: true,
-        orgId: -1,
-        orgName: '',
-        contentURL: QiaoContentURL,
+        modelId: -1,
+        modelName: '',
+        contentURL: '',
         tableFields: [
           {prop: 'title', label: '标题'},
           {prop: 'subtitle', label: '次标题'},
@@ -45,6 +44,23 @@
         ],
         contentBtnList: contentConfigBtnList,
         tableHeight: 0 //  列表组件高度
+      }
+    },
+    methods: {
+      onTableTreeClick(data) {
+        console.log('org data is ', data.label)
+        if (data.flag === 'menu') {
+          this.contentURL = QiaoContentURL + '/getContentByMenuId?menuId=' + data.modelId + '&name=' + data.label
+        }
+        /* this.orgId = data.id
+         this.orgName = data.name
+         this.targetURL = `/camel/rest/orgs/${data.id}/dutys`
+         this.dialogOptions = {
+         orgId: this.orgId,
+         orgName: this.orgName,
+         targetURL: this.targetURL
+         } */
+        // this.$refs.kalixBaseTable.getData()
       }
     }
   }
