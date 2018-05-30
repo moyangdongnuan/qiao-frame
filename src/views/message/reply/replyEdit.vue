@@ -18,7 +18,7 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import Dialog from '../../../components/custom/baseDialog.vue'
+  // import Dialog from '../../../components/custom/baseDialog.vue'
   import {QiaoReplyURL} from '../config.toml'
 
   export default {
@@ -44,7 +44,6 @@
       }
     },
     components: {
-      KalixDialog: Dialog
     },
     methods: {
       submitBefore(baseDialog, callBack) {

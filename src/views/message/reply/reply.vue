@@ -18,9 +18,9 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import BaseNavMenu from '../../../components/custom/baseNavMenu'
-  import TreeGrid from '../../../components/custom/treeGrid'
-  import Message from '../../../common/message'
+  // import BaseNavMenu from '../../../components/custom/baseNavMenu'
+  // import TreeGrid from '../../../components/custom/treeGrid'
+  // import Message from '../../../common/message'
   import {QiaoReplyURL} from '../config.toml'
 
   export default {
@@ -92,8 +92,8 @@
       }
     },
     components: {
-      KalixNavMenu: BaseNavMenu,
-      KalixTreeGrid: TreeGrid
+      // KalixNavMenu: BaseNavMenu,
+      // KalixTreeGrid: TreeGrid
     },
     computed: {
     },
@@ -143,7 +143,7 @@
       },
       onAddClick() {
         if (this.applicationName === undefined || this.applicationId === undefined || this.applicationCode === undefined) {
-          Message.error('请选择一个应用！')
+          this.$KalixMessage.error('请选择一个应用！')
           return
         }
         let that = this
@@ -206,7 +206,7 @@
           })
         }).then(response => {
           this.$refs.kalixTreeGrid.getData()
-          Message.success(response.data.msg)
+          this.$KalixMessage.success(response.data.msg)
         }).catch(() => {
         })
       },
