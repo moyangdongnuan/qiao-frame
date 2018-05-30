@@ -4,7 +4,7 @@
 开发日期：2018年05月30日
 -->
 <template lang="pug">
-  kalix-dialog.user-add(bizKey="reply" ref="kalixBizDialog" v-bind:submitBefore="submitBefore"
+  kalix-dialog.user-add(bizKey="reply" ref="kalixBizDialog"
     v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
       input(v-model="formModel.parentId" type="hidden")
@@ -19,9 +19,9 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  // import Dialog from '../../../components/custom/baseDialog.vue'
   import {QiaoReplyURL} from '../config.toml'
   export default {
+    name: 'replyAdd',
     data() {
       return {
         formModel: Object.assign({}, FormModel),
@@ -49,12 +49,13 @@
     },
     methods: {
       init(dialogOption) {
-      },
-      submitBefore(baseDialog, callBack) {
-        let code = baseDialog.formModel.code
-        baseDialog.formModel.permission = baseDialog.formModel.permission + code
-        callBack()
+        console.log('formModel============00000', this.formModel)
       }
+      // submitBefore(baseDialog, callBack) {
+      //   let code = baseDialog.formModel.code
+      //   baseDialog.formModel.permission = baseDialog.formModel.permission + code
+      //   callBack()
+      // }
     }
   }
 </script>

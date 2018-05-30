@@ -22,6 +22,7 @@
   import {QiaoReplyURL} from '../config.toml'
 
   export default {
+    name: 'replyEdit',
     data() {
       return {
         formModel: Object.assign({}, FormModel),

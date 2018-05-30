@@ -13,6 +13,7 @@ const components = [
 const main = {
   install(Vue) {
     components.map((component) => {
+      console.log('component.name==========', component.name)
       Vue.component(component.name, component)
     })
   }

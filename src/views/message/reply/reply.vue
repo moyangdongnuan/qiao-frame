@@ -13,6 +13,7 @@
             v-bind:isToolBarSelf="true" v-bind:toolbarBtnList="treeToolbarBtnList" v-bind:onToolBarSelfClick="onToolBarClick"
             v-bind:bizDialog="bizDialog" v-bind:columns='columns' v-bind:targetURL="treeUrl"
             v-bind:customRender="showPermissionText" v-on:selectedRow="getSelectRow"
+            bizSearch="replySearch" v-on:KalixDialogOpen=""
             v-bind:isRowButtonSelf="true" v-bind:btnSelfClick="btnClick" v-bind:isColumnfixed="false")
 </template>
 
@@ -24,6 +25,7 @@
   import {QiaoReplyURL} from '../config.toml'
 
   export default {
+    name: 'kalix-qiao-reply',
     data() {
       return {
         dictDefine: [{
@@ -33,7 +35,7 @@
           sourceField: 'category'
         }],
         treeToolbarBtnList: [
-          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+          // {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
         ],
         treeUrl: undefined,
         replyUrl: QiaoReplyURL,
@@ -49,7 +51,8 @@
         isIconSelf: true,
         bizDialog: [
           {id: 'add', dialog: 'replyAdd'},
-          {id: 'edit', dialog: 'replyEdit'}
+          {id: 'edit', dialog: 'replyEdit'},
+          {id: 'view', dialog: 'replyView'}
         ],
         columns: [{
           type: 'hidden',
@@ -142,10 +145,10 @@
         }
       },
       onAddClick() {
-        if (this.applicationName === undefined || this.applicationId === undefined || this.applicationCode === undefined) {
-          this.$KalixMessage.error('请选择一个应用！')
-          return
-        }
+        // if (this.applicationName === undefined || this.applicationId === undefined || this.applicationCode === undefined) {
+        //   this.$KalixMessage.error('请选择一个应用！')
+        //   return
+        // }
         let that = this
         this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
           this.kalixDialog = _kalixDialog
@@ -163,6 +166,7 @@
             }
             this.addFormModel.isLeaf = '1'
             this.addFormModel.permission = this.parentPermission + ':' + this.addFormModel.code
+            console.log('this.addFormModel=============', this.addFormModel)
             this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
             if (typeof (that.kalixDialog.init) === 'function') {
               that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
