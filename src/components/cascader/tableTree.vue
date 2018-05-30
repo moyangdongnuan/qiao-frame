@@ -52,7 +52,7 @@
         targetURL: '',
         defaultProps: {
           children: 'children',
-          label: 'lable'
+          label: 'label'
         },
         jsonStr: {},
         tableHeight: 0 //  列表组件高度
@@ -64,20 +64,20 @@
     methods: {
       filterNode(value, data) {
         if (!value) return true
-        return data.name.indexOf(value) !== -1
+        return data.label.indexOf(value) !== -1
       },
       handleNodeClick(data) {
-        this.orgId = data.id
-        this.orgName = data.name
-        this.$emit('orgTreeClick', data) // 发送事件供外部调用
-        console.log('org tree data is ', data.id)
+        this.modelId = data.modelId
+        this.modelName = data.label
+        this.$emit('tableTreeClick', data)/* 发送事件供外部调用 */
+        console.log('table tree data is ', data.modelId)
       },
       getData() {
         let url = ''
         if (this.organizationId === -1) {
           url = '/camel/rest/contents/getTreeInfo'
         } else {
-          url = '/camel/rest/orgs/' + this.organizationId
+          url = '/camel/rest/contents/' + this.organizationId
         }
         this.axios.request({
           method: 'GET',
@@ -88,7 +88,8 @@
           console.log('=-----------tree-data-------------', res.data.data)
           // 加载数据后自动选中第一个节点
           this.$nextTick(() => {
-            const firstNode = document.querySelector('.el-tree-node')
+            const firstNodes = document.querySelector('.el-tree-node')
+            const firstNode = firstNodes.firstChild
             if (firstNode) {
               firstNode.click()
             }
