@@ -106,6 +106,7 @@
       bizKey: { //  主鍵
         type: String
       },
+      tableFields: Array,
       columns: Array,
       targetURL: '',
       formModel: null,

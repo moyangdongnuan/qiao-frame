@@ -5,4 +5,4 @@ QiaoForumURL = "/camel/rest/forums"
 # 回复管理
 QiaoReplyURL = "/camel/rest/replys"
 
-orgURL = "/camel/rest/orgs"
+# orgURL = "/camel/rest/orgs"

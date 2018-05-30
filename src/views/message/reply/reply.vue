@@ -1,38 +1,56 @@
 <!--
-描述：系统应用-机构管理
-开发人：fengjing
-开发日期：2018年01月18日
+描述：论坛应用-回复管理
+开发人：sunli
+开发日期：2018年05月30日
 -->
-
 <template lang="pug">
-  keep-alive
-    kalix-tree-grid(
-    v-bind:columns='columns'
-    v-bind:targetURL="targetURL"
-    title="机构列表"
-    v-bind:bizSearch="'AdminOrgSearch'"
-    v-bind:btnList="btnList"
-    v-bind:bizDialog="bizDialog"
-    v-bind:formModel="formModel"
-    v-bind:dialogOptions="dialogOptions"
-    v-on:selectedRow="selectedRow"
-    v-bind:isSearchAfterHandle="true"
-    v-on:handleAfterSearch="handleAfterSearch"
-    v-bind:isLimitLayer="false")
+  div.kalix-article
+    keep-alive
+      el-row.reply-row(:gutter="0")
+        el-col.reply-col(:span="20")
+          kalix-tree-grid(bizKey="reply" title="回复管理"
+            ref="kalixTreeGrid"
+            v-bind:isToolBarSelf="true" v-bind:toolbarBtnList="treeToolbarBtnList" v-bind:onToolBarSelfClick="onToolBarClick"
+            v-bind:bizDialog="bizDialog" v-bind:columns='columns' v-bind:targetURL="treeUrl"
+            v-bind:customRender="showPermissionText" v-on:selectedRow="getSelectRow"
+            v-bind:isRowButtonSelf="true" v-bind:btnSelfClick="btnClick" v-bind:isColumnfixed="false")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {replyBtnList} from './config'
-  import {orgURL} from '../config.toml'
+  import BaseNavMenu from '../../../components/custom/baseNavMenu'
+  import TreeGrid from '../../../components/custom/treeGrid'
+  import Message from '../../../common/message'
+  import {QiaoReplyURL} from '../config.toml'
 
   export default {
-    name: 'kalix-admin-org',
     data() {
       return {
-        btnList: replyBtnList,
-        targetURL: orgURL,
-        formModel: Object.assign({}, FormModel),
+        dictDefine: [{
+          cacheKey: 'QIAO-DICT-KEY',
+          type: '审核标识    ',
+          targetField: 'categoryName',
+          sourceField: 'category'
+        }],
+        treeToolbarBtnList: [
+          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+        ],
+        treeUrl: undefined,
+        replyUrl: QiaoReplyURL,
+        menuItems: [],
+        addFormModel: Object.assign({}, FormModel),
+        editFormModel: Object.assign({}, FormModel),
+        applicationName: undefined,
+        applicationId: undefined,
+        applicationCode: undefined,
+        parentPermission: undefined,
+        kalixDialog: undefined,
+        currentRow: undefined,
+        isIconSelf: true,
+        bizDialog: [
+          {id: 'add', dialog: 'replyAdd'},
+          {id: 'edit', dialog: 'replyEdit'}
+        ],
         columns: [{
           type: 'hidden',
           key: 'id',
@@ -42,21 +60,20 @@
           key: 'parentId',
           width: '0'
         }, {
-          title: '名称',
-          key: 'name',
+          title: '回复名称',
+          key: 'username',
           width: '150'
         }, {
-          title: '机构代码',
-          key: 'code',
-          sortable: true,
-          width: '150'
+          title: '回复内容',
+          key: 'content',
+          width: '120'
         }, {
-          title: '创建人',
-          key: 'createBy',
-          width: '150'
-        }, {
-          title: '创建日期',
+          title: '回复日期',
           key: 'creationDate',
+          width: '150'
+        }, {
+          title: '审核状态',
+          key: 'categoryName',
           width: '150'
         }, {
           title: '操作',
@@ -71,41 +88,151 @@
             icon: 'el-icon-delete'
           }],
           width: '150'
-        }],
-        bizDialog: [
-          {id: 'edit', dialog: 'AdminOrgEdit'},
-          {id: 'add', dialog: 'replyAdd'}
-        ],
-        dialogOptions: {}
+        }]
       }
     },
-    created() {
+    components: {
+      KalixNavMenu: BaseNavMenu,
+      KalixTreeGrid: TreeGrid
     },
-    mounted() {
+    computed: {
     },
     methods: {
-      selectedRow(row) {
-        if (row) {
-          this.dialogOptions = {
-            parentId: row.id,
-            // 选中以后orgName 为当前选中行的值
-            orgName: row.name
-          }
+      getMenuItems(data) {
+        this.menuItems = data.children
+      },
+      getMenuItem(val) {
+        this.treeUrl = this.itemBasePath + val.id
+        this.applicationName = val.name
+        this.applicationId = val.id
+        this.applicationCode = val.code
+      },
+      showPermissionText(_data) {
+        this.showPermission(_data)
+      },
+      showPermission(_data) {
+        if (_data) {
+          _data.forEach((e) => {
+            e.isDataPermission = e.dataPermission ? '是' : '否'
+            if (e.children) {
+              this.showPermission(e.children)
+            }
+          })
         }
       },
-      handleAfterSearch(tableData) {
-        if (tableData && tableData.length) {
-          this.dialogOptions = {
-            parentId: tableData[0].parentId,
-            // 未被选中时orgName 为父节点名
-            orgName: tableData[0].parentName
-          }
+      onToolBarClick(btnId) {
+        if (btnId === 'add') {
+          this.onAddClick()
         }
+        if (btnId === 'refresh') {
+          this.onRefreshClick()
+        }
+      },
+      btnClick(row, btnId) {
+        if (btnId === 'edit') {
+          this.onEditClick(row)
+        }
+        if (btnId === 'delete') {
+          this.onDeleteClick(row)
+        }
+      },
+      onRefreshClick() {
+        if (this.treeUrl !== undefined) {
+          this.$refs.kalixTreeGrid.getData()
+        }
+      },
+      onAddClick() {
+        if (this.applicationName === undefined || this.applicationId === undefined || this.applicationCode === undefined) {
+          Message.error('请选择一个应用！')
+          return
+        }
+        let that = this
+        this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
+          this.kalixDialog = _kalixDialog
+          setTimeout(() => {
+            this.addFormModel.applicationName = this.applicationName
+            this.addFormModel.applicationId = this.applicationId
+            this.parentPermission = this.applicationCode
+            if (this.currentRow === undefined) {
+              this.addFormModel.parentName = '根功能'
+              this.addFormModel.parentId = '-1'
+            } else {
+              this.addFormModel.parentName = this.currentRow.name
+              this.addFormModel.parentId = this.currentRow.id
+              this.parentPermission = this.currentRow.permission
+            }
+            this.addFormModel.isLeaf = '1'
+            this.addFormModel.permission = this.parentPermission + ':' + this.addFormModel.code
+            this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
+            if (typeof (that.kalixDialog.init) === 'function') {
+              that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            }
+          }, 20)
+        })
+      },
+      onEditClick(row) {
+        let that = this
+        this.$refs.kalixTreeGrid.getKalixDialog('edit', (_kalixDialog) => {
+          this.kalixDialog = _kalixDialog
+          setTimeout(() => {
+            this.editFormModel = row
+            this.editFormModel.applicationName = this.applicationName
+            // this.formModel.isLeaf = row.leaf
+            if (row.dataPermission !== true) {
+              row.dataPermission = false
+            }
+            this.editFormModel.dataPermission = row.dataPermission + ''
+            console.log('this.editFormModel==============', this.editFormModel)
+            this.kalixDialog.$refs.kalixBizDialog.open('编辑', true, this.editFormModel)
+            if (typeof (that.kalixDialog.init) === 'function') {
+              that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            }
+          }, 20)
+        })
+      },
+      onDeleteClick(row) {
+        this.$confirm('确定要删除吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          return this.axios.request({
+            method: 'DELETE',
+            url: this.replyUrl + '?id=' + row.id,
+            params: {},
+            data: {
+              id: row.id
+            }
+          })
+        }).then(response => {
+          this.$refs.kalixTreeGrid.getData()
+          Message.success(response.data.msg)
+        }).catch(() => {
+        })
+      },
+      getSelectRow(val) {
+        console.log('getSelectRow========', val)
+        this.currentRow = val
       }
     }
   }
 </script>
 
-<style scoped lang="stylus">
+<style scoped lang="stylus" type="text/stylus">
+  @import "~@/assets/stylus/color.styl"
+  .kalix-article
+    position relative
+    height 100%
+    overflow hidden
+    box-sizing border-box
 
+  .reply-row
+    height 100%
+    .reply-col
+      height 100%
+      box-sizing border-box
+  .reply-wrapper
+    margin -10px 0
+    .kalix-wrapper
+      bottom 0 !important
 </style>
