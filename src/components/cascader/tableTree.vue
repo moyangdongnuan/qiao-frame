@@ -69,7 +69,8 @@
       handleNodeClick(data) {
         this.modelId = data.modelId
         this.modelName = data.label
-        this.$emit('tableTreeClick', data)/* 发送事件供外部调用 */
+        this.$emit('tableTreeClick', data)
+        /* 发送事件供外部调用 */
         console.log('table tree data is ', data.modelId)
       },
       getData() {
@@ -88,8 +89,9 @@
           console.log('=-----------tree-data-------------', res.data.data)
           // 加载数据后自动选中第一个节点
           this.$nextTick(() => {
-            const firstNodes = document.querySelector('.el-tree-node')
-            const firstNode = firstNodes.firstChild
+            const firstNode = document.querySelector('.el-tree-node')
+            // const firstNode = firstNodes.firstChild
+            console.log('====firstNode=====', firstNode)
             if (firstNode) {
               firstNode.click()
             }

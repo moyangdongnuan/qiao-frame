@@ -43,14 +43,19 @@
           {id: 'edit', dialog: 'QiaoContentEdit'}
         ],
         contentBtnList: contentConfigBtnList,
-        tableHeight: 0 //  列表组件高度
+        tableHeight: 0, //  列表组件高度
+        flag: 0
       }
     },
     methods: {
       onTableTreeClick(data) {
         console.log('org data is ', data.label)
         if (data.flag === 'menu') {
-          this.contentURL = QiaoContentURL + '/getContentByMenuId?menuId=' + data.modelId + '&name=' + data.label
+          this.contentURL = QiaoContentURL + '/getContentByMenuId?menuId=' + data.modelId
+        }
+        if (data.flag === 'columnMenu' && this.flag === 0) {
+          this.contentURL = QiaoContentURL + '/getContentByMenuId?menuId=' + data.modelId
+          this.flag = 1
         }
         /* this.orgId = data.id
          this.orgName = data.name
