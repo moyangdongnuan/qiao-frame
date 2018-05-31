@@ -32,7 +32,7 @@
     props: {
       treeTitle: {
         type: String,
-        default: '组织机构树'
+        default: '家谱组织结构'
       },
       placeholder: {
         default: '请选择职务'

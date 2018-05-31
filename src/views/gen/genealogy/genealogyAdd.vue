@@ -12,8 +12,16 @@
         input(v-model="formModel.orgid" type="hidden")
       el-form-item(label="职务名称" prop="name" label-width="120px"  v-bind:rules="rules.name")
         el-input(v-model="formModel.name")
-      el-form-item(label="职务描述" prop="comment" label-width="120px")
-        el-input(v-model="formModel.comment")
+      el-form-item(label="家谱名称" prop="genealogyname" label-width="120px" )
+        el-input(v-model="formModel.genealogyname")
+      el-form-item(label="省" prop="province" label-width="120px")
+        el-input(v-model="formModel.province")
+      el-form-item(label="市" prop="city" label-width="120px")
+        el-input(v-model="formModel.city")
+      el-form-item(label="县" prop="county" label-width="120px")
+        el-input(v-model="formModel.county")
+      el-form-item(label="备注" prop="remarks" label-width="120px")
+        el-input(v-model="formModel.remarks")
 </template>
 
 <script type="text/ecmascript-6">
@@ -26,7 +34,7 @@
         orgName: '',
         formModel: Object.assign({}, FormModel),
         rules: {
-          genealogyname: [{required: true, message: '请输入家谱名称', trigger: 'blur'}]
+          name: [{required: true, message: '请输入职务名称', trigger: 'blur'}]
         },
         targetURL: '',
         labelWidth: '110px'
