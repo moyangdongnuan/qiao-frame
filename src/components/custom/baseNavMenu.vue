@@ -39,11 +39,11 @@ add by yangz
       activeIndex: {
         type: String
       },
-      title: {  // 菜单面板标题名
+      title: { // 菜单面板标题名
         type: String,
         required: true
       },
-      toolbarBtnList: {   //  toolBar 中按钮数组
+      toolbarBtnList: { //  toolBar 中按钮数组
         type: Array,
         default: () => {
           return []
@@ -65,13 +65,13 @@ add by yangz
       paramStr: {
         type: String
       },
-      bizDialog: {  //  使用的对话框组件名称
+      bizDialog: {//  使用的对话框组件名称
         type: Array
       },
-      formModel: {  //  新建，查看，编辑使用的 form 对象模型
+      formModel: {//  新建，查看，编辑使用的 form 对象模型
         type: Object
       },
-      formRules: {  //  from 对象验证参数
+      formRules: {//  from 对象验证参数
         type: Object
       },
       isIconSelf: {
@@ -83,7 +83,7 @@ add by yangz
         default: ''
       },
       dialogOptions: {},
-      bizKey: {  // 主鍵
+      bizKey: {// 主鍵
         type: String
       }
     },

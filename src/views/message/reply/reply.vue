@@ -1,58 +1,57 @@
 <!--
-描述：论坛应用-回复管理
-开发人：sunli
-开发日期：2018年05月30日
+描述：系统应用-功能管理
+开发人：yangz
+开发日期：2018年01月25日
 -->
+
 <template lang="pug">
   div.kalix-article
     keep-alive
-      el-row.reply-row(:gutter="0")
-        el-col.reply-col(:span="20")
-          kalix-tree-grid(bizKey="reply" title="回复管理"
+      el-row.duty-row(:gutter="0")
+        el-col.duty-col(:span="8" style="padding:16px 0 8px 8px;")
+          kalix-reply-tree(v-on:replyTreeClick="onReplyTreeClick")
+        el-col.duty-col(:span="16")
+          kalix-tree-grid.duty-wrapper(bizKey="reply" title="回复管理"
             ref="kalixTreeGrid"
             v-bind:isToolBarSelf="true" v-bind:toolbarBtnList="treeToolbarBtnList" v-bind:onToolBarSelfClick="onToolBarClick"
             v-bind:bizDialog="bizDialog" v-bind:columns='columns' v-bind:targetURL="treeUrl"
             v-bind:customRender="showPermissionText" v-on:selectedRow="getSelectRow"
-            bizSearch="replySearch" v-on:KalixDialogOpen=""
             v-bind:isRowButtonSelf="true" v-bind:btnSelfClick="btnClick" v-bind:isColumnfixed="false")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  // import BaseNavMenu from '../../../components/custom/baseNavMenu'
-  // import TreeGrid from '../../../components/custom/treeGrid'
-  // import Message from '../../../common/message'
-  import {QiaoReplyURL} from '../config.toml'
+  import Message from '../../../common/message'
+  import {replyURL, replyMenuURL, replyItemBaseURL} from '../config.toml'
+  import KalixReplyTree from '../../../components/cascader/replyTree'
 
   export default {
     name: 'kalix-qiao-reply',
     data() {
       return {
-        dictDefine: [{
-          cacheKey: 'QIAO-DICT-KEY',
-          type: '审核标识    ',
-          targetField: 'categoryName',
-          sourceField: 'category'
-        }],
-        treeToolbarBtnList: [
-          // {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+        itemBasePath: replyItemBaseURL,
+        toolbarBtnList: [
+          {id: 'add', isShow: false},
+          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
         ],
-        treeUrl: undefined,
-        replyUrl: QiaoReplyURL,
+        treeToolbarBtnList: [
+          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+        ],
+        targetUrl: replyMenuURL,
+        treeUrl: replyURL + '?postId=117757',
+        replyUrl: replyURL,
         menuItems: [],
         addFormModel: Object.assign({}, FormModel),
         editFormModel: Object.assign({}, FormModel),
-        applicationName: undefined,
-        applicationId: undefined,
-        applicationCode: undefined,
-        parentPermission: undefined,
+        postId: undefined,
+        posttitle: undefined,
+        parentId: undefined,
         kalixDialog: undefined,
         currentRow: undefined,
         isIconSelf: true,
         bizDialog: [
           {id: 'add', dialog: 'replyAdd'},
-          {id: 'edit', dialog: 'replyEdit'},
-          {id: 'view', dialog: 'replyView'}
+          {id: 'edit', dialog: 'replyEdit'}
         ],
         columns: [{
           type: 'hidden',
@@ -63,7 +62,15 @@
           key: 'parentId',
           width: '0'
         }, {
-          title: '回复名称',
+          type: 'hidden',
+          key: 'postId',
+          width: '0'
+        }, {
+          type: 'hidden',
+          key: 'postId',
+          width: '0'
+        }, {
+          title: '回复人姓名',
           key: 'username',
           width: '150'
         }, {
@@ -71,13 +78,13 @@
           key: 'content',
           width: '120'
         }, {
-          title: '回复日期',
+          title: '回复时间',
           key: 'creationDate',
-          width: '150'
+          width: '120'
         }, {
           title: '审核状态',
-          key: 'categoryName',
-          width: '150'
+          key: 'category',
+          width: '120'
         }, {
           title: '操作',
           type: 'action',
@@ -95,20 +102,25 @@
       }
     },
     components: {
+      KalixReplyTree
+      // KalixReplyTreeGrid
       // KalixNavMenu: BaseNavMenu,
       // KalixTreeGrid: TreeGrid
     },
     computed: {
     },
     methods: {
+      onReplyTreeClick(data) {
+        console.log('org data is ', data.value)
+        this.treeUrl = replyURL + '?postId=' + data.value
+      },
       getMenuItems(data) {
         this.menuItems = data.children
       },
       getMenuItem(val) {
         this.treeUrl = this.itemBasePath + val.id
-        this.applicationName = val.name
-        this.applicationId = val.id
-        this.applicationCode = val.code
+        this.forumtitle = val.title
+        this.postId = val.id
       },
       showPermissionText(_data) {
         this.showPermission(_data)
@@ -145,28 +157,23 @@
         }
       },
       onAddClick() {
-        // if (this.applicationName === undefined || this.applicationId === undefined || this.applicationCode === undefined) {
-        //   this.$KalixMessage.error('请选择一个应用！')
-        //   return
-        // }
+        if (this.forumtitle === undefined || this.postId === undefined) {
+          Message.error('请选择要回复的帖子！')
+          return
+        }
         let that = this
         this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
           this.kalixDialog = _kalixDialog
           setTimeout(() => {
-            this.addFormModel.applicationName = this.applicationName
-            this.addFormModel.applicationId = this.applicationId
-            this.parentPermission = this.applicationCode
+            this.addFormModel.forumtitle = this.forumtitle
+            this.addFormModel.postId = this.postId
             if (this.currentRow === undefined) {
               this.addFormModel.parentName = '根功能'
               this.addFormModel.parentId = '-1'
             } else {
               this.addFormModel.parentName = this.currentRow.name
               this.addFormModel.parentId = this.currentRow.id
-              this.parentPermission = this.currentRow.permission
             }
-            this.addFormModel.isLeaf = '1'
-            this.addFormModel.permission = this.parentPermission + ':' + this.addFormModel.code
-            console.log('this.addFormModel=============', this.addFormModel)
             this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
             if (typeof (that.kalixDialog.init) === 'function') {
               that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
@@ -180,7 +187,7 @@
           this.kalixDialog = _kalixDialog
           setTimeout(() => {
             this.editFormModel = row
-            this.editFormModel.applicationName = this.applicationName
+            this.editFormModel.forumtitle = this.forumtitle
             // this.formModel.isLeaf = row.leaf
             if (row.dataPermission !== true) {
               row.dataPermission = false
@@ -210,7 +217,7 @@
           })
         }).then(response => {
           this.$refs.kalixTreeGrid.getData()
-          this.$KalixMessage.success(response.data.msg)
+          Message.success(response.data.msg)
         }).catch(() => {
         })
       },
@@ -223,20 +230,86 @@
 </script>
 
 <style scoped lang="stylus" type="text/stylus">
-  @import "~@/assets/stylus/color.styl"
+  @import "../../../assets/stylus/baseTable.styl"
+  @import "../../../assets/stylus/color.styl"
+  .kalix-search
+    position relative
+    margin 5px
+    border 1px solid border-color_1
+    box-sizing border-box
+    .kalix-search-hd
+      background-color #5fa2dd
+      color txt-color_1
+      line-height 44px
+      padding 0 15px
+      text-align left
+    .kalix-search-bd
+      position absolute
+      border-top 1px solid border-color_1
+      font-size 0
+      padding 5px 15px
+      text-align left
+      top 44px
+      left 0
+      bottom: 0;
+      width: 100%;
+      box-sizing: border-box;
+      .search-container
+        display flex
+      .kalix-tree-wrapper
+        position: absolute;
+        top 60px
+        right 10px
+        bottom 10px
+        left 10px
+        padding-right 16px
+        box-sizing border-box
+        overflow auto
+
+    .el-button
+      .iconfont
+        font-size 14px
+
   .kalix-article
     position relative
     height 100%
     overflow hidden
     box-sizing border-box
-
-  .reply-row
-    height 100%
-    .reply-col
-      height 100%
-      box-sizing border-box
-  .reply-wrapper
-    margin -10px 0
+    .kalix-search,
     .kalix-wrapper
-      bottom 0 !important
+      height 100%
+      margin 0
+      box-sizing border-box
+    .kalix-search
+      margin-top 0 !important
+    .kalix-wrapper
+      margin-bottom 0 !important
+      position relative
+      top 0
+      .kalix-wrapper-hd
+        height 44px
+      .kalix-wrapper-bd
+        position absolute
+        top 44px
+        bottom 0
+        left 0
+        width 100%
+        box-sizing border-box
+        padding 12px
+        .kalix-table-container
+          position relative
+          top 0
+          height 100%
+          margin 0
+
+    .duty-row
+      height 100%
+      .duty-col
+        height 100%
+        box-sizing border-box
+
+    .duty-wrapper
+      margin 8px 0
+      .kalix-wrapper
+        bottom 0 !important
 </style>

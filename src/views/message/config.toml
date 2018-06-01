@@ -5,4 +5,10 @@ QiaoForumURL = "/camel/rest/forums"
 # 回复管理
 QiaoReplyURL = "/camel/rest/replys"
 
-# orgURL = "/camel/rest/orgs"
+# 回复管理菜单
+replyMenuURL = "camel/rest/forums/extend/tree"
+# 回复管理点击菜单节点
+replyItemBaseURL = "/camel/rest/replys/forum/"
+# 回复管理树表
+replyURL = "/camel/rest/replys/getReplyByPostId"
+

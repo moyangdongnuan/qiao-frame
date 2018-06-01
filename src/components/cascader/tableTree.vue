@@ -107,8 +107,8 @@
       filterText(val) {
         this.$refs.tableTree.filter(val)
       },
-      orgId(val) {
-        this.targetURL = `/camel/rest/orgs/${this.orgId}/dutys`
+      replyId(val) {
+        this.targetURL = `/camel/rest/orgs/${this.replyId}/dutys`
       }
     },
     components: {},
