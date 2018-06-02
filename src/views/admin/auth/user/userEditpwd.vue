@@ -68,7 +68,7 @@
       }
     },
     created() {
-    // console.log('this.formRules.name:', this.formRules.name)
+      // console.log('this.formRules.name:', this.formRules.name)
     },
     methods: {
       open() {
