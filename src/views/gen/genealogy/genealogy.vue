@@ -4,7 +4,8 @@
       el-row.duty-row(:gutter="0")
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
           kalix-qiao-tree(v-on:orgTreeClick="onOrgTreeClick")
-        <!--el-col.duty-col(:span="16")-->
+        el-col.duty-col(:span="16")
+          kalix-qiao-form(value="" organizationId="")
           <!--kalix-table.duty-wrapper(ref="kalixBaseTable"-->
           <!--bizKey='genealogy' title='家谱录入' v-bind:targetURL='targetURL'-->
           <!--v-bind:bizDialog='bizDialog' v-bind:btnList='btnList' v-bind:customRender="customRender"-->
