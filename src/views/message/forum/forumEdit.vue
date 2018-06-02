@@ -8,9 +8,11 @@
       el-form-item(label="帖子内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
         el-input(v-model="formModel.content")
       el-form-item(label="留言分类" prop="menuId" v-bind:label-width="labelWidth" v-bind:rules="rules.menuId")
-        el-input(v-model="formModel.menuId" type="number" min="1")
-      el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")
-        el-input(v-model="formModel.category")
+        kalix-select(v-model="formModel.menuId" v-bind:requestUrl="menuURL"
+        appName="menuName"  placeholder="请选择菜单分类" v-bind:paramObj="menuParam"
+        v-bind:defaultSelect="true" v-bind:defaultSelectLabel="formModel.menuId")
+      el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.category"  readonly)
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
         el-input(v-model="formModel.categorytype")
 </template>

@@ -8,9 +8,11 @@
       el-form-item(label="帖子内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
         el-input(v-model="formModel.content")
       el-form-item(label="留言分类" prop="menuId" v-bind:label-width="labelWidth" v-bind:rules="rules.menuId")
-        el-input(v-model="formModel.menuId" type="number" min="1")
-      el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")
-        el-input(v-model="formModel.category")
+        kalix-select(v-model="formModel.menuId" v-bind:requestUrl="menuURL"
+        appName="menuName"  placeholder="请选择" v-bind:paramObj="menuParam"
+        v-bind:defaultSelect="true" v-on:vauleSetForm="setGroup")
+      <!--el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")-->
+        <!--el-input(v-model="formModel.category")-->
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
         el-input(v-model="formModel.categorytype")
     </template>
@@ -33,11 +35,15 @@
           category: [{required: true, message: '请输入审核标识', trigger: 'blur'}],
           categorytype: [{required: true, message: '请输入类型标识', trigger: 'blur'}]
         },
-        targetURL: QiaoForumURL
+        targetURL: QiaoForumURL,
+        menuParam: undefined
       }
     },
     methods: {
       init(dialogOption) {
+      },
+      setGroup(val) {
+        this.formModel.menuId = val
       }
     }
   }

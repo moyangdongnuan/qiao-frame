@@ -39,7 +39,7 @@
         ],
         targetUrl: replyMenuURL,
         treeUrl: replyURL + '?postId=117757',
-        replyUrl: replyURL,
+        replyURL: replyURL,
         menuItems: [],
         addFormModel: Object.assign({}, FormModel),
         editFormModel: Object.assign({}, FormModel),
@@ -111,8 +111,9 @@
     },
     methods: {
       onReplyTreeClick(data) {
-        console.log('org data is ', data.value)
+        console.log('forum data is============================== ', data.value)
         this.treeUrl = replyURL + '?postId=' + data.value
+        console.log('this.treeUrl============================== ', this.treeUrl)
       },
       getMenuItems(data) {
         this.menuItems = data.children
@@ -209,7 +210,7 @@
         }).then(() => {
           return this.axios.request({
             method: 'DELETE',
-            url: this.replyUrl + '?id=' + row.id,
+            url: this.replyURL + '?id=' + row.id,
             params: {},
             data: {
               id: row.id
