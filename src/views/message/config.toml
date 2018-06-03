@@ -14,3 +14,5 @@ replyItemBaseURL = "/camel/rest/replys/forum/"
 # 回复管理树表
 replyURL = "/camel/rest/replys/getReplyByPostId"
 
+#回复管理留言类型下拉列表
+QiaoMenuURL = "/camel/rest/menus"
