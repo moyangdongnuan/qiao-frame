@@ -96,16 +96,16 @@
           //   }
           // })
         })
-        const currentTreeListItem = JSON.parse(this.$KalixCatch.get('currentTreeListItem'))
-        if (currentTreeListItem) {
-          this.iconCls = currentTreeListItem.iconCls
-        }
+        // const currentTreeListItem = JSON.parse(this.$KalixCatch.get('currentTreeListItem'))
+        // if (currentTreeListItem) {
+        //   this.iconCls = currentTreeListItem.iconCls
+        // }
       }
     },
     watch: {
-      filterText(val) {
-        this.$refs.tableTree.filter(val)
-      },
+      // filterText(val) {
+      //   this.$refs.tableTree.filter(val)
+      // },
       orgId(val) {
         this.targetURL = `/camel/rest/orgs/${this.orgId}/dutys`
       }

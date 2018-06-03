@@ -38,7 +38,7 @@
           {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
         ],
         targetUrl: replyMenuURL,
-        treeUrl: replyURL + '?postId=117757',
+        treeUrl: replyURL + '?postId=-1',
         replyURL: replyURL,
         menuItems: [],
         addFormModel: Object.assign({}, FormModel),
