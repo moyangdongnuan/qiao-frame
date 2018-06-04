@@ -71,7 +71,7 @@
           el-input(v-model="form.weight")
       div.s-flex-item
         el-form-item(label="外貌")
-          el-input(v-model="form.name")
+          el-input(v-model="form.appearance")
       div.s-flex-item
         el-form-item(label="身高")
           el-input(v-model="form.stature")
@@ -82,7 +82,7 @@
             el-option(label="***官爵" value="guanjue")
       div.s-flex-item
         el-form-item(label="荣誉")
-          el-input(v-model="form.name")
+          el-input(v-model="form.honor")
       div.s-flex-item
         el-form-item(label="健康情况")
           el-input(v-model="form.health")
@@ -93,25 +93,26 @@
             el-option(label="***教育" value="jiaoyu")
       div.s-flex-item
         el-form-item(label="姐妹")
-          el-input(v-model="form.name")
+          el-input(v-model="form.sistersid")
       div.s-flex-item
         el-form-item(label="兄弟")
-          el-input(v-model="form.name")
+          el-input(v-model="form.brothersid")
     div.s-flex
       div.s-flex-item
         el-form-item(label="家庭住址")
-          el-input(v-model="form.site")
+          el-input(v-model="form.homeaddress")
       div.s-flex-item
         el-form-item(label="儿女")
           el-input(v-model="form.childrenid")
       div.s-flex-item
         el-form-item(label="爱好")
-          el-input(v-model="form.name")
+          el-input(v-model="form.hobby")
     el-form-item(label="纪念地址")
       el-input(v-model="form.site")
     el-form-item()
       el-button(type="primary" v-on:click="onSubmit") 立即创建
       el-button(type="primary" v-on:click="onReset") 重置
+      el-button(type="primary" v-on:click="onOpen") 打开
 </template>
 <script type="text/ecmascript-6">
   export default {
@@ -153,6 +154,9 @@
       },
       onReset() {
         console.log('Reset!')
+      },
+      onOpen() {
+        console.log('Open!')
       }
     },
     watch: {

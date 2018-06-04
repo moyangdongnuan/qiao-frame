@@ -15,8 +15,13 @@ const FormModel = {
   stature: null, // 身高
   duty: null, // 官爵
   education: null, // 教育
-  site: null, // 家庭住址
+  homeaddress: null, // 家庭住址
   childrenid: null, // 儿女
+  appearance: null, // 外貌
+  honor: null, // 荣誉
+  sistersid: null, // 姐妹
+  brothersid: null, // 兄弟
+  hobby: null, // 爱好
   health: null // 健康情况
 }
 

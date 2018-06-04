@@ -14,7 +14,7 @@
           <!--el-input.kalix-search-input(placeholder="输入关键字进行过滤" v-model="filterText")-->
         <!--div.kalix-tree-wrapper-->
       div.block
-        el-tree.filter-tree(show-checkbox node-key="id" default-expand-all
+        el-tree.filter-tree(node-key="id" default-expand-all
         v-bind:expand-on-click-node="false"
         v-bind:data="treeData"
         v-bind:props="defaultProps"
