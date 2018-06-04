@@ -35,7 +35,7 @@
           content: [{required: true, message: '请输入帖子内容', trigger: 'blur'}],
           menuName: [{required: true, message: '请输入留言分类', trigger: 'blur'}],
           category: [{required: true, message: '请输入审核标识', trigger: 'blur'}],
-          categorytype: [{required: true, message: '请输入类型标识', trigger: 'blur'}]
+          categorytype: [{message: '请输入类型标识'}]
         },
         menuURL: QiaoMenuURL,
         targetURL: QiaoForumURL,

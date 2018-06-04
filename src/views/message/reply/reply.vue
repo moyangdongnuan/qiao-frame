@@ -38,8 +38,7 @@
           {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
         ],
         targetUrl: replyMenuURL,
-        treeUrl: replyURL + '?postId=-1',
-        replyURL: replyURL,
+        treeUrl: replyURL,
         menuItems: [],
         addFormModel: Object.assign({}, FormModel),
         editFormModel: Object.assign({}, FormModel),
@@ -60,10 +59,6 @@
         }, {
           type: 'hidden',
           key: 'parentId',
-          width: '0'
-        }, {
-          type: 'hidden',
-          key: 'postId',
           width: '0'
         }, {
           type: 'hidden',
@@ -109,19 +104,14 @@
     },
     computed: {
     },
+    mounted() {
+      this.treeUrl = this.treeUrl + '?postId=-1'
+    },
     methods: {
       onReplyTreeClick(data) {
         console.log('forum data is============================== ', data.value)
         this.treeUrl = replyURL + '?postId=' + data.value
         console.log('this.treeUrl============================== ', this.treeUrl)
-      },
-      getMenuItems(data) {
-        this.menuItems = data.children
-      },
-      getMenuItem(val) {
-        this.treeUrl = this.itemBasePath + val.id
-        this.forumtitle = val.title
-        this.postId = val.id
       },
       showPermissionText(_data) {
         this.showPermission(_data)
