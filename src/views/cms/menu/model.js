@@ -6,6 +6,7 @@ const FormModel = {
   message: null,
   show: null,
   columnId: null,
-  columnName: null
+  columnName: null,
+  viewURL: null
 }
 export default FormModel

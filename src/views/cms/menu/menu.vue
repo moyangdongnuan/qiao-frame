@@ -21,7 +21,7 @@
           {prop: 'columnName', label: '所属栏目'},
           {prop: 'name', label: '菜单名称'},
           {prop: 'sequence', label: '排序号'},
-          {prop: 'url', label: '菜单路由'},
+          {prop: 'viewURL', label: '菜单路由'},
           {prop: 'show', label: '是否展示'},
           {prop: 'message', label: '是否留言'}
         ],
