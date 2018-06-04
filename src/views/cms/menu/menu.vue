@@ -9,15 +9,16 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {QiaoMenuURL} from '../config.toml'
+  import {QiaoMenuListURL} from '../config.toml'
   import {menuConfigBtnList} from './config'
 
   export default {
     name: 'kalix-qiao-menu',
     data() {
       return {
-        menuURL: QiaoMenuURL,
+        menuURL: QiaoMenuListURL,
         tableFields: [
+          {prop: 'columnName', label: '所属栏目'},
           {prop: 'name', label: '菜单名称'},
           {prop: 'sequence', label: '排序号'},
           {prop: 'url', label: '菜单路由'},
