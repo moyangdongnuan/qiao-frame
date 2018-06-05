@@ -1,7 +1,7 @@
 <!--
 描述：系统应用-功能管理-添加
-开发人：yangz
-开发日期：2018年01月29日
+开发人：sunli
+开发日期：2018年06月01日
 -->
 <template lang="pug">
   kalix-dialog.user-add(bizKey="reply" ref="kalixBizDialog" v-bind:submitBefore="submitBefore"
@@ -22,7 +22,7 @@
 <script type="text/ecmascript-6">
   import FormModel from './model'
   // import Dialog from '../../../components/custom/baseDialog.vue'
-  import {replyURL} from '../config.toml'
+  import {QiaoReplyURL} from '../config.toml'
 
   export default {
     name: 'replyEdit',
@@ -30,12 +30,12 @@
       return {
         formModel: Object.assign({}, FormModel),
         rules: {
-          formModel: [{required: true, message: '所属帖子标题不能为空', trigger: 'blur'}],
-          parentName: [{required: true, message: '上级回复人姓名不能为空', trigger: 'blur'}],
+          formModel: [{message: '所属帖子标题不能为空', trigger: 'blur'}],
+          parentName: [{message: '上级回复人姓名不能为空', trigger: 'blur'}],
           username: [{required: true, message: '请输入回复人姓名', trigger: 'blur'}],
           content: [{required: true, message: '请输入回复内容', trigger: 'blur'}]
         },
-        targetURL: replyURL,
+        targetURL: QiaoReplyURL,
         labelWidth: '110px',
         tempParent: undefined,
         tempChildren: undefined

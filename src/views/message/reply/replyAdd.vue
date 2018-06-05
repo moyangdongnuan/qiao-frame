@@ -1,7 +1,7 @@
 <!--
 描述：系统应用-功能管理-添加
-开发人：yangz
-开发日期：2018年01月25日
+开发人：sunli
+开发日期：2018年06月01日
 -->
 <template lang="pug">
   kalix-dialog.user-add(bizKey="reply" ref="kalixBizDialog"
@@ -10,7 +10,7 @@
       input(v-model="formModel.parentId" type="hidden")
       input(v-model="formModel.postId" type="hidden")
       el-form-item(label="所属帖子标题" prop="forumtitle" label-width="120px" v-bind:rules="rules.forumtitle")
-        el-input(v-model="formModel.forumtitle" readonly)
+        el-input(v-model="formModel.forumtitle")
       el-form-item(label="上级回复人姓名" prop="parentName" label-width="120px" v-bind:rules="rules.parentName")
         el-input(v-model="formModel.parentName" readonly)
       el-form-item(label="回复人姓名" prop="username" label-width="120px" v-bind:rules="rules.username")
@@ -22,19 +22,19 @@
 <script type="text/ecmascript-6">
   import FormModel from './model'
   // import Dialog from '../../../components/custom/baseDialog.vue'
-  import {replyURL} from '../config.toml'
+  import {QiaoReplyURL} from '../config.toml'
   export default {
     name: 'replyAdd',
     data() {
       return {
         formModel: Object.assign({}, FormModel),
         rules: {
-          forumtitle: [{required: true, message: '所属帖子标题不能为空', trigger: 'blur'}],
+          forumtitle: [{message: '所属帖子标题不能为空', trigger: 'blur'}],
           parentName: [{required: true, message: '上级功能不能为空', trigger: 'blur'}],
           username: [{required: true, message: '请输入回复人姓名', trigger: 'blur'}],
           content: [{required: true, message: '请输入回复内容', trigger: 'blur'}]
         },
-        targetURL: replyURL,
+        targetURL: QiaoReplyURL,
         labelWidth: '110px'
       }
     },
