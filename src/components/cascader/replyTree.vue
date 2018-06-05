@@ -19,89 +19,90 @@
         ref="tableTree")
 </template>
 <script type="text/ecmascript-6">
-  export default {
-    name: 'kalix-reply-tree',
-    activated() {
-      console.log('orgTree component is activated')
-      // this.$KalixEventBus.$on('refreshData', this.getData)
+export default {
+  name: 'kalix-reply-tree',
+  activated() {
+    console.log('orgTree component is activated')
+    // this.$KalixEventBus.$on('refreshData', this.getData)
+  },
+  deactivated() {
+    console.log('orgTree component is deactivated')
+    // this.$KalixEventBus.$off('refreshData')
+  },
+  props: {
+    treeTitle: {
+      type: String,
+      default: '留言树'
     },
-    deactivated() {
-      console.log('orgTree component is deactivated')
-      // this.$KalixEventBus.$off('refreshData')
+    placeholder: {
+      default: '请选择职务'
     },
-    props: {
-      treeTitle: {
-        type: String,
-        default: '留言树'
+    value: null,
+    parentId: {
+      default: -1
+    }
+  },
+  data() {
+    return {
+      currentValue: this.value,
+      input: '',
+      iconCls: '',
+      filterText: '',
+      treeData: [],
+      targetURL: '',
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       },
-      placeholder: {
-        default: '请选择职务'
-      },
-      value: null,
-      parentId: {
-        default: -1
-      }
+      jsonStr: {},
+      tableHeight: 0 //  列表组件高度
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    filterNode(value, data) {
+      if (!value) return true
+      return data.title.indexOf(value) !== -1
     },
-    data() {
-      return {
-        currentValue: this.value,
-        input: '',
-        iconCls: '',
-        filterText: '',
-        treeData: [],
-        targetURL: '',
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        jsonStr: {},
-        tableHeight: 0 //  列表组件高度
-      }
+    handleNodeClick(data) {
+      this.postId = data.value
+      this.$emit('replyTreeClick', data)
+      /* 发送事件供外部调用 */
+      console.log('table tree data is ', data.value)
     },
-    mounted() {
-      this.getData()
-    },
-    methods: {
-      filterNode(value, data) {
-        if (!value) return true
-        return data.title.indexOf(value) !== -1
-      },
-      handleNodeClick(data) {
-        this.postId = data.value
-        this.$emit('replyTreeClick', data)
-        /* 发送事件供外部调用 */
-        console.log('table tree data is ', data.value)
-      },
-      getData() {
-        let url = ''
-        url = '/camel/rest/forums/getReplyForTree'
-        // if (this.parentId === -1) {
-        //   url = '/camel/rest/forums/getReplyForTree'
-        // } else {
-        //   url = '/camel/rest/forums/' + this.parentId
-        // }
-        this.axios.request({
-          method: 'GET',
-          url: url,
-          params: {}
-        }).then(res => {
-          this.treeData = res.data.data
-        })
-      }
-    },
-    watch: {
-      // filterText(val) {
-      //   this.$refs.tableTree.filter(val)
-      // },
-      orgId(val) {
-        console.log('-------------0000000000000-----------', val)
-        this.targetURL = `/camel/rest/orgs/${this.orgId}/dutys`
-      }
-    },
-    components: {},
-    computed: {}
+    getData() {
+      let url = ''
+      url = '/camel/rest/forums/getReplyForTree'
+      // if (this.parentId === -1) {
+      //   url = '/camel/rest/forums/getReplyForTree'
+      // } else {
+      //   url = '/camel/rest/forums/' + this.parentId
+      // }
+      this.axios.request({
+        method: 'GET',
+        url: url,
+        params: {}
+      }).then(res => {
+        this.treeData = res.data.data
+        console.log('treeData ----------------------', this.treeData)
+      })
+    }
+  },
+  watch: {
+    // filterText(val) {
+    //   this.$refs.tableTree.filter(val)
+    // },
+    orgId(val) {
+      console.log('-------------0000000000000-----------', val)
+      this.targetURL = `/camel/rest/orgs/${this.orgId}/dutys`
+    }
+  },
+  components: {},
+  computed: {}
 
-  }
+}
 </script>
 <style scoped lang="stylus" type="text/stylus">
   @import "../../assets/stylus/baseTable.styl"
