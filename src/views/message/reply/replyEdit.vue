@@ -1,5 +1,5 @@
 <!--
-描述：系统应用-功能管理-添加
+描述：留言应用-回复管理-添加
 开发人：sunli
 开发日期：2018年06月01日
 -->
@@ -21,7 +21,6 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  // import Dialog from '../../../components/custom/baseDialog.vue'
   import {QiaoReplyURL} from '../config.toml'
 
   export default {
@@ -42,7 +41,6 @@
       }
     },
     components: {
-      // KalixDialog: Dialog
     },
     methods: {
       submitBefore(baseDialog, callBack) {

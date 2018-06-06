@@ -8,9 +8,9 @@
   div.kalix-article
     keep-alive
       el-row.duty-row(:gutter="0")
-        el-col.duty-col(:span="8" style="padding:16px 0 8px 8px;")
+        el-col.duty-col(:span="4" style="padding:16px 0 8px 8px;")
           kalix-reply-tree(v-on:replyTreeClick="onReplyTreeClick")
-        el-col.duty-col(:span="16")
+        el-col.duty-col(:span="20")
           kalix-tree-grid.duty-wrapper(bizKey="reply" title="回复管理"
           ref="kalixTreeGrid"
           v-bind:targetURL="treeUrl"
@@ -229,7 +229,7 @@ export default {
 <style scoped lang="stylus" type="text/stylus">
   @import "../../../assets/stylus/baseTable.styl"
   @import "../../../assets/stylus/color.styl"
-  .kalix-search
+ /* .kalix-search
     position relative
     margin 5px
     border 1px solid border-color_1
@@ -265,13 +265,14 @@ export default {
 
     .el-button
       .iconfont
-        font-size 14px
+        font-size 14px*/
 
   .kalix-article
     position relative
     height 100%
     overflow hidden
     box-sizing border-box
+    /*
     .kalix-search,
     .kalix-wrapper
       height 100%
@@ -297,7 +298,7 @@ export default {
           position relative
           top 0
           height 100%
-          margin 0
+          margin 0*/
 
     .duty-row
       height 100%
@@ -306,7 +307,7 @@ export default {
         box-sizing border-box
 
     .duty-wrapper
-      margin 8px 0
+      margin -10px 0
       .kalix-wrapper
         bottom 0 !important
 </style>
