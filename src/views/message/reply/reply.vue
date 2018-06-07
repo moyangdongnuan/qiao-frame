@@ -68,10 +68,6 @@ export default {
         key: 'parentId',
         width: '0'
       }, {
-        type: 'hidden',
-        key: 'postId',
-        width: '0'
-      }, {
         title: '回复人姓名',
         key: 'username',
         width: '150'
@@ -87,6 +83,10 @@ export default {
         title: '审核状态',
         key: 'category',
         width: '120'
+      }, {
+        type: 'hidden',
+        key: 'postId',
+        width: '0'
       }, {
         title: '操作',
         type: 'action',
