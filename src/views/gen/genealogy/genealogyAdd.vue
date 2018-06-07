@@ -66,12 +66,11 @@
     name: 'GenealogyAdd',
     data() {
       return {
-        orgName: '',
+        targetURL: '',
         formModel: Object.assign({}, FormModel),
         rules: {
           name: [{required: true, message: '请输入名称', trigger: 'blur'}]
         },
-        targetURL: '',
         labelWidth: '110px'
       }
     },
@@ -79,8 +78,6 @@
     },
     methods: {
       init(dialogOption) {
-        this.orgName = dialogOption.orgName
-        this.formModel.orgid = dialogOption.orgId
         this.targetURL = dialogOption.targetURL
       }
     }
