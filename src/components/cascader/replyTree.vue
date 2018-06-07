@@ -32,10 +32,10 @@ export default {
   props: {
     treeTitle: {
       type: String,
-      default: '留言树'
+      default: '留言列表'
     },
     placeholder: {
-      default: '请选择职务'
+      default: '请选择帖子名称'
     },
     value: null,
     parentId: {
