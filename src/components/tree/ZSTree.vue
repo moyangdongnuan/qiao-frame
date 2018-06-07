@@ -20,7 +20,6 @@
         v-bind:props="defaultProps"
         accordion
         highlight-current
-        v-bind:filter-node-method="filterNode"
         v-on:node-click="handleNodeClick"
         ref="orgTree")
           span.custom-tree-node(slot-scope="{ node, data }")
@@ -51,6 +50,10 @@
         type: String,
         default: ''
       },
+      requestUrl: {
+        type: String,
+        default: '/camel/rest/genealogys'
+      },
       bizSearch: {
         type: String
       },
@@ -79,6 +82,7 @@
     data() {
       return {
         id: 1000,
+        defaultProps: '',
         whichBizDialog: '',
         filterText: '',
         treeData: [{
@@ -118,7 +122,19 @@
         }]
       }
     },
+    created() {
+      this.tjOptions() // 加载执行
+    },
     methods: {
+      tjOptions() {
+        this.$http
+          .get(this.requestUrl, {})
+          .then(res => {
+            this.initOpt = JSON.parse(res.data.data)
+          })
+      },
+      handleNodeClick() {
+      },
       append(data) {
         const newChild = { id: this.id++, label: '', children: [] }
         if (!data.children) {
