@@ -1,11 +1,13 @@
 import Reply from './reply.vue'
 import ReplyAdd from './replyAdd.vue'
+import ReplySearch from './replySearch.vue'
 import ReplyEdit from './replyEdit.vue'
 
 const components = [
   Reply,
   ReplyAdd,
-  ReplyEdit
+  ReplyEdit,
+  ReplySearch
 ]
 
 const main = {

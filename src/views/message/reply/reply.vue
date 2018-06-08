@@ -23,13 +23,13 @@
           v-on:selectedRow="getSelectRow"
           v-bind:isRowButtonSelf="true"
           v-bind:btnSelfClick="btnClick"
-          v-bind:isColumnfixed="false")
+          v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch")
 </template>
 
 <script type="text/ecmascript-6">
 import FormModel from './model'
 import Message from '../../../common/message'
-import {replyURL, replyMenuURL, replyItemBaseURL} from '../config.toml'
+import {replyURL, replyMenuURL, replyItemBaseURL, QiaoReplyURL} from '../config.toml'
 import KalixReplyTree from '../../../components/cascader/replyTree'
 
 export default {
@@ -46,12 +46,14 @@ export default {
       ],
       targetUrl: replyMenuURL,
       treeUrl: replyURL + '?postId=-1',
+      QiaoReplyURL: QiaoReplyURL,
       menuItems: [],
       addFormModel: Object.assign({}, FormModel),
       editFormModel: Object.assign({}, FormModel),
       postId: undefined,
-      posttitle: undefined,
+      froumTitle: undefined,
       parentId: undefined,
+      content: undefined,
       kalixDialog: undefined,
       currentRow: undefined,
       isIconSelf: true,
@@ -115,9 +117,14 @@ export default {
   },
   methods: {
     onReplyTreeClick(data) {
-      console.log('111 forum data is============================== ', data.value)
+      this.postId = data.value
+      this.forumTitle = data.label
+      console.log(' onReplyTreeClick data is============================== ', data)
       this.treeUrl = replyURL + '?postId=' + data.value
-      // console.log('this.treeUrl============================== ', this.treeUrl)
+      this.dialogOptions = {
+        postId: data.value,
+        forumTitle: data.label
+      }
     },
     showPermissionText(_data) {
       this.showPermission(_data)
@@ -154,7 +161,7 @@ export default {
       }
     },
     onAddClick() {
-      if (this.forumtitle === undefined || this.postId === undefined) {
+      if (this.forumTitle === undefined || this.postId === undefined) {
         Message.error('请选择要回复的帖子！')
         return
       }
@@ -162,18 +169,21 @@ export default {
       this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
         this.kalixDialog = _kalixDialog
         setTimeout(() => {
-          this.addFormModel.forumtitle = this.forumtitle
+          this.addFormModel.forumTitle = this.forumTitle
           this.addFormModel.postId = this.postId
           if (this.currentRow === undefined) {
-            this.addFormModel.parentName = '根功能'
+            this.addFormModel.parentName = '根目录'
             this.addFormModel.parentId = '-1'
           } else {
             this.addFormModel.parentName = this.currentRow.name
             this.addFormModel.parentId = this.currentRow.id
           }
+          this.addFormModel.isLeaf = '0'
+          this.addFormModel.category = '0'
           this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
           if (typeof (that.kalixDialog.init) === 'function') {
-            that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            that.kalixDialog.init(this.dialogOptions) //  需要传参数，就在dialog里面定义init方法
+            // console.log('-----dialogOptions------', this.dialogOptions)
           }
         }, 20)
       })
@@ -184,7 +194,8 @@ export default {
         this.kalixDialog = _kalixDialog
         setTimeout(() => {
           this.editFormModel = row
-          this.editFormModel.forumtitle = this.forumtitle
+          this.editFormModel.forumTitle = this.forumTitle
+          console.log('========bianjide  this.forumTitle===========', this.forumTitle)
           // this.formModel.isLeaf = row.leaf
           if (row.dataPermission !== true) {
             row.dataPermission = false
@@ -206,7 +217,7 @@ export default {
       }).then(() => {
         return this.axios.request({
           method: 'DELETE',
-          url: this.replyURL + '?id=' + row.id,
+          url: this.QiaoReplyURL + '/' + row.id,
           params: {},
           data: {
             id: row.id
@@ -219,7 +230,7 @@ export default {
       })
     },
     getSelectRow(val) {
-      console.log('getSelectRow========', val)
+      // console.log('getSelectRow========', val)
       // this.currentRow = val
     }
   }

@@ -9,8 +9,9 @@
     div.el-form(slot="dialogFormSlot")
       input(v-model="formModel.parentId" type="hidden")
       input(v-model="formModel.postId" type="hidden")
-      el-form-item(label="所属帖子标题" prop="forumtitle" label-width="120px" v-bind:rules="rules.forumtitle")
-        el-input(v-model="formModel.forumtitle")
+      input(v-model="formModel.isLeaf" type="hidden")
+      el-form-item(label="所属帖子标题" prop="postId" label-width="120px" v-bind:rules="rules.forumTitle")
+        el-input(v-text="formModel.forumTitle")
       el-form-item(label="上级回复人姓名" prop="parentName" label-width="120px" v-bind:rules="rules.parentName")
         el-input(v-model="formModel.parentName" readonly)
       el-form-item(label="回复人姓名" prop="username" label-width="120px" v-bind:rules="rules.username")
@@ -27,9 +28,10 @@
     name: 'replyAdd',
     data() {
       return {
+        // forumTitle: '',
         formModel: Object.assign({}, FormModel),
         rules: {
-          forumtitle: [{message: '所属帖子标题不能为空', trigger: 'blur'}],
+          // forumTitle: [{message: '所属帖子标题不能为空', trigger: 'blur'}],
           parentName: [{required: true, message: '上级功能不能为空', trigger: 'blur'}],
           username: [{required: true, message: '请输入回复人姓名', trigger: 'blur'}],
           content: [{required: true, message: '请输入回复内容', trigger: 'blur'}]
@@ -47,6 +49,8 @@
     },
     methods: {
       init(dialogOption) {
+        // this.forumTitle = dialogOption.forumTitle
+        // this.formModel.postId = dialogOption.postId
       }
       // submitBefore(baseDialog, callBack) {
       //   let code = baseDialog.formModel.code
