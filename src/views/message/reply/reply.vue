@@ -11,7 +11,8 @@
         el-col.duty-col(:span="6" style="padding:8px 0 8px 8px;")
           kalix-reply-tree(v-on:replyTreeClick="onReplyTreeClick")
         el-col.duty-col(:span="18")
-          kalix-tree-grid.duty-wrapper(bizKey="reply" title="回复管理"
+          kalix-tree-grid-1.duty-wrapper(bizKey="reply" title="回复管理"
+          style="padding-top:0"
           ref="kalixTreeGrid"
           v-bind:targetURL="treeUrl"
           v-bind:isToolBarSelf="true"
@@ -23,19 +24,23 @@
           v-on:selectedRow="getSelectRow"
           v-bind:isRowButtonSelf="true"
           v-bind:btnSelfClick="btnClick"
+          v-bind:jsonStr="jsonStr"
+          v-bind:noSearchParam:sync="noSearchParam"
           v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch")
 </template>
 
 <script type="text/ecmascript-6">
 import FormModel from './model'
 import Message from '../../../common/message'
-import {replyURL, replyMenuURL, replyItemBaseURL, QiaoReplyURL} from '../config.toml'
+import {replyMenuURL, replyItemBaseURL, QiaoReplyURL} from '../config.toml'
 import KalixReplyTree from '../../../components/cascader/replyTree'
+import KalixTreeGrid from '../../../components/forum/treeGrid'
 
 export default {
   name: 'kalix-qiao-reply',
   data() {
     return {
+      noSearchParam: true,
       itemBasePath: replyItemBaseURL,
       toolbarBtnList: [
         {id: 'add', isShow: false},
@@ -45,8 +50,8 @@ export default {
         {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
       ],
       targetUrl: replyMenuURL,
-      treeUrl: replyURL + '?postId=-1',
-      QiaoReplyURL: QiaoReplyURL,
+      treeUrl: QiaoReplyURL + '/getReplyByPostId?postId=-1',
+      // QiaoReplyURL: QiaoReplyURL,
       menuItems: [],
       addFormModel: Object.assign({}, FormModel),
       editFormModel: Object.assign({}, FormModel),
@@ -57,6 +62,7 @@ export default {
       kalixDialog: undefined,
       currentRow: undefined,
       isIconSelf: true,
+      jsonStr: '',
       bizDialog: [
         {id: 'add', dialog: 'replyAdd'},
         {id: 'edit', dialog: 'replyEdit'}
@@ -106,7 +112,8 @@ export default {
     }
   },
   components: {
-    KalixReplyTree
+    KalixReplyTree,
+    KalixTreeGrid1: KalixTreeGrid
     // KalixReplyTreeGrid
     // KalixNavMenu: BaseNavMenu,
     // KalixTreeGrid: TreeGrid
@@ -114,13 +121,15 @@ export default {
   computed: {},
   mounted() {
     // this.treeUrl = this.treeUrl + '?postId=-1'
+    this.jsonStr = `{ '%username%': ''}`
   },
   methods: {
     onReplyTreeClick(data) {
       this.postId = data.value
       this.forumTitle = data.label
       console.log(' onReplyTreeClick data is============================== ', data)
-      this.treeUrl = replyURL + '?postId=' + data.value
+      this.jsonStr = `{'%username%': ''}`
+      this.treeUrl = QiaoReplyURL + '/getReplyByPostId?postId=' + data.value
       this.dialogOptions = {
         postId: data.value,
         forumTitle: data.label
@@ -217,7 +226,7 @@ export default {
       }).then(() => {
         return this.axios.request({
           method: 'DELETE',
-          url: this.QiaoReplyURL + '/' + row.id,
+          url: QiaoReplyURL + '/' + row.id,
           params: {},
           data: {
             id: row.id

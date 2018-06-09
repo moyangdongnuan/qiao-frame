@@ -64,7 +64,7 @@ export default {
   methods: {
     filterNode(value, data) {
       if (!value) return true
-      return data.title.indexOf(value) !== -1
+      return data.label.indexOf(value) !== -1
     },
     handleNodeClick(data) {
       this.postId = data.value
@@ -87,13 +87,14 @@ export default {
       }).then(res => {
         this.treeData = res.data.data
         console.log('treeData ----------------------', this.treeData)
+        this.$emit('handleAfterSearch')
       })
     }
   },
   watch: {
-    // filterText(val) {
-    //   this.$refs.tableTree.filter(val)
-    // },
+    filterText(val) {
+      this.$refs.tableTree.filter(val)
+    },
     orgId(val) {
       console.log('-------------0000000000000-----------', val)
       this.targetURL = `/camel/rest/orgs/${this.orgId}/dutys`
