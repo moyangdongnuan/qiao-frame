@@ -1,44 +1,44 @@
 <!--
-  描述：组织结构树组件的二次封装
-  开发人：sunlf
-  开发日期：2017年11月08日
+  描述：前台回复管理-左侧table
+  开发人：sunli
+  开发日期：2018年6月1日
 -->
 <template lang="pug">
-  div.kalix-search.org-tree
+  div.kalix-search.org-table
     div.kalix-search-hd
       i.tit_icon.iconfont.icon-organization
-      | {{treeTitle}}
-    div.kalix-search-bd.org-tree-bd
+      | {{tableTitle}}
+    div.kalix-search-bd.org-table-bd
       div.ipt-wrapper
         el-input.kalix-search-input(placeholder="输入关键字进行过滤" v-model="filterText")
-      div.kalix-tree-wrapper
-        el-tree.filter-tree(v-bind:data="treeData"
+      div.kalix-table-wrapper
+        el-table.filter-table(v-bind:data="tableData"
         v-bind:props="defaultProps" accordion
         node-key="id" highlight-current
         v-bind:filter-node-method="filterNode" v-on:node-click="handleNodeClick"
-        ref="orgTree")
+        ref="tableTree")
 </template>
 <script type="text/ecmascript-6">
   export default {
-    name: 'qiao-tree',
+    name: 'kalix-reply-table',
     activated() {
-      console.log('orgTree component is activated')
+      console.log('orgTable component is activated')
       this.$KalixEventBus.$on('refreshData', this.getData)
     },
     deactivated() {
-      console.log('orgTree component is deactivated')
+      console.log('orgTable component is deactivated')
       this.$KalixEventBus.$off('refreshData')
     },
     props: {
       treeTitle: {
         type: String,
-        default: '家谱组织结构'
+        default: '留言列表'
       },
       placeholder: {
-        default: '请选择职务'
+        default: '请选择'
       },
       value: null,
-      organizationId: {
+      parentId: {
         default: -1
       }
     },
@@ -50,10 +50,6 @@
         filterText: '',
         treeData: [],
         targetURL: '',
-        defaultProps: {
-          children: 'children',
-          label: 'name'
-        },
         jsonStr: {},
         tableHeight: 0 //  列表组件高度
       }
@@ -64,46 +60,48 @@
     methods: {
       filterNode(value, data) {
         if (!value) return true
-        return data.name.indexOf(value) !== -1
+        return data.title.indexOf(value) !== -1
       },
       handleNodeClick(data) {
-        this.orgId = data.id
-        this.orgName = data.name
-        this.$emit('orgTreeClick', data) // 发送事件供外部调用
-        console.log('org tree data is ', data.id)
+        this.postId = data.value
+        this.$emit('replyTreeClick', data)
+        /* 发送事件供外部调用 */
+        console.log('table tree data is ', data.value)
       },
       getData() {
         let url = ''
-        if (this.organizationId === -1) {
-          url = '/camel/rest/orgs?node=root'
-        } else {
-          url = '/camel/rest/orgs/' + this.organizationId
-        }
+        url = '/camel/rest/forums/getReplyForTree'
+        // if (this.parentId === -1) {
+        //   url = '/camel/rest/forums/getReplyForTree'
+        // } else {
+        //   url = '/camel/rest/forums/' + this.parentId
+        // }
         this.axios.request({
           method: 'GET',
           url: url,
           params: {}
         }).then(res => {
-          this.treeData = res.data.children
+          this.treeData = res.data.data
           // 加载数据后自动选中第一个节点
-          this.$nextTick(() => {
-            const firstNode = document.querySelector('.el-tree-node')
-            if (firstNode) {
-              firstNode.click()
-            }
-          })
-          // this._getTableHeight()
+          // this.$nextTick(() => {
+          //   const firstNode = document.querySelector('.el-tree-node')
+          //   // const firstNode = firstNodes.firstChild
+          //   console.log('====firstNode=====', firstNode)
+          //   if (firstNode) {
+          //     firstNode.click()
+          //   }
+          // })
         })
-        const currentTreeListItem = JSON.parse(this.$KalixCatch.get('currentTreeListItem'))
-        if (currentTreeListItem) {
-          this.iconCls = currentTreeListItem.iconCls
-        }
+        // const currentTreeListItem = JSON.parse(this.$KalixCatch.get('currentTreeListItem'))
+        // if (currentTreeListItem) {
+        //   this.iconCls = currentTreeListItem.iconCls
+        // }
       }
     },
     watch: {
-      filterText(val) {
-        this.$refs.orgTree.filter(val)
-      },
+      // filterText(val) {
+      //   this.$refs.tableTree.filter(val)
+      // },
       orgId(val) {
         this.targetURL = `/camel/rest/orgs/${this.orgId}/dutys`
       }
@@ -114,6 +112,8 @@
   }
 </script>
 <style scoped lang="stylus" type="text/stylus">
+  @import "../../assets/stylus/baseTable.styl"
+  @import "../../assets/stylus/color.styl"
   .org-tree
     display flex
     flex-flow column

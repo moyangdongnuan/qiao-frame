@@ -3,23 +3,19 @@
     keep-alive
       el-row.duty-row(:gutter="0")
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
-          kalix-qiao-tree(v-on:orgTreeClick="onOrgTreeClick")
+          kalix-qiao-tree(v-on:orgTreeClick="onOrgTreeClick" v-bind:bizDialog="bizDialog")
         el-col.duty-col(:span="16")
-          kalix-table.duty-wrapper(ref="kalixBaseTable"
-          bizKey='genealogy' title='家谱录入' v-bind:targetURL='targetURL'
-          v-bind:bizDialog='bizDialog' v-bind:btnList='btnList' v-bind:customRender="customRender"
-          v-bind:isFixedColumn="isFixedColumn" v-bind:dialogOptions="dialogOptions"
-          v-bind:customTableTool="customTableTool")
-            template(slot="tableColumnSlot")
-              el-table-column(prop="genealogyname"  label="家谱名称")
+          kalix-qiao-form(value="" organizationId="")
 </template>
 
 <script>
   import {GenealogyButtonList} from '../config.toml'
-  import QiaoTree from '../../../components/tree/OrgTree'
+  import QiaoTree from '../../../components/tree/ZSTree'
+  import QiaoForm from '../../../components/form/Jyform'
 
   export default {
     name: 'kalix-qiao-genealogy',
+    isFixedColumn: true,
     watch: {},
     methods: {
       customTableTool(row, btnId, that) {
@@ -83,7 +79,8 @@
     mounted() {
     },
     components: {
-      kalixQiaoTree: QiaoTree
+      kalixQiaoTree: QiaoTree,
+      kalixQiaoForm: QiaoForm
     }
   }
 </script>

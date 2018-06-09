@@ -1,20 +1,20 @@
 <template lang="pug">
-  kalix-search(title="回复查询" v-bind:searchFields="searchFields")
+  kalix-search(:searchFields="searchFields" title="回复查询" bizKey="reply")
 </template>
+
 <script type="text/ecmascript-6">
   export default {
-    name: 'replySearch',
+    name: 'QiaoReplySearch',
     data() {
       return {
         searchFields: [
-          {label: '回复名称', prop: 'username'}
+          {label: '回复人名称', prop: 'username'}
         ]
       }
-    },
-    created() {
-    },
-    methods: {}
+    }
   }
 </script>
+
 <style scoped lang="stylus" type="text/stylus">
+
 </style>

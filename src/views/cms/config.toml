@@ -9,3 +9,6 @@ QiaoMenuURL = "/camel/rest/menus"
 QiaoCMURL = "/camel/rest/contents/getMenuByColumnId"
 # 菜单管理queryOneById
 queryMenuById = "/camel/rest/menus/getMenuById"
+# 菜单管理数据集合
+QiaoMenuListURL = "/camel/rest/menus/getMenuList"
+

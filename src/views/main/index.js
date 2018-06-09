@@ -9,6 +9,8 @@ import Org from '../admin/organize/org'
 import Orgchart from '../admin/organize/orgchart'
 import Orguser from '../admin/organize/orguser'
 import Admindict from '../admin/system/admindict'
+import Audit from '../admin/system/audit'
+import Auditconfig from '../admin/system/auditconfig'
 // cms
 import Column from '../cms/column/index'
 import Content from '../cms/content/index'
@@ -36,6 +38,8 @@ Org.install(Vue)
 Orgchart.install(Vue)
 Orguser.install(Vue)
 Admindict.install(Vue)
+Audit.install(Vue)
+Auditconfig.install(Vue)
 Column.install(Vue)
 Content.install(Vue)
 Menu.install(Vue)

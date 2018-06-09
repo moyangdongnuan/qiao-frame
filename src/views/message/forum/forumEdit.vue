@@ -7,19 +7,23 @@
         el-input(v-model="formModel.title")
       el-form-item(label="帖子内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
         el-input(v-model="formModel.content")
-      el-form-item(label="留言分类" prop="menuId" v-bind:label-width="labelWidth" v-bind:rules="rules.menuId")
-        el-input(v-model="formModel.menuId" type="number" min="1")
-      el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")
-        el-input(v-model="formModel.category")
+      el-form-item(label="留言分类" prop="menuName" v-bind:label-width="labelWidth" v-bind:rules="rules.menuName")
+        kalix-select(v-model="formModel.menuName" v-bind:requestUrl="menuURL"
+        appName="menuName"  v-bind:paramObj="menuParam"
+        v-bind:defaultSelect="true" v-bind:defaultSelectLabel="formModel.menuName" v-on:selectChange="setGroup")
+      el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.category"  readonly)
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
         el-input(v-model="formModel.categorytype")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoForumURL} from '../../message/config.toml'
+  import {QiaoForumURL, QiaoMenuURL} from '../../message/config.toml'
+  import KalixSelect from 'kalix-vue-lib/src/components/common/baseSelect'
 
   export default {
+    components: {KalixSelect},
     name: 'QiaoForumEdit',
     data() {
       return {
@@ -29,15 +33,20 @@
           idcard: [{required: true, message: '请输入发帖人别名', trigger: 'blur'}],
           title: [{required: true, message: '请输入帖子标题', trigger: 'blur'}],
           content: [{required: true, message: '请输入帖子内容', trigger: 'blur'}],
-          type: [{required: true, message: '请输入留言分类', trigger: 'blur'}],
+          menuName: [{required: true, message: '请输入留言分类', trigger: 'blur'}],
           category: [{required: true, message: '请输入审核标识', trigger: 'blur'}],
-          categorytype: [{required: true, message: '请输入类型标识', trigger: 'blur'}]
+          categorytype: [{message: '请输入类型标识'}]
         },
-        targetURL: QiaoForumURL
+        targetURL: QiaoForumURL,
+        menuURL: QiaoMenuURL,
+        menuParam: undefined
       }
     },
     methods: {
       init(dialogOption) {
+      },
+      setGroup(item) {
+        this.formModel.menuName = item.name
       }
     }
   }

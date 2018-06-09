@@ -2,7 +2,7 @@
   keep-alive
     kalix-table(title='用户列表'
     v-bind:bizKey="bizKey" v-bind:targetURL="targetURL"
-    v-bind:bizDialog="bizDialog"
+    v-bind:bizDialog="bizDialog" v-bind:customRender="customRender"
     v-bind:bizSearch="bizSearch" v-bind:btnList="btnList"
     v-bind:customTableTool="customTableTool" v-bind:isFixedColumn="isFixedColumn"
     v-bind:buttonPermissionPrefix="buttonPermissionPrefix"
@@ -16,6 +16,7 @@
         <!--el-table-column(prop="code" label="工号/学号/企业组织机构代码" align="center" width="200px")-->
         el-table-column(prop="loginName" label="登录名" align="center" width="100px")
         el-table-column(prop="name" label="姓名" align="center" width="200px")
+        el-table-column(prop="auditName" label="审核状态" align="center" width="150px")
         el-table-column(prop="sex" label="性别" align="center" width="100px")
         el-table-column(prop="birthdate" label="出生日期" align="center" width="100px")
         el-table-column(prop="idNumber" label="身份证号" align="center" width="100px")
@@ -25,7 +26,6 @@
         el-table-column(prop="address" label="地址" align="center" width="150px")
         el-table-column(prop="apanage" label="谱属地" align="center" width="150px")
         el-table-column(prop="ancestralhome" label="祖籍" align="center" width="150px")
-        el-table-column(prop="auditName" label="审核状态" align="center" width="150px")
 </template>
 <script type="text/ecmascript-6">
   import {usersURL, userBtnPermissionPrefix} from '../../config.toml'
@@ -85,6 +85,11 @@
     created() {
     },
     methods: {
+      customRender(_data) {
+        _data.forEach(function (e) {
+          e.auditName = e.available ? '可用' : '不可用'
+        })
+      },
       customTableTool(row, btnId, that) {
         switch (btnId) {
           case 'startStopUsing': { // 启用/停用

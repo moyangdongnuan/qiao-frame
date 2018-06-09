@@ -1,26 +1,26 @@
 <template lang="pug">
   div.home()
     kalix-header(
-      ref="kalixHeader"
-      v-on:onClickChangePwd="changePwd"
-      v-on:onClickUpdateUserInfo="updateUserInfo")
-      user-editpwd(ref="userEditpwd")
-      user-edit(ref="userEdit")
+    ref="kalixHeader"
+    v-on:onClickChangePwd="changePwd"
+    v-on:onClickUpdateUserInfo="updateUserInfo")
+    user-editpwd(ref="userEditpwd")
+    user-edit(ref="userEdit")
     div.s-flex.container
       kalix-navigate(
-        v-bind:cacheTime="7200000"
-        v-bind:url="systemApplicationsBaseURL"
-        v-bind:reqUrl="applicationURL")
+      v-bind:cacheTime="7200000"
+      v-bind:url="systemApplicationsBaseURL"
+      v-bind:reqUrl="applicationURL")
       div.s-flex_item.article
         component(v-bind:is="which_to_show")
 </template>
 <script type="text/ecmascript-6">
   import {cacheTime, applicationURL, systemApplicationsBaseURL, userURL} from 'config/global.toml'
-  import Welcome from 'components/welcome/welcome'
-  import KalixHeader from 'components/navigate/KalixHeader'
-  import KalixNavigate from 'components/navigate/KalixNavigate'
-  import UserEditpwd from 'views/admin/auth/user/userEditpwd.vue'
-  import UserEdit from 'views/admin/auth/user/userEdit.vue'
+  import Welcome from '../welcome/welcome'
+  import KalixHeader from '../navigate/KalixHeader'
+  import KalixNavigate from '../navigate/KalixNavigate'
+  import UserEditpwd from '../../views/admin/auth/user/userEditpwd.vue'
+  import UserEdit from '../../views/admin/auth/user/userEdit.vue'
 
   export default {
     name: 'KalixHome',
