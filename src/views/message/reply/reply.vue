@@ -20,13 +20,14 @@
           v-bind:onToolBarSelfClick="onToolBarClick"
           v-bind:bizDialog="bizDialog"
           v-bind:columns='columns'
-          v-bind:customRender="showPermissionText"
+          v-bind:customRender="showCheckText"
           v-on:selectedRow="getSelectRow"
           v-bind:isRowButtonSelf="true"
           v-bind:btnSelfClick="btnClick"
           v-bind:jsonStr="jsonStr"
           v-bind:noSearchParam:sync="noSearchParam"
-          v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch")
+          v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch"
+          )
 </template>
 
 <script type="text/ecmascript-6">
@@ -88,8 +89,12 @@ export default {
         width: '120'
       }, {
         title: '审核状态',
-        key: 'category',
+        key: 'categoryName',
         width: '120'
+      }, {
+        type: 'hidden',
+        key: 'category',
+        width: '0'
       }, {
         type: 'hidden',
         key: 'postId',
@@ -113,20 +118,15 @@ export default {
   components: {
     KalixReplyTree,
     KalixTreeGrid1: KalixTreeGrid
-    // KalixReplyTreeGrid
-    // KalixNavMenu: BaseNavMenu,
-    // KalixTreeGrid: TreeGrid
   },
   computed: {},
   mounted() {
-    // this.treeUrl = this.treeUrl + '?postId=-1'
     this.jsonStr = `{ '%username%': ''}`
   },
   methods: {
     onReplyTreeClick(data) {
       this.postId = data.value
       this.forumTitle = data.label
-      console.log(' onReplyTreeClick data is============================== ', data)
       this.jsonStr = `{'%username%': ''}`
       this.treeUrl = QiaoReplyURL + '/getReplyByPostId?postId=' + data.value
       this.dialogOptions = {
@@ -134,15 +134,15 @@ export default {
         forumTitle: data.label
       }
     },
-    showPermissionText(_data) {
-      this.showPermission(_data)
+    showCheckText(_data) {
+      this.showCheck(_data)
     },
-    showPermission(_data) {
+    showCheck(_data) {
       if (_data) {
         _data.forEach((e) => {
-          e.isDataPermission = e.dataPermission ? '是' : '否'
+          e.categoryName = e.category === '0' ? '未审核' : '已审核'
           if (e.children) {
-            this.showPermission(e.children)
+            this.showCheck(e.children)
           }
         })
       }
@@ -169,14 +169,10 @@ export default {
       }
     },
     onAddClick() {
-      console.log('this.forumTitle==============', this.forumTitle)
-      console.log('this.postId==============', this.postId)
-      console.log('this.currentRow==============', this.currentRow)
       if (this.forumTitle === undefined || this.postId === undefined || this.currentRow === undefined) {
         Message.error('请选择要回复的帖子！')
         return
       }
-      console.log('===========this.currentRow==========', this.currentRow)
       let that = this
       this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
         this.kalixDialog = _kalixDialog

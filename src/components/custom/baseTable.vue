@@ -99,7 +99,7 @@
         type: Boolean,
         default: false
       },
-      toolbarBtnList: {   //  toolBar 中按钮数组
+      toolbarBtnList: { //  toolBar 中按钮数组
         type: Array,
         default: () => {
           return []
@@ -115,37 +115,37 @@
           return {}
         }
       },
-      bizKey: {  // 主鍵
+      bizKey: { // 主鍵
         type: String,
         required: true
       },
-      title: {  // 表格组件标题名
+      title: { // 表格组件标题名
         type: String,
         required: true
       },
       buttonPermissionPrefix: { //  table中tool的按钮组件认证前缀
         type: String,
-        default: ''   // 为空时候，不校验权限
+        default: '' // 为空时候，不校验权限
       },
-      bizSearch: {  //  使用的搜索组件名称
+      bizSearch: { //  使用的搜索组件名称
         type: String
       },
-      bizDialog: {  //  使用的对话框组件名称
+      bizDialog: { //  使用的对话框组件名称
         type: Array
       },
-      formModel: {  //  新建，查看，编辑使用的 form 对象模型
+      formModel: {//  新建，查看，编辑使用的 form 对象模型
         type: Object
-//        required: true
+      // required: true
       },
-      formRules: {  //  from 对象验证参数
+      formRules: {//  from 对象验证参数
         type: Object
-//        required: true
+      //  required: true
       },
-      targetURL: {  //  列表操作请求的 URL 地址
+      targetURL: {//  列表操作请求的 URL 地址
         type: String
-//        required: true
+      //  required: true
       },
-      jsonStr: {  //  数据列表请求的查询条件
+      jsonStr: {//  数据列表请求的查询条件
         type: String,
         default: ''
       },
@@ -160,17 +160,17 @@
         type: String,
         default: null
       },
-      tableFields: {   //  数据列表的列名
+      tableFields: { //  数据列表的列名
         type: Array
       },
-      btnList: {   //  table中按钮数组
+      btnList: { //  table中按钮数组
         type: Array,
         required: false,
         default: () => {
           return []
         }
       },
-      dictDefine: {  // 数据字典定义
+      dictDefine: { // 数据字典定义
         type: Array
       },
       customRender: { // 对table的数据进行自定义的修饰
@@ -195,7 +195,7 @@
           return {}
         }
       },
-      isShowToolBar: {  // 是否显示工具栏
+      isShowToolBar: { // 是否显示工具栏
         type: Boolean,
         default: null
       },
@@ -260,7 +260,7 @@
       // d
       EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', (closeParam) => {
         console.log(' ------- KalixDialogClose ------- ')
-//        console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
+        //   console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
         this.whichBizDialog = ''
         this.$emit('afterDialogClose', this.bizKey, closeParam)
       })
@@ -278,12 +278,12 @@
       window.addEventListener('resize', () => {
         that._getTableHeight()
       })
-//       EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', () => {
-//         console.log(' ------- KalixDialogClose ------- ')
-// //        console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
-//         this.whichBizDialog = ''
-//         this.$emit('afterDialogClose', this.bizKey)
-//       })
+      //  EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', () => {
+      //  console.log(' ------- KalixDialogClose ------- ')
+      // // console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
+      //   this.whichBizDialog = ''
+      //   this.$emit('afterDialogClose', this.bizKey)
+      //  })
       //  绑定表格 icon 图标
       const currentTreeListItem = JSON.parse(Cache.get('currentTreeListItem'))
       if (currentTreeListItem) {
@@ -369,21 +369,21 @@
       },
       onAddClick() {
         // 添加按钮点击事件
-//        this.whichBizDialog = ''
+        // this.whichBizDialog = ''
         let that = this
         let dig =
           this.bizDialog.filter((item) => {
             return item.id === 'add'
           })
-//        console.log(dig[0].dialog)3
+        //  console.log(dig[0].dialog)3
         this.whichBizDialog = dig[0].dialog
         console.log('[onAddClick]', dig[0].dialog)
-//        this.$emit('update:formModel', {})
+        // this.$emit('update:formModel', {})
         setTimeout(() => {
-//          EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, JSON.parse(this.tempFormModel))
+          // EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, JSON.parse(this.tempFormModel))
           that.$refs.kalixDialog.$refs.kalixBizDialog.open('添加')
           if (typeof (this.$refs.kalixDialog.init) === 'function') {
-//            that.$refs.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+          // that.$refs.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
             // 添加初始化模型赋值参数 需要传参数，就在dialog里面定义init方法
             this.$refs.kalixDialog.init(this.dialogOptions, null)
           }
@@ -444,8 +444,8 @@
               })
             this.whichBizDialog = dig[0].dialog
             setTimeout(() => {
-//              this.$emit('update:formModel', row)
-//              EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, row)
+            // this.$emit('update:formModel', row)
+            // EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, row)
               if (this.isBeforeView) {
                 this.$emit('handleBeforeView', row)
                 if (typeof (this.$refs.kalixDialog.initPropertis) === 'object') {
@@ -474,8 +474,8 @@
             console.log('[kalix] edit dialog is: ' + dig[0].dialog)
             this.whichBizDialog = dig[0].dialog
             setTimeout(() => {
-//              this.$emit('update:formModel', row)
-//              EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, row)
+            // this.$emit('update:formModel', row)
+            //  EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, row)
               this.$refs.kalixDialog.$refs.kalixBizDialog.open('编辑', true, row)
               if (typeof (this.$refs.kalixDialog.init) === 'function') {
                 // 添加初始化模型赋值参数
@@ -602,9 +602,9 @@
       _validateButton() {
         if (this.buttonPermissionPrefix !== '') { // 默认为空不校验
           let _permissionData = []
-          this.btnList.map(item => {  // 组成按钮验证字符串
+          this.btnList.map(item => { // 组成按钮验证字符串
             item.permission = this.buttonPermissionPrefix + item.id
-            if (item.isPermission) {  // 判断是否参与校验
+            if (item.isPermission) { // 判断是否参与校验
               _permissionData.push(this.buttonPermissionPrefix + item.id)
             }
           })
@@ -617,11 +617,10 @@
                     return e
                   }
                 })
-                tmp.isShow = item.status  // 根据返回的权限确定按钮是否显示
+                tmp.isShow = item.status // 根据返回的权限确定按钮是否显示
               })
             })
           }
-//          console.log(`[Kalix] table tool button list is `, this.btnList)
         }
       },
       _getTableHeight() {
