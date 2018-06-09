@@ -1,5 +1,5 @@
 <!--
-  描述：前台回复管理-左侧tree
+  描述：前台回复管理-左侧菜单
   开发人：sunli
   开发日期：2018年5月29日
 -->
@@ -68,9 +68,10 @@ export default {
     },
     handleNodeClick(data) {
       this.postId = data.value
+      this.forumTitle = data.label
       this.$emit('replyTreeClick', data)
       /* 发送事件供外部调用 */
-      console.log('table tree data is ', data.value)
+      console.log('--------this.forumTitle-------- ', data.label)
     },
     getData() {
       let url = ''

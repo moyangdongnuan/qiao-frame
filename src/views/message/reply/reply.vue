@@ -58,7 +58,6 @@ export default {
       postId: undefined,
       froumTitle: undefined,
       parentId: undefined,
-      content: undefined,
       kalixDialog: undefined,
       currentRow: undefined,
       isIconSelf: true,
@@ -170,10 +169,14 @@ export default {
       }
     },
     onAddClick() {
-      if (this.forumTitle === undefined || this.postId === undefined) {
+      console.log('this.forumTitle==============', this.forumTitle)
+      console.log('this.postId==============', this.postId)
+      console.log('this.currentRow==============', this.currentRow)
+      if (this.forumTitle === undefined || this.postId === undefined || this.currentRow === undefined) {
         Message.error('请选择要回复的帖子！')
         return
       }
+      console.log('===========this.currentRow==========', this.currentRow)
       let that = this
       this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
         this.kalixDialog = _kalixDialog
@@ -184,7 +187,7 @@ export default {
             this.addFormModel.parentName = '根目录'
             this.addFormModel.parentId = '-1'
           } else {
-            this.addFormModel.parentName = this.currentRow.name
+            this.addFormModel.parentName = this.currentRow.username
             this.addFormModel.parentId = this.currentRow.id
           }
           this.addFormModel.isLeaf = '0'
@@ -192,7 +195,6 @@ export default {
           this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
           if (typeof (that.kalixDialog.init) === 'function') {
             that.kalixDialog.init(this.dialogOptions) //  需要传参数，就在dialog里面定义init方法
-            // console.log('-----dialogOptions------', this.dialogOptions)
           }
         }, 20)
       })
@@ -204,8 +206,6 @@ export default {
         setTimeout(() => {
           this.editFormModel = row
           this.editFormModel.forumTitle = this.forumTitle
-          console.log('========bianjide  this.forumTitle===========', this.forumTitle)
-          // this.formModel.isLeaf = row.leaf
           if (row.dataPermission !== true) {
             row.dataPermission = false
           }
@@ -239,8 +239,8 @@ export default {
       })
     },
     getSelectRow(val) {
-      // console.log('getSelectRow========', val)
-      // this.currentRow = val
+      console.log('getSelectRow========', val)
+      this.currentRow = val
     }
   }
 }
