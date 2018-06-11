@@ -11,7 +11,8 @@
         el-col.duty-col(:span="6" style="padding:8px 0 8px 8px;")
           kalix-reply-tree(v-on:replyTreeClick="onReplyTreeClick")
         el-col.duty-col(:span="18")
-          kalix-tree-grid.duty-wrapper(bizKey="reply" title="回复管理"
+          kalix-tree-grid-1.duty-wrapper(bizKey="reply" title="回复管理"
+          style="padding-top:0"
           ref="kalixTreeGrid"
           v-bind:targetURL="treeUrl"
           v-bind:isToolBarSelf="true"
@@ -19,23 +20,28 @@
           v-bind:onToolBarSelfClick="onToolBarClick"
           v-bind:bizDialog="bizDialog"
           v-bind:columns='columns'
-          v-bind:customRender="showPermissionText"
+          v-bind:customRender="showCheckText"
           v-on:selectedRow="getSelectRow"
           v-bind:isRowButtonSelf="true"
           v-bind:btnSelfClick="btnClick"
-          v-bind:isColumnfixed="false")
+          v-bind:jsonStr="jsonStr"
+          v-bind:noSearchParam:sync="noSearchParam"
+          v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch"
+          )
 </template>
 
 <script type="text/ecmascript-6">
 import FormModel from './model'
 import Message from '../../../common/message'
-import {replyURL, replyMenuURL, replyItemBaseURL} from '../config.toml'
+import {replyMenuURL, replyItemBaseURL, QiaoReplyURL} from '../config.toml'
 import KalixReplyTree from '../../../components/cascader/replyTree'
+import KalixTreeGrid from '../../../components/forum/treeGrid'
 
 export default {
   name: 'kalix-qiao-reply',
   data() {
     return {
+      noSearchParam: true,
       itemBasePath: replyItemBaseURL,
       toolbarBtnList: [
         {id: 'add', isShow: false},
@@ -45,16 +51,18 @@ export default {
         {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
       ],
       targetUrl: replyMenuURL,
-      treeUrl: replyURL + '?postId=-1',
+      treeUrl: QiaoReplyURL + '/getReplyByPostId?postId=-1',
+      // QiaoReplyURL: QiaoReplyURL,
       menuItems: [],
       addFormModel: Object.assign({}, FormModel),
       editFormModel: Object.assign({}, FormModel),
       postId: undefined,
-      posttitle: undefined,
+      froumTitle: undefined,
       parentId: undefined,
       kalixDialog: undefined,
       currentRow: undefined,
       isIconSelf: true,
+      jsonStr: '',
       bizDialog: [
         {id: 'add', dialog: 'replyAdd'},
         {id: 'edit', dialog: 'replyEdit'}
@@ -81,8 +89,12 @@ export default {
         width: '120'
       }, {
         title: '审核状态',
-        key: 'category',
+        key: 'categoryName',
         width: '120'
+      }, {
+        type: 'hidden',
+        key: 'category',
+        width: '0'
       }, {
         type: 'hidden',
         key: 'postId',
@@ -104,30 +116,33 @@ export default {
     }
   },
   components: {
-    KalixReplyTree
-    // KalixReplyTreeGrid
-    // KalixNavMenu: BaseNavMenu,
-    // KalixTreeGrid: TreeGrid
+    KalixReplyTree,
+    KalixTreeGrid1: KalixTreeGrid
   },
   computed: {},
   mounted() {
-    // this.treeUrl = this.treeUrl + '?postId=-1'
+    this.jsonStr = `{ '%username%': ''}`
   },
   methods: {
     onReplyTreeClick(data) {
-      console.log('111 forum data is============================== ', data.value)
-      this.treeUrl = replyURL + '?postId=' + data.value
-      // console.log('this.treeUrl============================== ', this.treeUrl)
+      this.postId = data.value
+      this.forumTitle = data.label
+      this.jsonStr = `{'%username%': ''}`
+      this.treeUrl = QiaoReplyURL + '/getReplyByPostId?postId=' + data.value
+      this.dialogOptions = {
+        postId: data.value,
+        forumTitle: data.label
+      }
     },
-    showPermissionText(_data) {
-      this.showPermission(_data)
+    showCheckText(_data) {
+      this.showCheck(_data)
     },
-    showPermission(_data) {
+    showCheck(_data) {
       if (_data) {
         _data.forEach((e) => {
-          e.isDataPermission = e.dataPermission ? '是' : '否'
+          e.categoryName = e.category === '0' ? '未审核' : '已审核'
           if (e.children) {
-            this.showPermission(e.children)
+            this.showCheck(e.children)
           }
         })
       }
@@ -154,7 +169,7 @@ export default {
       }
     },
     onAddClick() {
-      if (this.forumtitle === undefined || this.postId === undefined) {
+      if (this.forumTitle === undefined || this.postId === undefined || this.currentRow === undefined) {
         Message.error('请选择要回复的帖子！')
         return
       }
@@ -162,18 +177,20 @@ export default {
       this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
         this.kalixDialog = _kalixDialog
         setTimeout(() => {
-          this.addFormModel.forumtitle = this.forumtitle
+          this.addFormModel.forumTitle = this.forumTitle
           this.addFormModel.postId = this.postId
           if (this.currentRow === undefined) {
-            this.addFormModel.parentName = '根功能'
+            this.addFormModel.parentName = '根目录'
             this.addFormModel.parentId = '-1'
           } else {
-            this.addFormModel.parentName = this.currentRow.name
+            this.addFormModel.parentName = this.currentRow.username
             this.addFormModel.parentId = this.currentRow.id
           }
+          this.addFormModel.isLeaf = '0'
+          this.addFormModel.category = '0'
           this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
           if (typeof (that.kalixDialog.init) === 'function') {
-            that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            that.kalixDialog.init(this.dialogOptions) //  需要传参数，就在dialog里面定义init方法
           }
         }, 20)
       })
@@ -184,8 +201,7 @@ export default {
         this.kalixDialog = _kalixDialog
         setTimeout(() => {
           this.editFormModel = row
-          this.editFormModel.forumtitle = this.forumtitle
-          // this.formModel.isLeaf = row.leaf
+          this.editFormModel.forumTitle = this.forumTitle
           if (row.dataPermission !== true) {
             row.dataPermission = false
           }
@@ -206,7 +222,7 @@ export default {
       }).then(() => {
         return this.axios.request({
           method: 'DELETE',
-          url: this.replyURL + '?id=' + row.id,
+          url: QiaoReplyURL + '/' + row.id,
           params: {},
           data: {
             id: row.id
@@ -220,7 +236,7 @@ export default {
     },
     getSelectRow(val) {
       console.log('getSelectRow========', val)
-      // this.currentRow = val
+      this.currentRow = val
     }
   }
 }

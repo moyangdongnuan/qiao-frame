@@ -1,5 +1,5 @@
 <!--
-  描述：前台回复管理-左侧tree
+  描述：前台回复管理-左侧菜单
   开发人：sunli
   开发日期：2018年5月29日
 -->
@@ -64,13 +64,14 @@ export default {
   methods: {
     filterNode(value, data) {
       if (!value) return true
-      return data.title.indexOf(value) !== -1
+      return data.label.indexOf(value) !== -1
     },
     handleNodeClick(data) {
       this.postId = data.value
+      this.forumTitle = data.label
       this.$emit('replyTreeClick', data)
       /* 发送事件供外部调用 */
-      console.log('table tree data is ', data.value)
+      console.log('--------this.forumTitle-------- ', data.label)
     },
     getData() {
       let url = ''
@@ -87,13 +88,14 @@ export default {
       }).then(res => {
         this.treeData = res.data.data
         console.log('treeData ----------------------', this.treeData)
+        this.$emit('handleAfterSearch')
       })
     }
   },
   watch: {
-    // filterText(val) {
-    //   this.$refs.tableTree.filter(val)
-    // },
+    filterText(val) {
+      this.$refs.tableTree.filter(val)
+    },
     orgId(val) {
       console.log('-------------0000000000000-----------', val)
       this.targetURL = `/camel/rest/orgs/${this.orgId}/dutys`

@@ -1,9 +1,12 @@
 const FormModel = {
-  username: '', // 回复人姓名
-  content: '', // 回复内容
-  postId: '', // 发帖id
-  forumtitle: '', // 所属帖子标题
-  parentId: '', // 父节点ID
-  parentName: '' // 上级功能
+  id: null,
+  username: null, // 回复人姓名
+  content: null, // 回复内容
+  postId: null, // 发帖id
+  forumTitle: null, // 所属帖子标题
+  isLeaf: '1', // 是否子节点
+  category: '0', // 审核标识
+  parentId: null, // 父节点ID
+  parentName: null // 上级功能
 }
 export default FormModel
