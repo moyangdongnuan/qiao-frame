@@ -61,12 +61,13 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
+  import {QiaoGenealogyURL} from '../config.toml'
 
   export default {
     name: 'GenealogyAdd',
     data() {
       return {
-        targetURL: '',
+        targetURL: QiaoGenealogyURL,
         formModel: Object.assign({}, FormModel),
         rules: {
           name: [{required: true, message: '请输入名称', trigger: 'blur'}]
@@ -78,7 +79,6 @@
     },
     methods: {
       init(dialogOption) {
-        this.targetURL = dialogOption.targetURL
       }
     }
   }

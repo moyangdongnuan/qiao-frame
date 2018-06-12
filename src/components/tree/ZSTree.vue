@@ -5,14 +5,6 @@
 -->
 
 <template lang="pug">
-    <!--div.kalix-search.org-tree-->
-      <!--div.kalix-search-hd-->
-        <!--i.tit_icon.iconfont.icon-organization-->
-        <!--| {{treeTitle}}-->
-      <!--div.kalix-search-bd.org-tree-bd-->
-        <!--div.ipt-wrapper-->
-          <!--el-input.kalix-search-input(placeholder="输入关键字进行过滤" v-model="filterText")-->
-        <!--div.kalix-tree-wrapper-->
       div.block
         el-tree.filter-tree(node-key="id" default-expand-all
         v-bind:expand-on-click-node="false"
@@ -85,41 +77,7 @@
         defaultProps: '',
         whichBizDialog: '',
         filterText: '',
-        treeData: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
-          }, {
-            id: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
-        }]
+        treeData: ''
       }
     },
     created() {
@@ -130,7 +88,8 @@
         this.$http
           .get(this.requestUrl, {})
           .then(res => {
-            this.initOpt = JSON.parse(res.data.data)
+            console.log('----treeData------', res.data.data)
+            this.treeData = res.data.data
           })
       },
       handleNodeClick() {
@@ -152,7 +111,6 @@
       onAddClick(data) {
         console.log('data-------------------', data)
         // 添加按钮点击事件
-        let that = this
         console.log('dialog--------------------', this.bizDialog)
         let dig =
           this.bizDialog.filter((item) => {
@@ -161,9 +119,9 @@
         this.whichBizDialog = dig[0].dialog
         console.log('[onAddClick]', dig[0].dialog)
         setTimeout(() => {
-          that.$refs.kalixDialog.$refs.kalixBizDialog.open('添加')
+          this.$refs.kalixDialog.$refs.kalixBizDialog.open('添加')
           if (typeof (this.$refs.kalixDialog.init) === 'function') {
-            that.$refs.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            this.$refs.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
           }
         }, 20)
       },

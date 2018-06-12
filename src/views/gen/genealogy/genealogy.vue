@@ -3,13 +3,13 @@
     keep-alive
       el-row.duty-row(:gutter="0")
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
-          kalix-qiao-tree(v-on:orgTreeClick="onOrgTreeClick" v-bind:bizDialog="bizDialog")
+          kalix-qiao-tree(v-on:orgTreeClick="onOrgTreeClick" v-bind:bizDialog="bizDialog" v-bind:requestUrl="treeDefaultRequestUrl")
         el-col.duty-col(:span="16")
           kalix-qiao-form(value="" organizationId="")
 </template>
 
 <script>
-  import {GenealogyButtonList} from '../config.toml'
+  import {GenealogyButtonList, QiaoGenealogyTreeURL} from '../config.toml'
   import QiaoTree from '../../../components/tree/ZSTree'
   import QiaoForm from '../../../components/form/Jyform'
 
@@ -63,6 +63,7 @@
         dialogOptions: {},
         isFixedColumn: true,
         btnList: GenealogyButtonList,
+        treeDefaultRequestUrl: QiaoGenealogyTreeURL,
         targetURL: '',
         orgId: -1,
         orgName: '',

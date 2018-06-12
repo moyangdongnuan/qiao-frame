@@ -1,6 +1,7 @@
 # QIAO項目配置文件
 # 家谱管理
 QiaoGenealogyURL = "/camel/rest/genealogys"
+QiaoGenealogyTreeURL = "/camel/rest/genealogys/queryForTree"
 # 家谱查询
 QiaoSearchURL = "/camel/rest/searchs"
 # 家谱导出
