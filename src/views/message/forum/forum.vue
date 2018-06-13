@@ -5,6 +5,7 @@
     v-bind:targetURL="forumURL"
     v-bind:bizDialog="forumDialog"
     v-bind:btnList="forumBtnList"
+    v-bind:customTableTool="customTableTool"
     bizSearch="QiaoForumSearch" v-bind:dictDefine="dictDefine")
 </template>
 
@@ -39,6 +40,27 @@
           {id: 'edit', dialog: 'QiaoForumEdit'}
         ],
         forumBtnList: forumConfigBtnList
+      }
+    },
+    methods: {
+      customTableTool(row, btnId, that) {
+        switch (btnId) {
+          case 'auditing': {
+            console.log('=======================shenhe=======================')
+            // 审核功能
+            that.whichBizDialog = ''
+            console.log('that.forumDialog=========', that.forumDialog)
+            let dig =
+              this.forumDialog.filter((item) => {
+                return item.id === 'auditing'
+              })
+            that.whichBizDialog = dig[0].dialog
+            setTimeout(() => {
+              that.$refs.kalixDialog.$refs.kalixBizDialog.open('审核', false, row)
+            }, 20)
+            break
+          }
+        }
       }
     }
   }

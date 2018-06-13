@@ -22,13 +22,13 @@
         type: Object,
         required: true
       },
-      rules: {  // form的校验规则
+      rules: { // form的校验规则
         type: Object
-//        required: true
+      // required: true
       },
-      targetURL: {  // 业务数据提交的url,包括add，delete，update
+      targetURL: { // 业务数据提交的url,包括add，delete，update
         type: String
-//        required: true
+      // required: true
       },
       isView: false,
       title: ''
@@ -57,10 +57,10 @@
                 this.visible = false
                 this.$refs.dialogForm.resetFields()
                 // 关闭对话框
-//                this.close()
+                // this.close()
                 // 清空form
-//                this.$parent.resetDialogForm()
-//                this.$emit('resetDialogForm')
+                // this.$parent.resetDialogForm()
+                // this.$emit('resetDialogForm')
               } else {
                 Message.error(response.data.msg)
               }

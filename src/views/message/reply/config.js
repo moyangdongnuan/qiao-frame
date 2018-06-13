@@ -4,7 +4,7 @@
  **/
 
 const startedCond = (scope) => {
-  return scope.row.category === 0
+  return scope.row.category === '0'
 }
 const replyConfigBtnList = [
   {
