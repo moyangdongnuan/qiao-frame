@@ -17,7 +17,7 @@
           span.custom-tree-node(slot-scope="{ node, data }")
             span {{ node.label }}
             span
-              el-button(type="text" size="mini" v-on:click="() => onAddClick(data)") 增加
+              el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
               el-button(type="text" size="mini" v-on:click="() => remove(node, data)") 删除
         component(:is="whichBizDialog" ref="kalixDialog"
         v-bind:formModel="formModel"
@@ -25,13 +25,12 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Message from '../../common/message'
   export default {
     name: 'qiao-tree',
     activated() {
       console.log('orgTree component is activated')
       this.whichBizDialog = ''
-      this.$KalixEventBus.$on('refreshData', this.getData)
+      /* this.$KalixEventBus.$on('refreshData', this.getData) */
     },
     deactivated() {
       console.log('orgTree component is deactivated')
@@ -93,133 +92,31 @@
           })
       },
       handleNodeClick() {
+        console.log('handleNodeClick')
       },
-      append(data) {
-        const newChild = { id: this.id++, label: '', children: [] }
-        if (!data.children) {
-          this.$set(data, 'children', [])
-        }
-        data.children.push(newChild)
-      },
-
       remove(node, data) {
+        console.log('----node-------', node)
         const parent = node.parent
         const children = parent.data.children || parent.data
         const index = children.findIndex(d => d.id === data.id)
         children.splice(index, 1)
       },
-      onAddClick(data) {
+      onViewClick(data) {
         console.log('data-------------------', data)
         // 添加按钮点击事件
         console.log('dialog--------------------', this.bizDialog)
         let dig =
           this.bizDialog.filter((item) => {
-            return item.id === 'add'
+            return item.id === 'view'
           })
         this.whichBizDialog = dig[0].dialog
         console.log('[onAddClick]', dig[0].dialog)
         setTimeout(() => {
-          this.$refs.kalixDialog.$refs.kalixBizDialog.open('添加')
+          this.$refs.kalixDialog.$refs.kalixBizDialog.open('查看')
           if (typeof (this.$refs.kalixDialog.init) === 'function') {
-            this.$refs.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            this.$refs.kalixDialog.init(data) // 需要传参数，就在dialog里面定义init方法
           }
         }, 20)
-      },
-      btnClick(row, btnId) { // table工具栏点击事件
-        console.log(row, btnId)
-        switch (btnId) {
-          case 'view': {
-            let that = this
-            let dig =
-              this.bizDialog.filter((item) => {
-                return item.id === 'view'
-              })
-            this.whichBizDialog = dig[0].dialog
-            setTimeout(() => {
-              if (this.isBeforeView) {
-                this.$emit('handleBeforeView', row)
-                if (typeof (this.$refs.kalixDialog.initPropertis) === 'object') {
-                  this.$refs.kalixDialog.initPropertis = row
-                }
-              }
-              that.$refs.kalixDialog.$refs.kalixBizDialog.open('查看', false, row)
-              if (typeof (this.$refs.kalixDialog.init) === 'function') {
-                // 添加初始化模型赋值参数
-                if (this.dialogOptions && this.dialogOptions.row) {
-                  this.dialogOptions.row = row
-                }
-                this.$refs.kalixDialog.init(this.dialogOptions)
-              }
-              if (this.isAfterView === true) {
-                this.$emit('handleAfterView', row)
-              }
-            }, 20)
-            break
-          }
-
-          case 'edit': {
-            this.whichBizDialog = ''
-            let dig =
-              this.bizDialog.filter((item) => {
-                return item.id === 'edit'
-              })
-            console.log('[kalix] edit dialog is: ' + dig[0].dialog)
-            this.whichBizDialog = dig[0].dialog
-            setTimeout(() => {
-              this.$refs.kalixDialog.$refs.kalixBizDialog.open('编辑', true, row)
-              if (typeof (this.$refs.kalixDialog.init) === 'function') {
-                // 添加初始化模型赋值参数
-                // this.dialogOptions.editFormModel = row
-                if (this.dialogOptions && this.dialogOptions.row) {
-                  this.dialogOptions.row = row
-                }
-                this.$refs.kalixDialog.init(this.dialogOptions)
-              }
-            }, 20)
-            console.log('edit is clicked')
-            break
-          }
-
-          case 'delete': {
-            console.log('delete is clicked')
-            this.$confirm('确定要删除吗?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              return this.axios.request({
-                method: 'DELETE',
-                url: this.targetURL + '/' + row.id,
-                params: {},
-                data: {
-                  id: row.id
-                }
-              })
-            }).then(response => {
-              this.getData()
-              Message.success(response.data.msg)
-              // 添加删除后自定义处理事件
-              // this.$emit('afterDelete')
-            }).catch(() => {
-            })
-            break
-          }
-          // 附件管理
-          case 'attachment': {
-            console.log(' attachment is clicked ', 'background:#c7320a;')
-            let that = this
-            // this.whichBizDialog = 'AttachmentDialog'
-            this.whichBizDialog = 'kalix-attachment-dialog'
-            setTimeout(() => {
-              that.$refs.kalixDialog.openDialog(row, this.bizKey, this.fileAccept)
-            }, 20)
-            break
-          }
-
-          default: // 默认转到调用props的方法
-            this.customTableTool(row, btnId, this)
-            break
-        }
       }
     }
   }

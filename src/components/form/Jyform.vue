@@ -119,7 +119,7 @@
     name: 'qiao-form',
     activated() {
       console.log('orgTree component is activated')
-      this.$KalixEventBus.$on('refreshData', this.getData)
+      // this.$KalixEventBus.$on('refreshData', this.getData)
     },
     deactivated() {
       console.log('orgTree component is deactivated')
@@ -146,7 +146,7 @@
       }
     },
     mounted() {
-      this.getData()
+      // this.getData()
     },
     methods: {
       onSubmit() {
