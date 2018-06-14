@@ -27,6 +27,7 @@
           v-bind:jsonStr="jsonStr"
           v-bind:noSearchParam:sync="noSearchParam"
           v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch"
+          v-bind:optActions="optActions"
           )
 </template>
 
@@ -41,6 +42,7 @@ export default {
   name: 'kalix-qiao-reply',
   data() {
     return {
+      name: '',
       noSearchParam: true,
       itemBasePath: replyItemBaseURL,
       toolbarBtnList: [
@@ -56,6 +58,7 @@ export default {
       menuItems: [],
       addFormModel: Object.assign({}, FormModel),
       editFormModel: Object.assign({}, FormModel),
+      auditingFormModel: Object.assign({}, FormModel),
       postId: undefined,
       froumTitle: undefined,
       parentId: undefined,
@@ -65,8 +68,27 @@ export default {
       jsonStr: '',
       bizDialog: [
         {id: 'add', dialog: 'replyAdd'},
+        {id: 'auditing', dialog: 'replyAuditing'},
         {id: 'edit', dialog: 'replyEdit'}
       ],
+      optActions: {
+        title: '操作',
+        type: 'action',
+        actions: [{
+          type: 'edit',
+          text: '编辑',
+          icon: 'el-icon-edit'
+        }, {
+          type: 'delete',
+          text: '删除',
+          icon: 'el-icon-delete'
+        }, {
+          type: 'auditing',
+          text: '审核',
+          icon: 'el-icon-auditing'
+        }],
+        width: '150'
+      },
       columns: [{
         type: 'hidden',
         key: 'id',
@@ -99,19 +121,6 @@ export default {
         type: 'hidden',
         key: 'postId',
         width: '0'
-      }, {
-        title: '操作',
-        type: 'action',
-        actions: [{
-          type: 'edit',
-          text: '编辑',
-          icon: 'el-icon-edit'
-        }, {
-          type: 'delete',
-          text: '删除',
-          icon: 'el-icon-delete'
-        }],
-        width: '150'
       }]
     }
   },
@@ -141,6 +150,22 @@ export default {
       if (_data) {
         _data.forEach((e) => {
           e.categoryName = e.category === '0' ? '未审核' : '已审核'
+          if (e.category === '1') {
+            this.optActions = {
+              title: '操作',
+              type: 'action',
+              actions: [{
+                type: 'edit',
+                text: '编辑',
+                icon: 'el-icon-edit'
+              }, {
+                type: 'delete',
+                text: '删除',
+                icon: 'el-icon-delete'
+              }],
+              width: '150'
+            }
+          }
           if (e.children) {
             this.showCheck(e.children)
           }
@@ -161,6 +186,9 @@ export default {
       }
       if (btnId === 'delete') {
         this.onDeleteClick(row)
+      }
+      if (btnId === 'auditing') {
+        this.onAuditingClick(row)
       }
     },
     onRefreshClick() {
@@ -232,6 +260,25 @@ export default {
         this.$refs.kalixTreeGrid.getData()
         Message.success(response.data.msg)
       }).catch(() => {
+      })
+    },
+    onAuditingClick(row) {
+      console.log('===========================auditingClick=================================')
+      let that = this
+      this.$refs.kalixTreeGrid.getKalixDialog('auditing', (_kalixDialog) => {
+        this.kalixDialog = _kalixDialog
+        setTimeout(() => {
+          this.auditingFormModel = row
+          if (row.dataPermission !== true) {
+            row.dataPermission = false
+          }
+          this.auditingFormModel.dataPermission = row.dataPermission + ''
+          console.log('this.auditingFormModel==============', this.auditingFormModel)
+          // this.kalixDialog.$refs.kalixBizDialog.open('审核', true, this.auditingFormModel)
+          if (typeof (that.kalixDialog.init) === 'function') {
+            that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+          }
+        }, 20)
       })
     },
     getSelectRow(val) {

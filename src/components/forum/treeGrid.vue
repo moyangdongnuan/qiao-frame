@@ -102,6 +102,7 @@
       },
       columns: Array,
       targetURL: '',
+      optActions: Object,
       formModel: null,
       customTableTool: { // 对table的操作按钮进行自定义的操作
         type: Function
@@ -216,6 +217,9 @@
       // 添加url变化时获取数据, add by yangze 2018-1-25
       targetURL() {
         this.getData()
+      },
+      optActions(oldVal, newVal) {
+        return newVal
       }
     },
     mounted() {
@@ -223,6 +227,7 @@
       if (this.items) {
         this.dataLength = this.Length(this.items)
         this.initData(this.deepCopy(this.items), 1, null)
+        this.columns.push(this.optActions)
         this.cloneColumns = this.makeColumns()
         this.checkGroup = this.renderCheck(this.items)
         if (this.checkGroup.length === this.dataLength) {
@@ -411,6 +416,7 @@
       },
       // 处理表头数据
       makeColumns() {
+        console.log('this.columns=========', this.columns)
         let columns = this.deepCopy(this.columns)
         this.tdsWidth = 0
         columns.forEach((column, index) => {

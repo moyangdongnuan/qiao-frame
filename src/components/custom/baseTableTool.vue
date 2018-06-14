@@ -35,7 +35,7 @@
   export default {
     props: {
       displayStyle: {
-        default: 1    // 显示样式 1：按钮列表、2：下拉菜单。默认 1。
+        default: 1 // 显示样式 1：按钮列表、2：下拉菜单。默认 1。
       },
       dropDownTitle: {
         default: '操作'
@@ -47,7 +47,7 @@
         type: Boolean,
         default: false
       },
-      btnList: {  // 工具按钮的列表
+      btnList: { // 工具按钮的列表
         type: Array,
         required: true,
         default: () => {
