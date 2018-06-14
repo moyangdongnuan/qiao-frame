@@ -9,17 +9,17 @@
     div.el-form(slot="dialogFormSlot")
       el-form-item(label="所属机构" label-width="120px" )
         el-input(v-text="orgName")
-      el-form-item(label="职务名称" prop="name" label-width="120px"  v-bind:rules="rules.name")
+      el-form-item(label="职务名称" label-width="120px")
         el-input(v-model="formModel.name" readonly)
-      el-form-item(label="家谱名称" prop="genealogyname" label-width="120px"  v-bind:rules="rules.name")
+      el-form-item(label="家谱名称" label-width="120px")
         el-input(v-model="formModel.genealogyname" readonly)
-      el-form-item(label="省" prop="province" label-width="120px")
+      el-form-item(label="省" label-width="120px")
         el-input(v-model="formModel.province" readonly)
-      el-form-item(label="市" prop="city" label-width="120px")
+      el-form-item(label="市" label-width="120px")
         el-input(v-model="formModel.city" readonly)
-      el-form-item(label="县" prop="county" label-width="120px")
+      el-form-item(label="县" label-width="120px")
         el-input(v-model="formModel.county" readonly)
-      el-form-item(label="备注" prop="remarks" label-width="120px")
+      el-form-item(label="备注" label-width="120px")
         el-input(v-model="formModel.remarks" readonly)
 </template>
 
@@ -37,8 +37,15 @@
     },
     methods: {
       init(dialogOption) {
-        console.info('dialogOption.orgName=========', dialogOption.orgName)
-        this.orgName = dialogOption.orgName
+        console.info('dialogOption.orgName=========', dialogOption)
+        this.$http
+          .get('/camel/rest/genealogys/findById?id=' + dialogOption.modelId, {
+          })
+          .then(res => {
+            console.info('----treeData------', res.data.data[0])
+            this.formModel = res.data.data[0]
+          })
+        /*  this.orgName = dialogOption.orgName */
       }
     }
   }

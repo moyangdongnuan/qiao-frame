@@ -3,7 +3,7 @@
     keep-alive
       el-row.duty-row(:gutter="0")
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
-          kalix-qiao-tree(v-on:orgTreeClick="onOrgTreeClick" v-bind:bizDialog="bizDialog" v-bind:requestUrl="treeDefaultRequestUrl")
+          kalix-qiao-tree(v-bind:bizDialog="bizDialog" v-bind:requestUrl="treeDefaultRequestUrl")
         el-col.duty-col(:span="16")
           kalix-qiao-form(value="" organizationId="")
 </template>
@@ -18,44 +18,6 @@
     isFixedColumn: true,
     watch: {},
     methods: {
-      customTableTool(row, btnId, that) {
-        switch (btnId) {
-          case 'addUser': {
-            // 增加用户
-            that.whichBizDialog = ''
-            let dig =
-              that.bizDialog.filter((item) => {
-                return item.id === 'addUser'
-              })
-            that.whichBizDialog = dig[0].dialog
-            setTimeout(() => {
-              that.$refs.kalixDialog.$refs.kalixBizDialog.open('添加用户', false, row)
-            }, 20)
-            break
-          }
-        }
-      },
-      onOrgTreeClick(data) {
-      // console.log('org data is ', data.id)
-        this.orgId = data.id
-        this.orgName = data.name
-        this.targetURL = `/camel/rest/orgs/${data.id}/dutys`
-        this.dialogOptions = {
-          orgId: this.orgId,
-          orgName: this.orgName,
-          targetURL: this.targetURL
-        }
-        console.log('org targetURL data is ', this.targetURL)
-        // this.$refs.kalixBaseTable.getData()
-      },
-      customRender(_data) {
-        let that = this
-        console.log('org _data data is ', _data)
-        _data.forEach(function (e) {
-          e.orgNameCol = that.orgName
-        })
-        console.log('org _data data is ', _data)
-      }
     },
 
     data() {
