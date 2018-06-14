@@ -9,14 +9,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {QiaoMenuListURL} from '../config.toml'
+  import {QiaoMenuURL} from '../config.toml' // QiaoMenuListURL
   import {menuConfigBtnList} from './config'
 
   export default {
     name: 'kalix-qiao-menu',
     data() {
       return {
-        menuURL: QiaoMenuListURL,
+        menuURL: QiaoMenuURL, // QiaoMenuListURL
         tableFields: [
           {prop: 'columnName', label: '所属栏目'},
           {prop: 'name', label: '菜单名称'},

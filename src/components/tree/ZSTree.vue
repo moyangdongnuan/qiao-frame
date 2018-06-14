@@ -5,32 +5,37 @@
 -->
 
 <template lang="pug">
-      div.block
-        el-tree.filter-tree(node-key="id" default-expand-all
-        v-bind:expand-on-click-node="false"
-        v-bind:data="treeData"
-        v-bind:props="defaultProps"
-        accordion
-        highlight-current
-        v-on:node-click="handleNodeClick"
-        ref="orgTree")
-          span.custom-tree-node(slot-scope="{ node, data }")
-            span {{ node.label }}
-            span
-              el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
-              el-button(type="text" size="mini" v-on:click="() => remove(node, data)") 删除
-        component(:is="whichBizDialog" ref="kalixDialog"
-        v-bind:formModel="formModel"
-        v-bind:formRules="formRules")
+      keep-alive
+        div.block
+          el-button(v-on:click="onAddClick") 新增家谱
+          el-tree.filter-tree(node-key="id" default-expand-all
+          v-bind:expand-on-click-node="false"
+          v-bind:data="treeData"
+          v-bind:props="defaultProps"
+          accordion
+          highlight-current
+          v-on:node-click="handleNodeClick"
+          ref="orgTree")
+            span.custom-tree-node(slot-scope="{ node, data }")
+              span {{ node.label }}
+              span
+                el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
+                el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
+                el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
+          component(:is="whichBizDialog" ref="kalixDialog"
+          v-bind:formModel="formModel"
+          v-bind:formRules="formRules")
 </template>
 
 <script type="text/ecmascript-6">
+  import Message from '../../../node_modules/kalix-vue-lib/src/common/message'
+
   export default {
     name: 'qiao-tree',
     activated() {
       console.log('orgTree component is activated')
       this.whichBizDialog = ''
-      /* this.$KalixEventBus.$on('refreshData', this.getData) */
+      this.$KalixEventBus.$on('refreshData', this.tjOptions)
     },
     deactivated() {
       console.log('orgTree component is deactivated')
@@ -79,6 +84,11 @@
         treeData: ''
       }
     },
+    watch: {
+      flag: function() {
+        this.tjOptions()
+      }
+    },
     created() {
       this.tjOptions() // 加载执行
     },
@@ -92,27 +102,56 @@
           })
       },
       handleNodeClick() {
-        console.log('handleNodeClick')
       },
-      remove(node, data) {
-        console.log('----node-------', node)
-        const parent = node.parent
-        const children = parent.data.children || parent.data
-        const index = children.findIndex(d => d.id === data.id)
-        children.splice(index, 1)
+      remove(data) {
+        Message.warning('是否确认删除')
+        this.$http
+          .get('/camel/rest/genealogys/' + data.modelId, {
+          })
+          .then(res => {
+            console.info('----treeData------', res)
+          })
       },
       onViewClick(data) {
-        console.log('data-------------------', data)
         // 添加按钮点击事件
-        console.log('dialog--------------------', this.bizDialog)
         let dig =
           this.bizDialog.filter((item) => {
             return item.id === 'view'
           })
         this.whichBizDialog = dig[0].dialog
-        console.log('[onAddClick]', dig[0].dialog)
+        console.log('[onViewClick]', dig[0].dialog)
         setTimeout(() => {
           this.$refs.kalixDialog.$refs.kalixBizDialog.open('查看')
+          if (typeof (this.$refs.kalixDialog.init) === 'function') {
+            this.$refs.kalixDialog.init(data) // 需要传参数，就在dialog里面定义init方法
+          }
+        }, 20)
+      },
+      onAddClick() {
+        console.log('-----onAddClick-------')
+        let dig =
+          this.bizDialog.filter((item) => {
+            return item.id === 'add'
+          })
+        this.whichBizDialog = dig[0].dialog
+        console.log('[onAddClick]', dig[0].dialog)
+        setTimeout(() => {
+          this.$refs.kalixDialog.$refs.kalixBizDialog.open('添加')
+          if (typeof (this.$refs.kalixDialog.init) === 'function') {
+            this.$refs.kalixDialog.init() // 需要传参数，就在dialog里面定义init方法
+          }
+        }, 20)
+      },
+      onEditClick(data) {
+        console.log('-----onEditClick-------')
+        let dig =
+          this.bizDialog.filter((item) => {
+            return item.id === 'edit'
+          })
+        this.whichBizDialog = dig[0].dialog
+        console.log('[onEditClick]', dig[0].dialog)
+        setTimeout(() => {
+          this.$refs.kalixDialog.$refs.kalixBizDialog.open('修改')
           if (typeof (this.$refs.kalixDialog.init) === 'function') {
             this.$refs.kalixDialog.init(data) // 需要传参数，就在dialog里面定义init方法
           }

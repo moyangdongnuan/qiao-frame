@@ -1,28 +1,22 @@
 const FormModel = {
-  name: null, // 姓名
-  sex: null, // 性别
-  matrimony: null, // 婚姻
-  spouseid: null, // 配偶
-  fatherid: null, // 父亲
-  motherid: null, // 母亲
-  sequence: null, // 排行
-  generations: null, // 世代
-  gradeid: null, // 字辈
-  monicker: null, // 字号
-  birth: null, // 出生日期
-  time: null, // 纪念日期
-  weight: null, // 体重
-  stature: null, // 身高
-  duty: null, // 官爵
-  education: null, // 教育
-  homeaddress: null, // 家庭住址
-  childrenid: null, // 儿女
-  appearance: null, // 外貌
-  honor: null, // 荣誉
-  sistersid: null, // 姐妹
-  brothersid: null, // 兄弟
-  hobby: null, // 爱好
-  health: null // 健康情况
+  genealogyname: null, // 家谱名称
+  parentid: null, // 父id
+  country: null, // 国家
+  province: null, // 省
+  city: null, // 市
+  area: null, // 区
+  county: null, // 县
+  hamlet: null, // 村
+  streets: null, // 街道
+  encoding: null, //
+  genealogysite: null, // 谱属地
+  remarks: null, // 备注
+  summarize: null, // 概况
+  listid: null, // 栏目id（打印菜单）
+  part: null, // 部id（字典表）
+  unit: null, // 卷id（字典表）
+  volume: null, // 册id（字典表）
+  address: null // 谱属地详细地址 验证用
 }
 
 export default FormModel

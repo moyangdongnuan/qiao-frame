@@ -3,13 +3,15 @@ import GenealogyAdd from './genealogyAdd.vue'
 import GenealogyAddUser from './genealogyAddUser.vue'
 import GenealogySearch from './genealogySearch.vue'
 import GenealogyView from './genealogyView.vue'
+import GenealogyEdit from './genealogyEdit.vue'
 
 const components = [
   Genealogy,
   GenealogyAdd,
   GenealogyAddUser,
   GenealogySearch,
-  GenealogyView
+  GenealogyView,
+  GenealogyEdit
 ]
 
 const main = {
