@@ -13,9 +13,9 @@
       el-form-item(label="所属帖子标题" prop="postId" label-width="120px" v-bind:rules="rules.forumTitle")
         el-input(v-text="formModel.forumTitle")
       el-form-item(label="上级回复人姓名" prop="parentName" label-width="120px" v-bind:rules="rules.parentName")
-        el-input(v-model="formModel.parentName" readonly)
-      el-form-item(label="回复人姓名" prop="username" label-width="120px" v-bind:rules="rules.username")
-        el-input(v-model="formModel.username")
+        el-input(v-text="formModel.parentName")
+      el-form-item(label="上级回复内容" prop="parentContent" label-width="120px" v-bind:rules="rules.parentContent")
+        el-input(v-text="formModel.parentContent")
       el-form-item(label="回复内容" prop="content" label-width="120px" v-bind:rules="rules.content")
         el-input(v-model="formModel.content")
 </template>
@@ -28,7 +28,6 @@
     name: 'replyAdd',
     data() {
       return {
-        // forumTitle: '',
         formModel: Object.assign({}, FormModel),
         rules: {
           // forumTitle: [{message: '所属帖子标题不能为空', trigger: 'blur'}],

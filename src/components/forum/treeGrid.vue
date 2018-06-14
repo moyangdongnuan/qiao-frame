@@ -645,6 +645,10 @@
             this.$emit('deleteClick', row)
             break
           }
+          case 'auditing': {
+            this.$emit('auditClick', row)
+            break
+          }
           default: // 默认转到调用props的方法
             this.customTableTool(row, btnId, this)
             break

@@ -136,6 +136,7 @@
       onReplyTreeClick(data) {
         this.postId = data.value
         this.forumTitle = data.label
+        this.parentContent = data.content
         this.jsonStr = `{'%username%': ''}`
         this.treeUrl = QiaoReplyURL + '/getReplyByPostId?postId=' + data.value
         this.dialogOptions = {
@@ -150,37 +151,6 @@
         if (_data) {
           _data.forEach((e) => {
             e.categoryName = e.category === '0' ? '未审核' : '已审核'
-            // e.optActions = {
-            //   title: '操作',
-            //   type: 'action',
-            //   actions: [{
-            //     type: 'edit',
-            //     text: '3编辑',
-            //     icon: 'el-icon-edit'
-            //   }, {
-            //     type: 'delete',
-            //     text: '5删除',
-            //     icon: 'el-icon-delete'
-            //   }],
-            //   width: '150'
-            // }
-            console.log('e', e)
-            // if (e.category === '1') {
-            //   this.optActions = {
-            //     title: '操作',
-            //     type: 'action',
-            //     actions: [{
-            //       type: 'edit',
-            //       text: '编辑',
-            //       icon: 'el-icon-edit'
-            //     }, {
-            //       type: 'delete',
-            //       text: '删除',
-            //       icon: 'el-icon-delete'
-            //     }],
-            //     width: '150'
-            //   }
-            // }
             if (e.children) {
               this.showCheck(e.children)
             }
@@ -212,7 +182,7 @@
         }
       },
       onAddClick() {
-        if (this.forumTitle === undefined || this.postId === undefined || this.currentRow === undefined) {
+        if (this.forumTitle === undefined || this.postId === undefined) {
           Message.error('请选择要回复的帖子！')
           return
         }
@@ -225,9 +195,11 @@
             if (this.currentRow === undefined) {
               this.addFormModel.parentName = '根目录'
               this.addFormModel.parentId = '-1'
+              this.addFormModel.parentContent = this.parentContent
             } else {
               this.addFormModel.parentName = this.currentRow.username
               this.addFormModel.parentId = this.currentRow.id
+              this.addFormModel.parentContent = this.currentRow.content
             }
             this.addFormModel.isLeaf = '0'
             this.addFormModel.category = '0'
@@ -245,6 +217,7 @@
           setTimeout(() => {
             this.editFormModel = row
             this.editFormModel.forumTitle = this.forumTitle
+            this.editFormModel.parentContent = this.editFormModel.content
             if (row.dataPermission !== true) {
               row.dataPermission = false
             }
@@ -278,18 +251,19 @@
         })
       },
       onAuditingClick(row) {
-        console.log('===========================auditingClick=================================')
         let that = this
         this.$refs.kalixTreeGrid.getKalixDialog('auditing', (_kalixDialog) => {
           this.kalixDialog = _kalixDialog
           setTimeout(() => {
-            this.auditingFormModel = row
-            if (row.dataPermission !== true) {
-              row.dataPermission = false
-            }
-            this.auditingFormModel.dataPermission = row.dataPermission + ''
-            console.log('this.auditingFormModel==============', this.auditingFormModel)
-            // this.kalixDialog.$refs.kalixBizDialog.open('审核', true, this.auditingFormModel)
+            this.editFormModel = row
+            // this.editFormModel.forumTitle = this.forumTitle
+            // this.editFormModel.parentContent = this.editFormModel.content
+            // if (row.dataPermission !== true) {
+            //  row.dataPermission = false
+            // }
+            // this.editFormModel.dataPermission = row.dataPermission + ''
+            console.log('this.editFormModel==============', this.editFormModel)
+            this.kalixDialog.$refs.kalixBizDialog.open('编辑', true, this.editFormModel)
             if (typeof (that.kalixDialog.init) === 'function') {
               that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
             }

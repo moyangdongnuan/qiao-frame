@@ -11,10 +11,10 @@
       input(v-model="formModel.postId" type="hidden")
       el-form-item(label="所属帖子标题" prop="postId" label-width="120px" v-bind:rules="rules.forumTitle")
         el-input(v-text="formModel.forumTitle")
-      el-form-item(label="上级回复姓名" prop="parentName" label-width="120px" v-bind:rules="rules.parentName")
-        el-input(v-model="formModel.parentName" readonly)
-      el-form-item(label="回复人姓名" prop="username" label-width="120px" v-bind:rules="rules.username")
-        el-input(v-model="formModel.username")
+      <!--el-form-item(label="上级回复姓名" prop="parentName" label-width="120px" v-bind:rules="rules.parentName")-->
+        <!--el-input(v-text="formModel.parentName")-->
+      <!--el-form-item(label="上级回复内容" prop="parentContent" label-width="120px" v-bind:rules="rules.parentContent")-->
+        <!--el-input(v-model="formModel.parentContent" readonly)-->
       el-form-item(label="回复内容" prop="content" label-width="120px" v-bind:rules="rules.content")
         el-input(v-model="formModel.content")
 </template>
@@ -31,8 +31,8 @@
         formModel: Object.assign({}, FormModel),
         rules: {
           // formModel: [{message: '所属帖子标题不能为空', trigger: 'blur'}],
-          parentName: [{message: '上级回复人姓名不能为空', trigger: 'blur'}],
-          username: [{required: true, message: '请输入回复人姓名', trigger: 'blur'}],
+          // parentName: [{message: '上级回复人姓名不能为空'}],
+          // parentContent: [{message: '请输入回复人姓名'}],
           content: [{required: true, message: '请输入回复内容', trigger: 'blur'}]
         },
         targetURL: QiaoReplyURL,
