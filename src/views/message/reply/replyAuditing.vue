@@ -1,63 +1,36 @@
-<!--
-描述：留言应用-回复管理-审核
-开发人：sunli
-开发日期：2018年06月01日
--->
 <template lang="pug">
-  kalix-dialog.user-add(bizKey="reply" ref="kalixBizDialog" v-bind:submitBefore="submitBefore"
-  v-bind:submitAfter="submitAfter" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
+  kalix-dialog.user-add(title='审核' bizKey="forum" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
-      input(v-model="formModel.id" type="hidden")
-      input(v-model="formModel.postId" type="hidden")
-      el-form-item(label="审核状态" prop="category" label-width="120px" v-bind:rules="rules.category")
-        el-input(v-model="formModel.category")
+      el-form-item(label="审核状态" prop="category" v-bind:label-width="labelWidth")
+        el-radio(v-model="formModel.category" label="0") 未审核
+        el-radio(v-model="formModel.category" label="1") 已审核
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoReplyURL} from '../config.toml'
+  import {QiaoReplyURL} from '../../message/config.toml'
+  import KalixSelect from 'kalix-vue-lib/src/components/common/baseSelect'
 
   export default {
     name: 'replyAuditing',
+    components: {KalixSelect},
     data() {
       return {
-        // forumTitle: '',
         formModel: Object.assign({}, FormModel),
+        labelWidth: '120px',
         rules: {
-          category: [{required: true, message: '请输入审核状态', trigger: 'blur'}]
+          category: [{required: true, message: '请输入审核标识', trigger: 'blur'}]
         },
-        targetURL: QiaoReplyURL,
-        labelWidth: '110px'
+        targetURL: QiaoReplyURL
       }
     },
-    components: {
-    },
     methods: {
-      // submitBefore(baseDialog, callBack) {
-      //   if (baseDialog.formModel.parent) {
-      //     this.tempParent = baseDialog.formModel.parent
-      //     baseDialog.formModel.parent = undefined
-      //   }
-      //   if (baseDialog.formModel.children) {
-      //     this.tempChildren = baseDialog.formModel.children
-      //     baseDialog.formModel.children = undefined
-      //   }
-      //   // console.log('baseDialog==============', baseDialog)
-      //   callBack()
-      // },
-      // submitAfter(baseDialog, callBack) {
-      //   if (this.tempParent) {
-      //     baseDialog.formModel.parent = this.tempParent
-      //   }
-      //   if (this.tempChildren) {
-      //     baseDialog.formModel.children = this.tempChildren
-      //   }
-      //   // callBack()
-      // }
+      init(dialogOption) {
+      }
     }
   }
 </script>
 
-<style scoped>
+<style scoped lang="stylus" type="text/stylus">
 
 </style>

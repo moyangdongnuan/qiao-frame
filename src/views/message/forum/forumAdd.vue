@@ -14,7 +14,11 @@
       <!--el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")-->
         <!--el-input(v-model="formModel.category")-->
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
-        el-input(v-model="formModel.categorytype")
+        el-select(v-model="formModel.categorytype" placeholder="请选择")
+          el-option(label="" value="")
+          el-option(label="推荐" value="推荐")
+          el-option(label="精华" value="精华")
+          el-option(label="置顶" value="置顶")
     </template>
 
 <script type="text/ecmascript-6">

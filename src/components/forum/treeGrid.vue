@@ -47,10 +47,10 @@
                 tr(v-for="(item,index) in initItems" v-bind:key="item.id" v-show="show(item)" v-bind:class="{'child-tr':item.parent,'active':item.id === checkId}" v-on:click="toSelect(item)")
                   td(v-for="(column,snum) in columns" v-bind:key="column.key" v-bind:style="tdStyle(column)")
                     div(v-if="column.type === 'action'")
-                      template(v-for="action in column.actions")
+                      template(v-for="action in optActions.actions")
                         template(v-if="isRowButtonSelf")
                           el-tooltip(v-bind:content="action.text" placement="top")
-                            el-button.base-teble-operation(type="text" v-on:click="btnSelfClick(item,action.type)" style="width:30px" v-bind:key="action.text") {{action.text}}
+                            el-button.base-teble-operation(type="text" v-on:click="btnSelfClick(item,action.type)" v-show="actionShow(item,action)" style="width:30px" v-bind:key="action.text") {{action.text}}
                         template(v-else)
                           el-tooltip(v-if="action.toolTipTitle" v-bind:content="action.toolTipTitle" placement="top")
                             el-button.base-teble-operation(type="text" v-on:click="btnClick(item,action.type)" style="width:30px" v-bind:key="action.text") {{action.text}}
@@ -223,11 +223,11 @@
       }
     },
     mounted() {
+      this.columns.push(this.optActions)
       this.getData()
       if (this.items) {
         this.dataLength = this.Length(this.items)
         this.initData(this.deepCopy(this.items), 1, null)
-        this.columns.push(this.optActions)
         this.cloneColumns = this.makeColumns()
         this.checkGroup = this.renderCheck(this.items)
         if (this.checkGroup.length === this.dataLength) {
@@ -267,6 +267,12 @@
       }
     },
     methods: {
+      actionShow(item, action) {
+        if (item.category === '1' && action.type === 'auditing') {
+          return false
+        }
+        return true
+      },
       // 获取表格数据
       getData() {
         if (!this.targetURL) {
@@ -639,6 +645,10 @@
             this.$emit('deleteClick', row)
             break
           }
+          case 'auditing': {
+            this.$emit('auditClick', row)
+            break
+          }
           default: // 默认转到调用props的方法
             this.customTableTool(row, btnId, this)
             break
@@ -657,7 +667,7 @@
         return {width: width + 'px'}
       }
     }
-}
+  }
 </script>
 <style lang="stylus" type="text/stylus">
   .kailx-ms-tree-space {

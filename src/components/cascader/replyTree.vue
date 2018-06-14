@@ -69,9 +69,12 @@ export default {
     handleNodeClick(data) {
       this.postId = data.value
       this.forumTitle = data.label
+      this.parentContent = data.content
       this.$emit('replyTreeClick', data)
       /* 发送事件供外部调用 */
-      console.log('--------this.forumTitle-------- ', data.label)
+      console.log('----replyTree----this.forumTitle-------- ', data.label)
+      console.log('----replyTree----this.postId-------- ', data.value)
+      console.log('----replyTree----this.content-------- ', data.content)
     },
     getData() {
       let url = ''
@@ -87,7 +90,6 @@ export default {
         params: {}
       }).then(res => {
         this.treeData = res.data.data
-        console.log('treeData ----------------------', this.treeData)
         this.$emit('handleAfterSearch')
       })
     }

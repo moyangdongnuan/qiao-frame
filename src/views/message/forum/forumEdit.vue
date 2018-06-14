@@ -2,7 +2,7 @@
   kalix-dialog.user-add(title='修改' bizKey="forum" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
       el-form-item(label="发帖人别名" prop="idcard" v-bind:label-width="labelWidth" v-bind:rules="rules.idcard")
-        el-input(v-model="formModel.idcard")
+        el-input(v-model="formModel.idcard" readonly)
       el-form-item(label="帖子标题" prop="title" v-bind:label-width="labelWidth" v-bind:rules="rules.title")
         el-input(v-model="formModel.title")
       el-form-item(label="帖子内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
@@ -14,7 +14,10 @@
       el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.category"  readonly)
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
-        el-input(v-model="formModel.categorytype")
+        kalix-select(v-model="formModel.categorytype" placeholder="请选择" v-bind:defaultSelectLabel="formModel.categorytype")
+          el-option(label="推荐" value="推荐")
+          el-option(label="精华" value="精华")
+          el-option(label="置顶" value="置顶")
 </template>
 
 <script type="text/ecmascript-6">

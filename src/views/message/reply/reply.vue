@@ -32,261 +32,250 @@
 </template>
 
 <script type="text/ecmascript-6">
-import FormModel from './model'
-import Message from '../../../common/message'
-import {replyMenuURL, replyItemBaseURL, QiaoReplyURL} from '../config.toml'
-import KalixReplyTree from '../../../components/cascader/replyTree'
-import KalixTreeGrid from '../../../components/forum/treeGrid'
+  import FormModel from './model'
+  import Message from '../../../common/message'
+  import {replyMenuURL, replyItemBaseURL, QiaoReplyURL} from '../config.toml'
+  import KalixReplyTree from '../../../components/cascader/replyTree'
+  import KalixTreeGrid from '../../../components/forum/treeGrid'
 
-export default {
-  name: 'kalix-qiao-reply',
-  data() {
-    return {
-      name: '',
-      noSearchParam: true,
-      itemBasePath: replyItemBaseURL,
-      toolbarBtnList: [
-        {id: 'add', isShow: false},
-        {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
-      ],
-      treeToolbarBtnList: [
-        {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
-      ],
-      targetUrl: replyMenuURL,
-      treeUrl: QiaoReplyURL + '/getReplyByPostId?postId=-1',
-      // QiaoReplyURL: QiaoReplyURL,
-      menuItems: [],
-      addFormModel: Object.assign({}, FormModel),
-      editFormModel: Object.assign({}, FormModel),
-      auditingFormModel: Object.assign({}, FormModel),
-      postId: undefined,
-      froumTitle: undefined,
-      parentId: undefined,
-      kalixDialog: undefined,
-      currentRow: undefined,
-      isIconSelf: true,
-      jsonStr: '',
-      bizDialog: [
-        {id: 'add', dialog: 'replyAdd'},
-        {id: 'auditing', dialog: 'replyAuditing'},
-        {id: 'edit', dialog: 'replyEdit'}
-      ],
-      optActions: {
-        title: '操作',
-        type: 'action',
-        actions: [{
-          type: 'edit',
-          text: '编辑',
-          icon: 'el-icon-edit'
+  export default {
+    name: 'kalix-qiao-reply',
+    data() {
+      return {
+        name: '',
+        noSearchParam: true,
+        itemBasePath: replyItemBaseURL,
+        toolbarBtnList: [
+          {id: 'add', isShow: false},
+          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+        ],
+        treeToolbarBtnList: [
+          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+        ],
+        targetUrl: replyMenuURL,
+        treeUrl: QiaoReplyURL + '/getReplyByPostId?postId=-1',
+        // QiaoReplyURL: QiaoReplyURL,
+        menuItems: [],
+        addFormModel: Object.assign({}, FormModel),
+        editFormModel: Object.assign({}, FormModel),
+        auditingFormModel: Object.assign({}, FormModel),
+        postId: undefined,
+        froumTitle: undefined,
+        parentId: undefined,
+        kalixDialog: undefined,
+        currentRow: undefined,
+        isIconSelf: true,
+        jsonStr: '',
+        bizDialog: [
+          {id: 'add', dialog: 'replyAdd'},
+          {id: 'auditing', dialog: 'replyAuditing'},
+          {id: 'edit', dialog: 'replyEdit'}
+        ],
+        optActions: {
+          title: '操作',
+          type: 'action',
+          actions: [{
+            type: 'edit',
+            text: '编辑',
+            icon: 'el-icon-edit'
+          }, {
+            type: 'delete',
+            text: '删除',
+            icon: 'el-icon-delete'
+          }, {
+            type: 'auditing',
+            text: '审核',
+            icon: 'el-icon-auditing'
+          }],
+          width: '150'
+        },
+        columns: [{
+          type: 'hidden',
+          key: 'id',
+          width: '0'
         }, {
-          type: 'delete',
-          text: '删除',
-          icon: 'el-icon-delete'
+          type: 'hidden',
+          key: 'parentId',
+          width: '0'
         }, {
-          type: 'auditing',
-          text: '审核',
-          icon: 'el-icon-auditing'
-        }],
-        width: '150'
+          title: '回复人姓名',
+          key: 'username',
+          width: '150'
+        }, {
+          title: '回复内容',
+          key: 'content',
+          width: '120'
+        }, {
+          title: '回复时间',
+          key: 'creationDate',
+          width: '120'
+        }, {
+          title: '审核状态',
+          key: 'categoryName',
+          width: '120'
+        }, {
+          type: 'hidden',
+          key: 'category',
+          width: '0'
+        }, {
+          type: 'hidden',
+          key: 'postId',
+          width: '0'
+        }]
+      }
+    },
+    components: {
+      KalixReplyTree,
+      KalixTreeGrid1: KalixTreeGrid
+    },
+    computed: {},
+    mounted() {
+      this.jsonStr = `{ '%username%': ''}`
+    },
+    methods: {
+      onReplyTreeClick(data) {
+        this.postId = data.value
+        this.forumTitle = data.label
+        this.parentContent = data.content
+        this.jsonStr = `{'%username%': ''}`
+        this.treeUrl = QiaoReplyURL + '/getReplyByPostId?postId=' + data.value
+        this.dialogOptions = {
+          postId: data.value,
+          forumTitle: data.label
+        }
       },
-      columns: [{
-        type: 'hidden',
-        key: 'id',
-        width: '0'
-      }, {
-        type: 'hidden',
-        key: 'parentId',
-        width: '0'
-      }, {
-        title: '回复人姓名',
-        key: 'username',
-        width: '150'
-      }, {
-        title: '回复内容',
-        key: 'content',
-        width: '120'
-      }, {
-        title: '回复时间',
-        key: 'creationDate',
-        width: '120'
-      }, {
-        title: '审核状态',
-        key: 'categoryName',
-        width: '120'
-      }, {
-        type: 'hidden',
-        key: 'category',
-        width: '0'
-      }, {
-        type: 'hidden',
-        key: 'postId',
-        width: '0'
-      }]
-    }
-  },
-  components: {
-    KalixReplyTree,
-    KalixTreeGrid1: KalixTreeGrid
-  },
-  computed: {},
-  mounted() {
-    this.jsonStr = `{ '%username%': ''}`
-  },
-  methods: {
-    onReplyTreeClick(data) {
-      this.postId = data.value
-      this.forumTitle = data.label
-      this.jsonStr = `{'%username%': ''}`
-      this.treeUrl = QiaoReplyURL + '/getReplyByPostId?postId=' + data.value
-      this.dialogOptions = {
-        postId: data.value,
-        forumTitle: data.label
-      }
-    },
-    showCheckText(_data) {
-      this.showCheck(_data)
-    },
-    showCheck(_data) {
-      if (_data) {
-        _data.forEach((e) => {
-          e.categoryName = e.category === '0' ? '未审核' : '已审核'
-          if (e.category === '1') {
-            this.optActions = {
-              title: '操作',
-              type: 'action',
-              actions: [{
-                type: 'edit',
-                text: '编辑',
-                icon: 'el-icon-edit'
-              }, {
-                type: 'delete',
-                text: '删除',
-                icon: 'el-icon-delete'
-              }],
-              width: '150'
+      showCheckText(_data) {
+        this.showCheck(_data)
+      },
+      showCheck(_data) {
+        if (_data) {
+          _data.forEach((e) => {
+            e.categoryName = e.category === '0' ? '未审核' : '已审核'
+            if (e.children) {
+              this.showCheck(e.children)
             }
-          }
-          if (e.children) {
-            this.showCheck(e.children)
-          }
+          })
+        }
+      },
+      onToolBarClick(btnId) {
+        if (btnId === 'add') {
+          this.onAddClick()
+        }
+        if (btnId === 'refresh') {
+          this.onRefreshClick()
+        }
+      },
+      btnClick(row, btnId) {
+        if (btnId === 'edit') {
+          this.onEditClick(row)
+        }
+        if (btnId === 'delete') {
+          this.onDeleteClick(row)
+        }
+        if (btnId === 'auditing') {
+          this.onAuditingClick(row)
+        }
+      },
+      onRefreshClick() {
+        if (this.treeUrl !== undefined) {
+          this.$refs.kalixTreeGrid.getData()
+        }
+      },
+      onAddClick() {
+        if (this.forumTitle === undefined || this.postId === undefined) {
+          Message.error('请选择要回复的帖子！')
+          return
+        }
+        let that = this
+        this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
+          this.kalixDialog = _kalixDialog
+          setTimeout(() => {
+            this.addFormModel.forumTitle = this.forumTitle
+            this.addFormModel.postId = this.postId
+            if (this.currentRow === undefined) {
+              this.addFormModel.parentName = '根目录'
+              this.addFormModel.parentId = '-1'
+              this.addFormModel.parentContent = this.parentContent
+            } else {
+              this.addFormModel.parentName = this.currentRow.username
+              this.addFormModel.parentId = this.currentRow.id
+              this.addFormModel.parentContent = this.currentRow.content
+            }
+            this.addFormModel.isLeaf = '0'
+            this.addFormModel.category = '0'
+            this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
+            if (typeof (that.kalixDialog.init) === 'function') {
+              that.kalixDialog.init(this.dialogOptions) //  需要传参数，就在dialog里面定义init方法
+            }
+          }, 20)
         })
-      }
-    },
-    onToolBarClick(btnId) {
-      if (btnId === 'add') {
-        this.onAddClick()
-      }
-      if (btnId === 'refresh') {
-        this.onRefreshClick()
-      }
-    },
-    btnClick(row, btnId) {
-      if (btnId === 'edit') {
-        this.onEditClick(row)
-      }
-      if (btnId === 'delete') {
-        this.onDeleteClick(row)
-      }
-      if (btnId === 'auditing') {
-        this.onAuditingClick(row)
-      }
-    },
-    onRefreshClick() {
-      if (this.treeUrl !== undefined) {
-        this.$refs.kalixTreeGrid.getData()
-      }
-    },
-    onAddClick() {
-      if (this.forumTitle === undefined || this.postId === undefined || this.currentRow === undefined) {
-        Message.error('请选择要回复的帖子！')
-        return
-      }
-      let that = this
-      this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
-        this.kalixDialog = _kalixDialog
-        setTimeout(() => {
-          this.addFormModel.forumTitle = this.forumTitle
-          this.addFormModel.postId = this.postId
-          if (this.currentRow === undefined) {
-            this.addFormModel.parentName = '根目录'
-            this.addFormModel.parentId = '-1'
-          } else {
-            this.addFormModel.parentName = this.currentRow.username
-            this.addFormModel.parentId = this.currentRow.id
-          }
-          this.addFormModel.isLeaf = '0'
-          this.addFormModel.category = '0'
-          this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
-          if (typeof (that.kalixDialog.init) === 'function') {
-            that.kalixDialog.init(this.dialogOptions) //  需要传参数，就在dialog里面定义init方法
-          }
-        }, 20)
-      })
-    },
-    onEditClick(row) {
-      let that = this
-      this.$refs.kalixTreeGrid.getKalixDialog('edit', (_kalixDialog) => {
-        this.kalixDialog = _kalixDialog
-        setTimeout(() => {
-          this.editFormModel = row
-          this.editFormModel.forumTitle = this.forumTitle
-          if (row.dataPermission !== true) {
-            row.dataPermission = false
-          }
-          this.editFormModel.dataPermission = row.dataPermission + ''
-          console.log('this.editFormModel==============', this.editFormModel)
-          this.kalixDialog.$refs.kalixBizDialog.open('编辑', true, this.editFormModel)
-          if (typeof (that.kalixDialog.init) === 'function') {
-            that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
-          }
-        }, 20)
-      })
-    },
-    onDeleteClick(row) {
-      this.$confirm('确定要删除吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        return this.axios.request({
-          method: 'DELETE',
-          url: QiaoReplyURL + '/' + row.id,
-          params: {},
-          data: {
-            id: row.id
-          }
+      },
+      onEditClick(row) {
+        let that = this
+        this.$refs.kalixTreeGrid.getKalixDialog('edit', (_kalixDialog) => {
+          this.kalixDialog = _kalixDialog
+          setTimeout(() => {
+            this.editFormModel = row
+            this.editFormModel.forumTitle = this.forumTitle
+            this.editFormModel.parentContent = this.editFormModel.content
+            if (row.dataPermission !== true) {
+              row.dataPermission = false
+            }
+            this.editFormModel.dataPermission = row.dataPermission + ''
+            console.log('this.editFormModel==============', this.editFormModel)
+            this.kalixDialog.$refs.kalixBizDialog.open('编辑', true, this.editFormModel)
+            if (typeof (that.kalixDialog.init) === 'function') {
+              that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            }
+          }, 20)
         })
-      }).then(response => {
-        this.$refs.kalixTreeGrid.getData()
-        Message.success(response.data.msg)
-      }).catch(() => {
-      })
-    },
-    onAuditingClick(row) {
-      console.log('===========================auditingClick=================================')
-      let that = this
-      this.$refs.kalixTreeGrid.getKalixDialog('auditing', (_kalixDialog) => {
-        this.kalixDialog = _kalixDialog
-        setTimeout(() => {
-          this.auditingFormModel = row
-          if (row.dataPermission !== true) {
-            row.dataPermission = false
-          }
-          this.auditingFormModel.dataPermission = row.dataPermission + ''
-          console.log('this.auditingFormModel==============', this.auditingFormModel)
-          // this.kalixDialog.$refs.kalixBizDialog.open('审核', true, this.auditingFormModel)
-          if (typeof (that.kalixDialog.init) === 'function') {
-            that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
-          }
-        }, 20)
-      })
-    },
-    getSelectRow(val) {
-      console.log('getSelectRow========', val)
-      this.currentRow = val
+      },
+      onDeleteClick(row) {
+        this.$confirm('确定要删除吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          return this.axios.request({
+            method: 'DELETE',
+            url: QiaoReplyURL + '/' + row.id,
+            params: {},
+            data: {
+              id: row.id
+            }
+          })
+        }).then(response => {
+          this.$refs.kalixTreeGrid.getData()
+          Message.success(response.data.msg)
+        }).catch(() => {
+        })
+      },
+      onAuditingClick(row) {
+        let that = this
+        this.$refs.kalixTreeGrid.getKalixDialog('auditing', (_kalixDialog) => {
+          this.kalixDialog = _kalixDialog
+          setTimeout(() => {
+            this.editFormModel = row
+            // this.editFormModel.forumTitle = this.forumTitle
+            // this.editFormModel.parentContent = this.editFormModel.content
+            // if (row.dataPermission !== true) {
+            //  row.dataPermission = false
+            // }
+            // this.editFormModel.dataPermission = row.dataPermission + ''
+            console.log('this.editFormModel==============', this.editFormModel)
+            this.kalixDialog.$refs.kalixBizDialog.open('编辑', true, this.editFormModel)
+            if (typeof (that.kalixDialog.init) === 'function') {
+              that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
+            }
+          }, 20)
+        })
+      },
+      getSelectRow(val) {
+        console.log('getSelectRow========', val)
+        this.currentRow = val
+      }
     }
   }
-}
 </script>
 
 <style scoped lang="stylus" type="text/stylus">

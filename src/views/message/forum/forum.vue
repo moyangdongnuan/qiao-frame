@@ -46,10 +46,9 @@
       customTableTool(row, btnId, that) {
         switch (btnId) {
           case 'auditing': {
-            console.log('=======================shenhe=======================')
             // 审核功能
-            that.whichBizDialog = ''
-            console.log('that.forumDialog=========', that.forumDialog)
+            this.whichBizDialog = ''
+            console.log('that.forumDialog=========', this.forumDialog)
             let dig =
               this.forumDialog.filter((item) => {
                 return item.id === 'auditing'
