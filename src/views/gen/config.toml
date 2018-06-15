@@ -9,3 +9,8 @@ QiaoExportURL = "/camel/rest/exports"
 # 地图
 QiaoMapURL = "/camel/rest/maps"
 
+
+
+#族人管理
+QiaoClansmanURL = "/camel/rest/clansmans"
+

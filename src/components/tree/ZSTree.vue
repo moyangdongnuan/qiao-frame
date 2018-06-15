@@ -28,8 +28,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Message from '../../../node_modules/kalix-vue-lib/src/common/message'
-
   export default {
     name: 'qiao-tree',
     activated() {
@@ -104,13 +102,22 @@
       handleNodeClick() {
       },
       remove(data) {
-        Message.warning('是否确认删除')
-        this.$http
-          .get('/camel/rest/genealogys/' + data.modelId, {
-          })
-          .then(res => {
-            console.info('----treeData------', res)
-          })
+        this.$confirm('是否确认删除家谱及谱下族人信息?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          return this.$http
+            .get('/camel/rest/genealogys/deleteById?id=' + data.modelId, {
+            })
+            .then(res => {
+              this.tjOptions()
+              console.info('----treeData------', res)
+            })
+        }).then(response => {
+          this.$refs.orgTree.tjOptions()
+        }).catch(() => {
+        })
       },
       onViewClick(data) {
         // 添加按钮点击事件

@@ -23,14 +23,16 @@
       defaultSelect: { // 是否开启默认选中
         type: Boolean, default: false
       },
+      defaultOptions: {
+        type: Array, default: null
+      },
       cascaderType: { // 三级联动所属字段
         type: String, default: ''
       }
     },
     data() {
       return {
-        initOpt: [],
-        defaultOptions: []
+        initOpt: []
       }
     },
     created() {
@@ -51,7 +53,6 @@
           this.$http
             .get(this.requestUrl, {})
             .then(res => {
-              console.log('-----this.initOpt------', res.data)
               this.initOpt = JSON.parse(res.data.data)
               Cache.save(DictKey, JSON.stringify(this.initOpt))
             })
