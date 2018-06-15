@@ -7,6 +7,16 @@ QiaoReplyURL = "/camel/rest/replys"
 #回复管理留言类型下拉列表
 QiaoMenuURL = "/camel/rest/menus"
 
+# 类型标识下拉列表
+DictURL = "/camel/rest/dicts/getLabelByType"
+
+
+# 留言审核
+ForumCategoryURL = "/camel/rest/forums/getCategory"
+# 留言审核
+ReplyCategoryURL = "/camel/rest/replys/getCategory"
+
+
 # 回复管理菜单
 replyMenuURL = "camel/rest/forums/extend/tree"
 # 回复管理点击菜单节点

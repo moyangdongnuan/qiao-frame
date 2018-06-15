@@ -34,7 +34,7 @@
 <script type="text/ecmascript-6">
   import FormModel from './model'
   import Message from '../../../common/message'
-  import {replyMenuURL, replyItemBaseURL, QiaoReplyURL} from '../config.toml'
+  import {replyMenuURL, replyItemBaseURL, QiaoReplyURL, ReplyCategoryURL} from '../config.toml'
   import KalixReplyTree from '../../../components/cascader/replyTree'
   import KalixTreeGrid from '../../../components/forum/treeGrid'
 
@@ -68,7 +68,6 @@
         jsonStr: '',
         bizDialog: [
           {id: 'add', dialog: 'replyAdd'},
-          {id: 'auditing', dialog: 'replyAuditing'},
           {id: 'edit', dialog: 'replyEdit'}
         ],
         optActions: {
@@ -251,23 +250,20 @@
         })
       },
       onAuditingClick(row) {
-        let that = this
-        this.$refs.kalixTreeGrid.getKalixDialog('auditing', (_kalixDialog) => {
-          this.kalixDialog = _kalixDialog
-          setTimeout(() => {
-            this.editFormModel = row
-            // this.editFormModel.forumTitle = this.forumTitle
-            // this.editFormModel.parentContent = this.editFormModel.content
-            // if (row.dataPermission !== true) {
-            //  row.dataPermission = false
-            // }
-            // this.editFormModel.dataPermission = row.dataPermission + ''
-            console.log('this.editFormModel==============', this.editFormModel)
-            this.kalixDialog.$refs.kalixBizDialog.open('编辑', true, this.editFormModel)
-            if (typeof (that.kalixDialog.init) === 'function') {
-              that.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
-            }
-          }, 20)
+        this.$confirm('确定要审核吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          return this.$http
+            .get(ReplyCategoryURL + '?id=' + row.id, {})
+            .then(res => {
+              console.log('-----this.initOpt------', res.data)
+            })
+        }).then(response => {
+          this.$refs.kalixTreeGrid.getData()
+          Message.success(response.data.msg)
+        }).catch(() => {
         })
       },
       getSelectRow(val) {

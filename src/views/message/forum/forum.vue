@@ -10,7 +10,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {QiaoForumURL} from '../../message/config.toml'
+  import {QiaoForumURL, ForumCategoryURL} from '../../message/config.toml'
   import {forumConfigBtnList} from './config'
 
   export default {
@@ -35,7 +35,6 @@
         ],
         forumDialog: [
           {id: 'add', dialog: 'QiaoForumAdd'},
-          {id: 'auditing', dialog: 'QiaoForumAuditing'},
           {id: 'view', dialog: 'QiaoForumView'},
           {id: 'edit', dialog: 'QiaoForumEdit'}
         ],
@@ -47,16 +46,20 @@
         switch (btnId) {
           case 'auditing': {
             // 审核功能
-            this.whichBizDialog = ''
-            console.log('that.forumDialog=========', this.forumDialog)
-            let dig =
-              this.forumDialog.filter((item) => {
-                return item.id === 'auditing'
-              })
-            that.whichBizDialog = dig[0].dialog
-            setTimeout(() => {
-              that.$refs.kalixDialog.$refs.kalixBizDialog.open('审核', false, row)
-            }, 20)
+            this.$confirm('确定要审核吗?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              return this.$http
+                .get(ForumCategoryURL + '?id=' + row.id, {})
+                // .then(res => {
+                //   console.log('-----this.initOpt------', res.data)
+                // })
+            }).then(response => {
+              this.$refs.kalixTable.getData()
+            }).catch(() => {
+            })
             break
           }
         }

@@ -11,19 +11,15 @@
         kalix-select(v-model="formModel.menuName" v-bind:requestUrl="menuURL"
         appName="forumMenu"  placeholder="请选择菜单分类" v-bind:paramObj="menuParam"
         v-bind:defaultSelect="true" v-on:selectChange="setGroup")
-      <!--el-form-item(label="审核标识" prop="category" v-bind:label-width="labelWidth" v-bind:rules="rules.category")-->
-        <!--el-input(v-model="formModel.category")-->
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
-        el-select(v-model="formModel.categorytype" placeholder="请选择")
-          el-option(label="" value="")
-          el-option(label="推荐" value="推荐")
-          el-option(label="精华" value="精华")
-          el-option(label="置顶" value="置顶")
+        kalix-select(v-model="formModel.categorytype" v-bind:requestUrl="dictURL" appName="dictMenu"  placeholder="请选择类型标识"
+        v-bind:paramObj="dictParam" v-bind:defaultSelect="true" v-on:selectChange="selectChange")
+          // el-option(label="" value="")
     </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {QiaoForumURL, QiaoMenuURL} from '../../message/config.toml'
+  import {QiaoForumURL, QiaoMenuURL, DictURL} from '../../message/config.toml'
   import KalixSelect from 'kalix-vue-lib/src/components/common/baseSelect'
 
   export default {
@@ -42,8 +38,10 @@
           categorytype: [{message: '请输入类型标识'}]
         },
         menuURL: QiaoMenuURL,
+        dictURL: DictURL,
         targetURL: QiaoForumURL,
         menuParam: undefined,
+        dictParam: undefined,
         options: [],
         name: ''
       }
@@ -53,6 +51,10 @@
       },
       setGroup(item) {
         this.formModel.menuName = item.name
+      },
+      selectChange(item) {
+        console.log('-----------------item--------------------', item)
+        this.formModel.categorytype = item.label
       }
     }
   }
