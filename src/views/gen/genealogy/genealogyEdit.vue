@@ -37,11 +37,12 @@
     },
     methods: {
       init(dialogOption) {
-        console.info('dialogOption.orgName=========', dialogOption)
         this.$http
           .get('/camel/rest/genealogys/findById?id=' + dialogOption.modelId, {})
           .then(res => {
             this.formModel = res.data.data[0]
+            this.defaultOptions = res.data.data[0].defaultOption.data
+            console.log('---defaultOption----', this.defaultOptions)
           })
       },
       getValue(data) {

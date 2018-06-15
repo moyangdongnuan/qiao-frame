@@ -5,13 +5,33 @@
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
           kalix-qiao-tree(v-bind:bizDialog="bizDialog" v-bind:requestUrl="treeDefaultRequestUrl")
         el-col.duty-col(:span="16")
-          kalix-qiao-form(value="" organizationId="")
+         <!--kalix-qiao-form(value="" organizationId="")-->
+          kalix-tree-grid-1.duty-wrapper(bizKey="clansman" title="族人管理"
+          style="padding-top:0"
+          ref="kalixTreeGrid"
+          v-bind:targetURL="treeUrl"
+          v-bind:isToolBarSelf="true"
+          v-bind:toolbarBtnList="treeToolbarBtnList"
+          v-bind:onToolBarSelfClick="onToolBarClick"
+          v-bind:bizDialog="bizDialog"
+          v-bind:columns='columns'
+          v-bind:customRender="showCheckText"
+          v-on:selectedRow="getSelectRow"
+          v-bind:isRowButtonSelf="true"
+          v-bind:btnSelfClick="btnClick"
+          v-bind:jsonStr="jsonStr"
+          v-bind:noSearchParam:sync="noSearchParam"
+          v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch"
+          v-bind:optActions="optActions"
+          )
 </template>
 
 <script>
-  import {GenealogyButtonList, QiaoGenealogyTreeURL} from '../config.toml'
+  import {QiaoGenealogyTreeURL, QiaoClansmanURL} from '../config.toml'
   import QiaoTree from '../../../components/tree/ZSTree'
   import QiaoForm from '../../../components/form/Jyform'
+  import KalixTreeGrid1 from '../../../components/forum/treeGrid'
+  import ClansmanModel from './clansman_model'
 
   export default {
     name: 'kalix-qiao-genealogy',
@@ -24,7 +44,6 @@
       return {
         dialogOptions: {},
         isFixedColumn: true,
-        btnList: GenealogyButtonList,
         treeDefaultRequestUrl: QiaoGenealogyTreeURL,
         targetURL: '',
         orgId: -1,
@@ -35,6 +54,76 @@
           {id: 'add', dialog: 'GenealogyAdd'},
           {id: 'addUser', dialog: 'GenealogyAddUser'}
         ],
+        noSearchParam: true,
+        itemBasePath: QiaoClansmanURL,
+        toolbarBtnList: [
+          {id: 'add', isShow: false},
+          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+        ],
+        treeToolbarBtnList: [
+          {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
+        ],
+        targetUrl: QiaoClansmanURL,
+        treeUrl: QiaoClansmanURL + '/getReplyByPostId?postId=-1',
+        // QiaoReplyURL: QiaoReplyURL,
+        menuItems: [],
+        addFormModel: Object.assign({}, ClansmanModel),
+        editFormModel: Object.assign({}, ClansmanModel),
+        auditingFormModel: Object.assign({}, ClansmanModel),
+        postId: undefined,
+        froumTitle: undefined,
+        parentId: undefined,
+        kalixDialog: undefined,
+        currentRow: undefined,
+        isIconSelf: true,
+        jsonStr: '',
+        optActions: {
+          title: '操作',
+          type: 'action',
+          actions: [{
+            type: 'edit',
+            text: '编辑',
+            icon: 'el-icon-edit'
+          }, {
+            type: 'delete',
+            text: '删除',
+            icon: 'el-icon-delete'
+          }],
+          width: '150'
+        },
+        columns: [{
+          type: 'hidden',
+          key: 'id',
+          width: '0'
+        }, {
+          type: 'hidden',
+          key: 'parentId',
+          width: '0'
+        }, {
+          title: '回复人姓名',
+          key: 'username',
+          width: '150'
+        }, {
+          title: '回复内容',
+          key: 'content',
+          width: '120'
+        }, {
+          title: '回复时间',
+          key: 'creationDate',
+          width: '120'
+        }, {
+          title: '审核状态',
+          key: 'categoryName',
+          width: '120'
+        }, {
+          type: 'hidden',
+          key: 'category',
+          width: '0'
+        }, {
+          type: 'hidden',
+          key: 'postId',
+          width: '0'
+        }],
         tableHeight: 0 //  列表组件高度
         // bizSearch: 'AdminDutySearch'
       }
@@ -42,6 +131,7 @@
     mounted() {
     },
     components: {
+      KalixTreeGrid1,
       kalixQiaoTree: QiaoTree,
       kalixQiaoForm: QiaoForm
     }
