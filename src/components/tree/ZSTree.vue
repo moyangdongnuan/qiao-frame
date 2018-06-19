@@ -5,26 +5,26 @@
 -->
 
 <template lang="pug">
-      keep-alive
-        div.block
-          el-button(v-on:click="onAddClick") 新增家谱
-          el-tree.filter-tree(node-key="id" default-expand-all
-          v-bind:expand-on-click-node="false"
-          v-bind:data="treeData"
-          v-bind:props="defaultProps"
-          accordion
-          highlight-current
-          v-on:node-click="handleNodeClick"
-          ref="orgTree")
-            span.custom-tree-node(slot-scope="{ node, data }")
-              span {{ node.label }}
-              span
-                el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
-                el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
-                el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
-          component(:is="whichBizDialog" ref="kalixDialog"
-          v-bind:formModel="formModel"
-          v-bind:formRules="formRules")
+  keep-alive
+    div.block
+      el-button(v-on:click="onAddClick") 新增家谱
+      el-tree.filter-tree(node-key="id" default-expand-all
+      v-bind:expand-on-click-node="false"
+      v-bind:data="treeData"
+      v-bind:props="defaultProps"
+      accordion
+      highlight-current
+      v-on:node-click="handleNodeClick"
+      ref="orgTree")
+        span.custom-tree-node(slot-scope="{ node, data }")
+          span {{ node.label }}
+          span
+            el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
+            el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
+            el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
+      component(:is="whichBizDialog" ref="kalixDialog"
+      v-bind:formModel="formModel"
+      v-bind:formRules="formRules")
 </template>
 
 <script type="text/ecmascript-6">
@@ -79,11 +79,12 @@
         defaultProps: '',
         whichBizDialog: '',
         filterText: '',
+        modelId: 0,
         treeData: ''
       }
     },
     watch: {
-      flag: function() {
+      flag: function () {
         this.tjOptions()
       }
     },
@@ -99,7 +100,13 @@
             this.treeData = res.data.data
           })
       },
-      handleNodeClick() {
+      handleNodeClick(data) {
+        console.log('---handleNodeClick--', data)
+        if (data.modelId !== this.modelId) {
+          this.modelId = data.modelId
+          this.$emit('setNodeId', this.modelId)
+          console.log(this.modelId)
+        }
       },
       remove(data) {
         this.$confirm('是否确认删除家谱及谱下族人信息?', '提示', {
@@ -108,8 +115,7 @@
           type: 'warning'
         }).then(() => {
           return this.$http
-            .get('/camel/rest/genealogys/deleteById?id=' + data.modelId, {
-            })
+            .get('/camel/rest/genealogys/deleteById?id=' + data.modelId, {})
             .then(res => {
               this.tjOptions()
               console.info('----treeData------', res)
@@ -183,6 +189,7 @@
         padding 0 12px
         box-sizing border-box
         overflow auto
+
   .custom-tree-node {
     flex: 1;
     display: flex;

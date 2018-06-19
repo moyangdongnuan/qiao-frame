@@ -3,7 +3,7 @@
     keep-alive
       el-row.duty-row(:gutter="0")
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
-          kalix-qiao-tree(v-bind:bizDialog="bizDialog" v-bind:requestUrl="treeDefaultRequestUrl")
+          kalix-qiao-tree(v-bind:bizDialog="bizDialog" v-bind:requestUrl="treeDefaultRequestUrl" v-on:setNodeId="getNodeId")
         el-col.duty-col(:span="16")
          <!--kalix-qiao-form(value="" organizationId="")-->
           kalix-tree-grid-1.duty-wrapper(bizKey="clansman" title="族人管理"
@@ -13,7 +13,7 @@
           v-bind:isToolBarSelf="true"
           v-bind:toolbarBtnList="treeToolbarBtnList"
           v-bind:onToolBarSelfClick="onToolBarClick"
-          v-bind:bizDialog="bizDialog"
+          v-bind:bizDialog="clansmanBizDialog"
           v-bind:columns='columns'
           v-bind:customRender="showCheckText"
           v-on:selectedRow="getSelectRow"
@@ -29,19 +29,49 @@
 <script>
   import {QiaoGenealogyTreeURL, QiaoClansmanURL} from '../config.toml'
   import QiaoTree from '../../../components/tree/ZSTree'
-  import QiaoForm from '../../../components/form/Jyform'
   import KalixTreeGrid1 from '../../../components/forum/treeGrid'
   import ClansmanModel from './clansman_model'
 
   export default {
     name: 'kalix-qiao-genealogy',
     isFixedColumn: true,
-    watch: {},
-    methods: {
+    watch: {
+      flag(val) {
+        this.treeUrl = QiaoClansmanURL + '/getClansmanByGenealogyId?genealogyId=' + val
+      }
     },
-
+    methods: {
+      getNodeId(data) {
+        console.log('---getNodeId--', data)
+        this.flag = data
+      },
+      btnClick(val, actionType) {
+        console.log('--btnClick--', val, actionType)
+      },
+      onToolBarClick(btnId) {
+        console.log('-----onToolBarClicka-------', btnId)
+        if (btnId === 'refresh') {
+          this.$refs.kalixTreeGrid.getData()
+        } else {
+          let that = this
+          this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
+            this.kalixDialog = _kalixDialog
+            setTimeout(() => {
+              this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
+              if (typeof (that.kalixDialog.init) === 'function') {
+                that.kalixDialog.init(this.dialogOptions) //  需要传参数，就在dialog里面定义init方法
+              }
+            }, 20)
+          })
+        }
+      }
+    },
+    computed: {
+    },
     data() {
       return {
+        flag: 0,
+        treeUrl: '',
         dialogOptions: {},
         isFixedColumn: true,
         treeDefaultRequestUrl: QiaoGenealogyTreeURL,
@@ -54,6 +84,12 @@
           {id: 'add', dialog: 'GenealogyAdd'},
           {id: 'addUser', dialog: 'GenealogyAddUser'}
         ],
+        clansmanBizDialog: [
+          {id: 'view', dialog: 'GenealogyView'},
+          {id: 'edit', dialog: 'GenealogyEdit'},
+          {id: 'add', dialog: 'clansmanAdd'},
+          {id: 'addUser', dialog: 'GenealogyAddUser'}
+        ],
         noSearchParam: true,
         itemBasePath: QiaoClansmanURL,
         toolbarBtnList: [
@@ -64,13 +100,11 @@
           {id: 'refresh', isShow: true, icon: 'icon-refresh', title: '刷新'}
         ],
         targetUrl: QiaoClansmanURL,
-        treeUrl: QiaoClansmanURL + '/getReplyByPostId?postId=-1',
-        // QiaoReplyURL: QiaoReplyURL,
         menuItems: [],
         addFormModel: Object.assign({}, ClansmanModel),
         editFormModel: Object.assign({}, ClansmanModel),
         auditingFormModel: Object.assign({}, ClansmanModel),
-        postId: undefined,
+        postId: '0',
         froumTitle: undefined,
         parentId: undefined,
         kalixDialog: undefined,
@@ -100,8 +134,8 @@
           key: 'parentId',
           width: '0'
         }, {
-          title: '回复人姓名',
-          key: 'username',
+          title: '族人姓名',
+          key: 'name',
           width: '150'
         }, {
           title: '回复内容',
@@ -132,8 +166,7 @@
     },
     components: {
       KalixTreeGrid1,
-      kalixQiaoTree: QiaoTree,
-      kalixQiaoForm: QiaoForm
+      kalixQiaoTree: QiaoTree
     }
   }
 </script>
