@@ -8,6 +8,7 @@ import Duty from '../admin/organize/duty'
 import Org from '../admin/organize/org'
 import Orgchart from '../admin/organize/orgchart'
 import Orguser from '../admin/organize/orguser'
+import Function from '../admin/system/function'
 import Admindict from '../admin/system/admindict'
 import Audit from '../admin/system/audit'
 import Auditconfig from '../admin/system/auditconfig'
@@ -37,6 +38,7 @@ Duty.install(Vue)
 Org.install(Vue)
 Orgchart.install(Vue)
 Orguser.install(Vue)
+Function.install(Vue)
 Admindict.install(Vue)
 Audit.install(Vue)
 Auditconfig.install(Vue)
