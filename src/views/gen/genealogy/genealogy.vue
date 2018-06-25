@@ -15,8 +15,6 @@
           v-bind:onToolBarSelfClick="onToolBarClick"
           v-bind:bizDialog="clansmanBizDialog"
           v-bind:columns='columns'
-          v-bind:customRender="showCheckText"
-          v-on:selectedRow="getSelectRow"
           v-bind:isRowButtonSelf="true"
           v-bind:btnSelfClick="btnClick"
           v-bind:jsonStr="jsonStr"
@@ -47,6 +45,29 @@
       },
       btnClick(val, actionType) {
         console.log('--btnClick--', val, actionType)
+        if (actionType === 'edit') {
+          let that = this
+          this.$refs.kalixTreeGrid.getKalixDialog('edit', (_kalixDialog) => {
+            this.kalixDialog = _kalixDialog
+            setTimeout(() => {
+              this.kalixDialog.$refs.kalixBizDialog.open('修改', false, this.addFormModel)
+              if (typeof (that.kalixDialog.init) === 'function') {
+                that.kalixDialog.init(val) //  需要传参数，就在dialog里面定义init方法
+              }
+            }, 20)
+          })
+        } else if (actionType === 'addChildren') {
+          let that = this
+          this.$refs.kalixTreeGrid.getKalixDialog('addChildren', (_kalixDialog) => {
+            this.kalixDialog = _kalixDialog
+            setTimeout(() => {
+              this.kalixDialog.$refs.kalixBizDialog.open('添加配偶子女', false, this.addFormModel)
+              if (typeof (that.kalixDialog.init) === 'function') {
+                that.kalixDialog.init(this.flag, val.id) //  需要传参数，就在dialog里面定义init方法
+              }
+            }, 20)
+          })
+        }
       },
       onToolBarClick(btnId) {
         console.log('-----onToolBarClicka-------', btnId)
@@ -59,7 +80,7 @@
             setTimeout(() => {
               this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
               if (typeof (that.kalixDialog.init) === 'function') {
-                that.kalixDialog.init(this.dialogOptions) //  需要传参数，就在dialog里面定义init方法
+                that.kalixDialog.init(this.flag, -1) //  需要传参数，就在dialog里面定义init方法
               }
             }, 20)
           })
@@ -82,11 +103,11 @@
           {id: 'view', dialog: 'GenealogyView'},
           {id: 'edit', dialog: 'GenealogyEdit'},
           {id: 'add', dialog: 'GenealogyAdd'},
-          {id: 'addUser', dialog: 'GenealogyAddUser'}
+          {id: 'generation', dialog: 'generation'}
         ],
         clansmanBizDialog: [
-          {id: 'view', dialog: 'GenealogyView'},
-          {id: 'edit', dialog: 'GenealogyEdit'},
+          {id: 'addChildren', dialog: 'clansmanAdd'},
+          {id: 'edit', dialog: 'clansmanEdit'},
           {id: 'add', dialog: 'clansmanAdd'},
           {id: 'addUser', dialog: 'GenealogyAddUser'}
         ],
@@ -115,6 +136,14 @@
           title: '操作',
           type: 'action',
           actions: [{
+            type: 'addChildren',
+            text: '家人',
+            icon: 'el-icon-edit'
+          }, {
+            type: 'content',
+            text: '记事',
+            icon: 'el-icon-edit'
+          }, {
             type: 'edit',
             text: '编辑',
             icon: 'el-icon-edit'

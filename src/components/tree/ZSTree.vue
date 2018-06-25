@@ -19,6 +19,7 @@
         span.custom-tree-node(slot-scope="{ node, data }")
           span {{ node.label }}
           span
+            el-button(type="text" size="mini" v-on:click="() => generationInfo(data)") 字辈
             el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
             el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
             el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
@@ -98,6 +99,9 @@
           .then(res => {
             console.log('----treeData------', res.data.data)
             this.treeData = res.data.data
+            if (res.data.data.length > 0) {
+              this.handleNodeClick(res.data.data[0])
+            }
           })
       },
       handleNodeClick(data) {
@@ -165,6 +169,21 @@
         console.log('[onEditClick]', dig[0].dialog)
         setTimeout(() => {
           this.$refs.kalixDialog.$refs.kalixBizDialog.open('修改')
+          if (typeof (this.$refs.kalixDialog.init) === 'function') {
+            this.$refs.kalixDialog.init(data) // 需要传参数，就在dialog里面定义init方法
+          }
+        }, 20)
+      },
+      generationInfo(data) {
+        console.log(data)
+        let dig =
+          this.bizDialog.filter((item) => {
+            return item.id === 'generation'
+          })
+        this.whichBizDialog = dig[0].dialog
+        console.log('[onEditClick]', dig[0].dialog)
+        setTimeout(() => {
+          this.$refs.kalixDialog.$refs.kalixBizDialog.open('字辈')
           if (typeof (this.$refs.kalixDialog.init) === 'function') {
             this.$refs.kalixDialog.init(data) // 需要传参数，就在dialog里面定义init方法
           }

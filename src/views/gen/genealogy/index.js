@@ -1,19 +1,23 @@
 import Genealogy from './genealogy.vue'
 import GenealogyAdd from './genealogyAdd.vue'
 import GenealogyAddUser from './genealogyAddUser.vue'
-import GenealogySearch from './genealogySearch.vue'
+import ClansmanSearch from './clansmanSearch.vue'
 import GenealogyView from './genealogyView.vue'
 import GenealogyEdit from './genealogyEdit.vue'
 import ClansmanAdd from './clansmanAdd.vue'
+import ClansmanEdit from './clansmanEdit.vue'
+import Generation from './generation.vue'
 
 const components = [
   Genealogy,
   GenealogyAdd,
   GenealogyAddUser,
-  GenealogySearch,
+  ClansmanSearch,
   GenealogyView,
   GenealogyEdit,
-  ClansmanAdd
+  ClansmanAdd,
+  Generation,
+  ClansmanEdit
 ]
 
 const main = {
