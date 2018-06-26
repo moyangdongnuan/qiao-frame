@@ -9,7 +9,8 @@ QiaoExportURL = "/camel/rest/exports"
 # 地图
 QiaoMapURL = "/camel/rest/maps"
 
-
+# 世代，排行字典表数据获取
+DictURL = "/camel/rest/dicts/getLabelByType"
 
 #族人管理
 QiaoClansmanURL = "/camel/rest/clansmans"

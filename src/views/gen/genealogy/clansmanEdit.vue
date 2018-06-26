@@ -7,27 +7,99 @@
 <template lang="pug">
   kalix-dialog.user-add(bizKey="clansman" ref="kalixBizDialog" v-bind:formModel.sync="formModel"  v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
-      el-form-item(label="家谱名称" prop="name" label-width="120px" )
+      el-form-item(label="族人姓名" prop="name" label-width="120px" )
         el-input(v-model="formModel.name")
+      el-form-item(label="字号" prop="monicker" label-width="120px" )
+        el-input(v-model="formModel.monicker")
+      el-form-item(label="性别" prop="sex" label-width="120px" )
+        el-input(v-model="formModel.sex")
+      el-form-item(label="学历" prop="education" label-width="120px" )
+        kalix-select(v-model="formModel.education" v-bind:requestUrl="dictURL"
+        appName="education"  placeholder="请选择学历"  v-bind:defaultSelectLabel="educationDefaultLabel"
+        v-bind:defaultSelect="true" label="label" id="label"  v-bind:paramObj="educationParamObj")
+      el-form-item(label="婚姻状况" prop="matrimony" label-width="120px" )
+        kalix-select(v-model="formModel.matrimony" v-bind:requestUrl="dictURL"
+        appName="matrimony"  placeholder="请选择婚姻状况"  v-bind:defaultSelectLabel="matrimonyDefaultLabel"
+        v-bind:defaultSelect="true" label="label" id="label" v-bind:paramObj="matrimonyParamObj")
+      el-form-item(label="排行" prop="sequence" label-width="120px" )
+        kalix-select(v-model="formModel.sequence" v-bind:requestUrl="dictURL"
+        appName="sequence"  placeholder="请选择排行"  v-bind:defaultSelectLabel="sequenceDefaultLabel"
+        v-bind:defaultSelect="true" label="label" id="label" v-bind:paramObj="sequenceParamObj")
+      el-form-item(label="世代" prop="generations" label-width="120px")
+        kalix-select(v-model="formModel.generations" v-bind:requestUrl="dictURL"
+        appName="generations"  placeholder="请选择世代"  v-bind:defaultSelectLabel="generationsDefaultLabel"
+        v-bind:defaultSelect="true" label="label" id="label" v-bind:paramObj="generationsParamObj")
+      el-form-item(label="字辈" prop="gradeid" label-width="120px")
+        kalix-select(v-model="formModel.gradeid" v-bind:requestUrl="generationURL"
+        v-bind:appName="appName"  placeholder="请选择字辈"
+        v-bind:defaultSelect="true" label="label" id="value" v-bind:defaultSelectLabel="gradeIdDefaultLabel")
 
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './clansman_model'
-  import {QiaoClansmanURL} from '../config.toml'
+  import {QiaoClansmanURL, QiaoGenerationURL, DictURL} from '../config.toml'
   export default {
     name: 'ClansmanEdit',
     data() {
       return {
         formModel: Object.assign({}, FormModel),
         targetURL: QiaoClansmanURL,
-        labelWidth: '110px'
+        generationUrl: '',
+        generation: '',
+        dictURL: DictURL,
+        generationsParamObj: {type: '世代'},
+        sequenceParamObj: {type: '排行'},
+        matrimonyParamObj: {type: '婚姻'},
+        educationParamObj: {type: '学历'},
+        labelWidth: '110px',
+        educationDefaultLabel: '',
+        matrimonyDefaultLabel: '',
+        sequenceDefaultLabel: '',
+        generationsDefaultLabel: '',
+        gradeIdDefaultLabel: '',
+        jsonMsg: {
+          0: 'a',
+          1: 'b',
+          2: 'c',
+          3: 'd',
+          4: 'e',
+          5: 'f',
+          6: 'g',
+          7: 'h',
+          8: 'i',
+          9: 'j'
+        }
+      }
+    },
+    computed: {
+      generationURL: function () {
+        return this.generationUrl
+      },
+      appName: function () {
+        return this.generation
       }
     },
     methods: {
       init(dialogOption) {
         console.log('---dialogOption----', dialogOption)
         this.formModel = dialogOption
+        this.generationUrl = QiaoGenerationURL + '/getGenerationForSelect?genealogyId=' + dialogOption.genealogynameid
+        this.educationDefaultLabel = dialogOption.education
+        this.matrimonyDefaultLabel = dialogOption.matrimony
+        this.sequenceDefaultLabel = dialogOption.sequence
+        this.generationsDefaultLabel = dialogOption.generations
+        this.gradeIdDefaultLabel = dialogOption.gradeid
+        this.getAppName(dialogOption.id)
+      },
+      getAppName(index) {
+        this.generation = ''
+        index = index + ''
+        for (let i = 0; i < index.length; i++) {
+          let k = parseInt(index[i])
+          this.generation += this.jsonMsg[k]
+        }
+        console.log('--getAppName---', this.generation)
       }
     }
   }

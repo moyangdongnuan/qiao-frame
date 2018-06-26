@@ -2,7 +2,7 @@
   kalix-dialog.user-add(title='添加' bizKey="forum" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
       <!--el-form-item(label="发帖人别名" prop="idcard" v-bind:label-width="labelWidth" v-bind:rules="rules.idcard")-->
-        <!--el-input(v-model="formModel.idcard")-->
+      <!--el-input(v-model="formModel.idcard")-->
       el-form-item(label="帖子标题" prop="title" v-bind:label-width="labelWidth" v-bind:rules="rules.title")
         el-input(v-model="formModel.title")
       el-form-item(label="帖子内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
@@ -13,9 +13,9 @@
         v-bind:defaultSelect="true" v-on:selectChange="setGroup")
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
         kalix-select(v-model="formModel.categorytype" v-bind:requestUrl="dictURL" appName="dictMenu"  placeholder="请选择类型标识"
-        v-bind:paramObj="dictParam" v-bind:defaultSelect="true" v-on:selectChange="selectChange")
+        v-bind:paramObj="dictParam" v-bind:defaultSelect="true" id="label" v-on:selectChange="selectChange")
           // el-option(label="" value="")
-    </template>
+</template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
@@ -41,7 +41,7 @@
         dictURL: DictURL,
         targetURL: QiaoForumURL,
         menuParam: undefined,
-        dictParam: undefined,
+        dictParam: {type: '类型标识'},
         options: [],
         name: ''
       }

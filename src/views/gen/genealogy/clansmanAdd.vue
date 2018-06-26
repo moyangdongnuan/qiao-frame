@@ -12,22 +12,32 @@
       el-form-item(label="字号" prop="monicker" label-width="120px" )
         el-input(v-model="formModel.monicker")
       el-form-item(label="性别" prop="sex" label-width="120px" )
+      el-form-item(label="学历" prop="education" label-width="120px" )
+        kalix-select(v-model="formModel.education" v-bind:requestUrl="dictURL"
+        appName="education"  placeholder="请选择学历"
+        v-bind:defaultSelect="false" label="label" id="label" v-bind:paramObj="educationParamObj")
       el-form-item(label="婚姻状况" prop="matrimony" label-width="120px" )
-        el-input(v-model="formModel.matrimony")
+        kalix-select(v-model="formModel.matrimony" v-bind:requestUrl="dictURL"
+        appName="matrimony"  placeholder="请选择婚姻状况"
+        v-bind:defaultSelect="false" label="label" id="label" v-bind:paramObj="matrimonyParamObj")
       el-form-item(label="排行" prop="sequence" label-width="120px" )
-        el-input(v-model="formModel.sequence")
+        kalix-select(v-model="formModel.sequence" v-bind:requestUrl="dictURL"
+        appName="sequence"  placeholder="请选择排行"
+        v-bind:defaultSelect="false" label="label" id="label" v-bind:paramObj="sequenceParamObj")
       el-form-item(label="世代" prop="generations" label-width="120px")
-        el-input(v-model="formModel.generations")
+        kalix-select(v-model="formModel.generations" v-bind:requestUrl="dictURL"
+        appName="generations"  placeholder="请选择世代"
+        v-bind:defaultSelect="false" label="label" id="label" v-bind:paramObj="generationsParamObj")
       el-form-item(label="字辈" prop="gradeid" label-width="120px")
         kalix-select(v-model="formModel.gradeid" v-bind:requestUrl="generationURL"
         v-bind:appName="appName"  placeholder="请选择字辈"
-        v-bind:defaultSelect="false" v-on:input="setGroup" label="label" id="value")
+        v-bind:defaultSelect="false" label="label" id="value")
 
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './clansman_model'
-  import {QiaoClansmanURL, QiaoGenerationURL} from '../config.toml'
+  import {QiaoClansmanURL, QiaoGenerationURL, DictURL} from '../config.toml'
 
   export default {
     name: 'clansmanAdd',
@@ -36,6 +46,11 @@
         targetURL: QiaoClansmanURL,
         generationUrl: '',
         generation: '',
+        dictURL: DictURL,
+        generationsParamObj: {type: '世代'},
+        sequenceParamObj: {type: '排行'},
+        matrimonyParamObj: {type: '婚姻'},
+        educationParamObj: {type: '学历'},
         formModel: Object.assign({}, FormModel),
         rules: {
           name: [{required: true, message: '请输入名称', trigger: 'blur'}]
@@ -58,9 +73,7 @@
     created() {
     },
     computed: {
-      // 计算属性的 getter
       generationURL: function () {
-        // `this` 指向 vm 实例
         return this.generationUrl
       },
       appName: function () {
@@ -74,10 +87,6 @@
         this.formModel.genealogynameid = flag
         this.generationUrl = QiaoGenerationURL + '/getGenerationForSelect?genealogyId=' + flag
         this.getAppName(flag)
-      },
-      setGroup(data) {
-        console.log('---setGroup--', data)
-        // this.formModel.gradeid = data
       },
       getAppName(index) {
         this.generation = ''

@@ -45,6 +45,8 @@
       },
       btnClick(val, actionType) {
         console.log('--btnClick--', val, actionType)
+        val.children = null
+        val.parent = null
         if (actionType === 'edit') {
           let that = this
           this.$refs.kalixTreeGrid.getKalixDialog('edit', (_kalixDialog) => {
