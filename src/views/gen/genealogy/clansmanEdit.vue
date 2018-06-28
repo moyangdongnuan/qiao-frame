@@ -37,13 +37,12 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import FormModel from './clansman_model'
   import {QiaoClansmanURL, QiaoGenerationURL, DictURL} from '../config.toml'
   export default {
     name: 'ClansmanEdit',
     data() {
       return {
-        formModel: Object.assign({}, FormModel),
+        formModel: Object.assign({}),
         targetURL: QiaoClansmanURL,
         generationUrl: '',
         generation: '',

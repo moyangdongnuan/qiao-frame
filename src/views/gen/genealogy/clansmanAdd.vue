@@ -12,6 +12,9 @@
       el-form-item(label="字号" prop="monicker" label-width="120px" )
         el-input(v-model="formModel.monicker")
       el-form-item(label="性别" prop="sex" label-width="120px" )
+        el-radio-group(v-model="formModel.sex" v-on:change="change")
+          el-radio(label="男") 男
+          el-radio(label="女") 女
       el-form-item(label="学历" prop="education" label-width="120px" )
         kalix-select(v-model="formModel.education" v-bind:requestUrl="dictURL"
         appName="education"  placeholder="请选择学历"
@@ -32,15 +35,19 @@
         kalix-select(v-model="formModel.gradeid" v-bind:requestUrl="generationURL"
         v-bind:appName="appName"  placeholder="请选择字辈"
         v-bind:defaultSelect="false" label="label" id="value")
-
+      el-form-item(label="图片" prop="imgurl" label-width="120px" )
+        kalix-clansman-upload
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './clansman_model'
   import {QiaoClansmanURL, QiaoGenerationURL, DictURL} from '../config.toml'
+  import ElUploadDrag from 'element-ui/packages/upload/src/upload-dragger'
+  import KalixClansmanUpload from '../../../components/fileUpload/upload'
 
   export default {
     name: 'clansmanAdd',
+    components: {KalixClansmanUpload, ElUploadDrag},
     data() {
       return {
         targetURL: QiaoClansmanURL,
@@ -87,6 +94,9 @@
         this.formModel.genealogynameid = flag
         this.generationUrl = QiaoGenerationURL + '/getGenerationForSelect?genealogyId=' + flag
         this.getAppName(flag)
+      },
+      change (data) {
+        console.log('-- redio --', data)
       },
       getAppName(index) {
         this.generation = ''

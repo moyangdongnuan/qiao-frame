@@ -45,8 +45,6 @@
       },
       btnClick(val, actionType) {
         console.log('--btnClick--', val, actionType)
-        val.children = null
-        val.parent = null
         if (actionType === 'edit') {
           let that = this
           this.$refs.kalixTreeGrid.getKalixDialog('edit', (_kalixDialog) => {
@@ -68,6 +66,22 @@
                 that.kalixDialog.init(this.flag, val.id) //  需要传参数，就在dialog里面定义init方法
               }
             }, 20)
+          })
+        } else if (actionType === 'delete') {
+          this.$confirm('是否确认删除<' + val.name + '>及其下所有族人信息?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            return this.$http
+              .get('/camel/rest/clansmans/deleteOneAndChildrens?id=' + val.id, {})
+              .then(res => {
+                this.$refs.kalixTreeGrid.getData()
+                console.info('----treeData------', res)
+              })
+          }).then(response => {
+            this.$refs.kalixTreeGrid.getData()
+          }).catch(() => {
           })
         }
       },
