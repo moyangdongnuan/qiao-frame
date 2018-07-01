@@ -25,10 +25,12 @@
 </template>
 
 <script>
-  import {QiaoGenealogyTreeURL, QiaoClansmanURL} from '../config.toml'
+  import {QiaoGenealogyTreeURL, QiaoClansmanURL, QiaoGenerationURL} from '../config.toml'
   import QiaoTree from '../../../components/tree/ZSTree'
   import KalixTreeGrid1 from '../../../components/forum/treeGrid'
   import ClansmanModel from './clansman_model'
+  import Message from '../../../common/message'
+  import Cache from '../../../common/cache'
 
   export default {
     name: 'kalix-qiao-genealogy',
@@ -86,21 +88,53 @@
         }
       },
       onToolBarClick(btnId) {
-        console.log('-----onToolBarClicka-------', btnId)
         if (btnId === 'refresh') {
           this.$refs.kalixTreeGrid.getData()
         } else {
-          let that = this
-          this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
-            this.kalixDialog = _kalixDialog
-            setTimeout(() => {
-              this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
-              if (typeof (that.kalixDialog.init) === 'function') {
-                that.kalixDialog.init(this.flag, -1) //  需要传参数，就在dialog里面定义init方法
-              }
-            }, 20)
-          })
+          this.getAppName(this.flag)
+          if (this.flag === 0) {
+            Message.warning('请先选择添加族人所属家谱')
+            return false
+          }
+          const DictKey = `${this.generation.toUpperCase()}-KEY`
+          if (!Cache.get(DictKey)) {
+            this.$http
+              .get(QiaoGenerationURL + '/getGenerationForSelect?genealogyId=' + this.flag, {})
+              .then(res => {
+                if (res.data.totalCount > 0) {
+                  Cache.save(DictKey, JSON.stringify(res.data.data))
+                  this.openForAdd()
+                } else {
+                  Message.warning('请先为家谱添加字辈信息')
+                  return false
+                }
+              })
+          } else {
+            this.openForAdd()
+          }
         }
+      },
+      openForAdd() {
+        let that = this
+        this.$refs.kalixTreeGrid.getKalixDialog('add', (_kalixDialog) => {
+          this.kalixDialog = _kalixDialog
+          setTimeout(() => {
+            this.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.addFormModel)
+            if (typeof (that.kalixDialog.init) === 'function') {
+              that.kalixDialog.init(this.flag, -1) //  需要传参数，就在dialog里面定义init方法
+            }
+          }, 20)
+        })
+      },
+      getAppName(index) {
+        console.log('--getAppName---', index)
+        this.generation = ''
+        index = index + ''
+        for (let i = 0; i < index.length; i++) {
+          let k = parseInt(index[i])
+          this.generation += this.jsonMsg[k]
+        }
+        console.log('--getAppName---', this.generation)
       }
     },
     computed: {
@@ -109,6 +143,7 @@
       return {
         flag: 0,
         treeUrl: '',
+        generation: '',
         dialogOptions: {},
         isFixedColumn: true,
         treeDefaultRequestUrl: QiaoGenealogyTreeURL,
@@ -203,6 +238,18 @@
           key: 'postId',
           width: '0'
         }],
+        jsonMsg: {
+          0: 'a',
+          1: 'b',
+          2: 'c',
+          3: 'd',
+          4: 'e',
+          5: 'f',
+          6: 'g',
+          7: 'h',
+          8: 'i',
+          9: 'j'
+        },
         tableHeight: 0 //  列表组件高度
         // bizSearch: 'AdminDutySearch'
       }

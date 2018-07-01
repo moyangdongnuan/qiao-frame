@@ -53,7 +53,10 @@
         type: String
       },
       bizDialog: {
-        type: Array
+        type: Array,
+        default() {
+          return []
+        }
       },
       formModel: {
         type: Object

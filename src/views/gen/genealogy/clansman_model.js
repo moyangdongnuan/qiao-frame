@@ -26,6 +26,7 @@ const FormModel = {
   necropolis: null, //  埋葬地
   describe: null, //  描述
   imgurl: null, //  图片
+  imgName: null,
   videourl: null, //  视频
   voiceurl: null, //  音频
   genealogynameid: null //  家谱id

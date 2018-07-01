@@ -36,12 +36,12 @@
         v-bind:appName="appName"  placeholder="请选择字辈"
         v-bind:defaultSelect="false" label="label" id="value")
       el-form-item(label="图片" prop="imgurl" label-width="120px" )
-        kalix-clansman-upload
+        kalix-clansman-upload(:action="action" v-on:filePath="getFilePath" fileType="img")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './clansman_model'
-  import {QiaoClansmanURL, QiaoGenerationURL, DictURL} from '../config.toml'
+  import {QiaoClansmanURL, QiaoGenerationURL, DictURL, baseURL} from '../config.toml'
   import ElUploadDrag from 'element-ui/packages/upload/src/upload-dragger'
   import KalixClansmanUpload from '../../../components/fileUpload/upload'
 
@@ -51,6 +51,7 @@
     data() {
       return {
         targetURL: QiaoClansmanURL,
+        action: baseURL + '/camel/rest/upload', // http://localhost:8181/camel/rest/upload
         generationUrl: '',
         generation: '',
         dictURL: DictURL,
@@ -95,8 +96,14 @@
         this.generationUrl = QiaoGenerationURL + '/getGenerationForSelect?genealogyId=' + flag
         this.getAppName(flag)
       },
-      change (data) {
+      change(data) {
         console.log('-- redio --', data)
+        this.formModel.sex = data
+      },
+      getFilePath(filePath, fileName) {
+        console.log('--getFilePath---', fileName)
+        this.formModel.imgurl = filePath
+        this.formModel.imgName = fileName
       },
       getAppName(index) {
         this.generation = ''

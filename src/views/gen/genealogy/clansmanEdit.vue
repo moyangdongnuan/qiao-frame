@@ -33,19 +33,25 @@
         kalix-select(v-model="formModel.gradeid" v-bind:requestUrl="generationURL"
         v-bind:appName="appName"  placeholder="请选择字辈"
         v-bind:defaultSelect="true" label="label" id="value" v-bind:defaultSelectLabel="gradeIdDefaultLabel")
+      el-form-item(label="图片" prop="imgurl" label-width="120px" )
+        kalix-clansman-upload(:action="action" v-on:filePath="getFilePath" :fileList="fileList" fileType="img")
 
 </template>
 
 <script type="text/ecmascript-6">
-  import {QiaoClansmanURL, QiaoGenerationURL, DictURL} from '../config.toml'
+  import {QiaoClansmanURL, QiaoGenerationURL, DictURL, baseURL} from '../config.toml'
+  import KalixClansmanUpload from '../../../components/fileUpload/upload'
   export default {
     name: 'ClansmanEdit',
+    components: {KalixClansmanUpload},
     data() {
       return {
+        action: baseURL + '/camel/rest/upload',
         formModel: Object.assign({}),
         targetURL: QiaoClansmanURL,
         generationUrl: '',
         generation: '',
+        fileList: [],
         dictURL: DictURL,
         generationsParamObj: {type: '世代'},
         sequenceParamObj: {type: '排行'},
@@ -80,6 +86,10 @@
       }
     },
     methods: {
+      getFilePath(filePath, fileName) {
+        this.formModel.imgurl = filePath
+        this.formModel.imgName = fileName
+      },
       init(dialogOption) {
         console.log('---dialogOption----', dialogOption)
         this.formModel = dialogOption
@@ -89,6 +99,11 @@
         this.sequenceDefaultLabel = dialogOption.sequence
         this.generationsDefaultLabel = dialogOption.generations
         this.gradeIdDefaultLabel = dialogOption.gradeid
+        let file = {
+          name: dialogOption.imgName,
+          url: dialogOption.imgurl
+        }
+        this.fileList.push(file)
         this.getAppName(dialogOption.id)
       },
       getAppName(index) {
