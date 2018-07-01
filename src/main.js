@@ -6,7 +6,7 @@ import axios from 'config/axios'
 import VueAxios from 'vue-axios'
 import Es6Promise from 'es6-promise'
 import KalixVueNavigate from 'kalix-vue-navigate'
-import KalixVueLib from 'kalix-vue-lib/src/main/index'
+import KalixVueLib from 'kalix-vue-lib-qiao'
 import KalixVueBiz from 'kalix-vue-biz'
 
 // import KalixVueAdmin from 'kalix-vue-admin'
