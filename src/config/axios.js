@@ -3,10 +3,10 @@
  * Created by sunlf on 2017/7/21.
  */
 import axios from 'axios'
-import Message from 'kalix-vue-lib/src/common/message'
+import Message from 'kalix-vue-lib-qiao/src/common/message'
 import {baseURL} from 'config/global.toml'
 import {LoadingTimeOut} from 'config/info.toml'
-import Cache from 'kalix-vue-lib/src/common/cache'
+import Cache from 'kalix-vue-lib-qiao/src/common/cache'
 import Router from 'router'
 
 // axios 配置

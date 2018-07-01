@@ -3,7 +3,7 @@
     el-option(v-for="item in options" v-bind:key="item[id]" v-bind:label="item[label]" v-bind:value="item[id]")
 </template>
 <script type="text/ecmascript-6">
-  import Cache from 'kalix-vue-lib/src/common/cache'
+  import Cache from 'kalix-vue-lib-qiao/src/common/cache'
 
   export default {
     props: {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Cache from 'kalix-vue-lib/src/common/cache'
+import Cache from 'kalix-vue-lib-qiao/src/common/cache'
 import Home from '@/components/home/Home'
 import Login from '@/components/login/login'
 
