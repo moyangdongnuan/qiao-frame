@@ -20,10 +20,10 @@
 <script type="text/ecmascript-6">
   import FormModel from './model'
   import {QiaoForumURL, QiaoMenuURL} from '../../message/config.toml'
-  import KalixSelect from 'kalix-vue-lib/src/components/common/baseSelect'
+  // import KalixSelect from 'kalix-vue-lib/src/components/common/baseSelect'
 
   export default {
-    components: {KalixSelect},
+    // components: {KalixSelect},
     name: 'QiaoForumEdit',
     data() {
       return {

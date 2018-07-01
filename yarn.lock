@@ -3986,7 +3986,7 @@ kalix-vue-biz@^0.0.6:
     easemob-websdk "^1.4.12"
     echarts "^3.8.5"
     element-ui "^2.0.4"
-    kalix-vue-lib "^0.1.2"
+    kalix-vue-lib-qiao "^0.1.0"
     smooth-scrollbar "^8.2.3"
     strophe.js "^1.2.14"
     stylus "^0.54.5"
@@ -3995,7 +3995,7 @@ kalix-vue-biz@^0.0.6:
     vue-axios "^2.0.2"
     vue-router "^3.0.1"
 
-kalix-vue-lib@^0.1.2, kalix-vue-lib@^0.1.5:
+kalix-vue-lib-qiao@^0.1.0, kalix-vue-lib-qiao@^0.1.0:
   version "0.1.5"
   resolved "http://registry.npm.taobao.org/kalix-vue-lib/download/kalix-vue-lib-0.1.5.tgz#d8cb8acaed1c7a70dce35c5a58e3630e95340f93"
   dependencies:

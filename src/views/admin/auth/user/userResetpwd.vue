@@ -9,7 +9,7 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {userURL} from 'kalix-vue-lib/src/config/global.toml'
+  import {userURL} from 'kalix-vue-lib-qiao/src/config/global.toml'
 
   export default {
     name: 'AdminUserResetpwd',

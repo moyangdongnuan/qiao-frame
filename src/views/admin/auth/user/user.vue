@@ -30,7 +30,7 @@
 <script type="text/ecmascript-6">
   import {usersURL, userBtnPermissionPrefix} from '../../config.toml'
   import {userBtnList} from './config.js'
-  import {ON_REFRESH_DATA} from 'kalix-vue-lib/src/components/common/event.toml'
+  import {ON_REFRESH_DATA} from 'kalix-vue-lib-qiao/src/components/common/event.toml'
 
   export default {
     name: 'kalix-admin-user',

@@ -12,8 +12,8 @@
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
-  import {userURL} from 'kalix-vue-lib/src/config/global.toml'
-  import Cache from 'kalix-vue-lib/src/common/cache'
+  import {userURL} from 'kalix-vue-lib-qiao/src/config/global.toml'
+  import Cache from 'kalix-vue-lib-qiao/src/common/cache'
 
   export default {
     name: 'AdminUserEditpwd',

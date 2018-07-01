@@ -13,7 +13,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.3.4",
-    "kalix-vue-biz": "^0.0.6",
+    "kalix-vue-biz-qiao": "^0.1.0",
     "kalix-vue-lib-qiao": "^0.1.0",
     "kalix-vue-navigate": "^1.0.7",
     "vue": "^2.5.16",
