@@ -7,7 +7,7 @@ import VueAxios from 'vue-axios'
 import Es6Promise from 'es6-promise'
 import KalixVueNavigate from 'kalix-vue-navigate'
 import KalixVueLib from 'kalix-vue-lib-qiao'
-import KalixVueBiz from 'kalix-vue-biz'
+import KalixVueBiz from 'kalix-vue-biz-qiao'
 
 // import KalixVueAdmin from 'kalix-vue-admin'
 import './element-ui'
