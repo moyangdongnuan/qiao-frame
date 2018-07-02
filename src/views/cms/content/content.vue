@@ -21,16 +21,17 @@
   import {QiaoContentURL} from '../config.toml'
   import {contentConfigBtnList} from './config'
   import KalixTableTree from '../../../components/cascader/tableTree'
+  import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
 
   export default {
-    components: {KalixTableTree},
+    components: {KalixTable, KalixTableTree},
     name: 'kalix-qiao-content',
     data() {
       return {
         isFixedColumn: true,
         modelId: -1,
         modelName: '',
-        contentURL: '',
+        contentURL: QiaoContentURL,
         tableFields: [
           {prop: 'title', label: '标题'},
           {prop: 'subtitle', label: '次标题'},

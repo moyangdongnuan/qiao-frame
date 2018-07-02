@@ -9,14 +9,16 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {QiaoMenuURL} from '../config.toml' // QiaoMenuListURL
+  import {QiaoMenuListURL} from '../config.toml' // QiaoMenuListURL
   import {menuConfigBtnList} from './config'
+  import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
 
   export default {
     name: 'kalix-qiao-menu',
+    components: {KalixTable},
     data() {
       return {
-        menuURL: QiaoMenuURL, // QiaoMenuListURL
+        menuURL: QiaoMenuListURL, // QiaoMenuListURL
         tableFields: [
           {prop: 'columnName', label: '所属栏目'},
           {prop: 'name', label: '菜单名称'},

@@ -394,7 +394,7 @@
           }
 
           case 'delete': {
-            console.log('delete is clicked')
+            console.log('delete is clicked', this.targetURL + '/' + row.id)
             this.$confirm('确定要删除吗?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
