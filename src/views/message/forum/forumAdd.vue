@@ -14,17 +14,16 @@
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
         kalix-select(v-model="formModel.categorytype" v-bind:requestUrl="dictURL" appName="dictMenu"  placeholder="请选择类型标识"
         v-bind:paramObj="dictParam" v-bind:defaultSelect="true" id="label" v-on:selectChange="selectChange")
-          // el-option(label="" value="")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
   import {QiaoForumURL, QiaoMenuURL, DictURL} from '../../message/config.toml'
-  // import KalixSelect from 'kalix-vue-lib/src/components/common/baseSelect'
+  import KalixSelect from 'kalix-vue-lib-qiao/src/components/common/baseSelect'
 
   export default {
-    // components: {KalixSelect},
     name: 'QiaoForumAdd',
+    components: {KalixSelect},
     data() {
       return {
         formModel: Object.assign({}, FormModel),
