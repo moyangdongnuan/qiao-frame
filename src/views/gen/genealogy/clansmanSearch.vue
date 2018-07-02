@@ -5,16 +5,16 @@
 -->
 
 <template lang="pug">
-  kalix-search(title="家谱查询" v-bind:searchFields="searchFields")
+  kalix-search(title="族人查询" v-bind:searchFields="searchFields")
 </template>
 
 <script type="text/ecmascript-6">
   export default {
-    name: 'GenealogySearch',
+    name: 'ClansmanSearch',
     data() {
       return {
         searchFields: [
-          {label: '家谱名称', prop: 'genealogyname'}
+          {label: '族人名称', prop: 'name'}
         ]
       }
     }

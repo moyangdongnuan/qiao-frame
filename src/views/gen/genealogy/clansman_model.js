@@ -22,11 +22,15 @@ const FormModel = {
   honor: null, //  荣誉
   hobby: null, //  爱好
   homeaddress: null, //  /家庭住址
+  detailedAddress: null, //  详细地址
   childrenid: null, //  子女ID
   necropolis: null, //  埋葬地
+  necropolisAddress: null, //  埋葬地详细地址
   describe: null, //  描述
   imgurl: null, //  图片
   imgName: null,
+  videoName: null,
+  voiceName: null,
   videourl: null, //  视频
   voiceurl: null, //  音频
   genealogynameid: null //  家谱id

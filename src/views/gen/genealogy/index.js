@@ -7,6 +7,7 @@ import GenealogyEdit from './genealogyEdit.vue'
 import ClansmanAdd from './clansmanAdd.vue'
 import ClansmanEdit from './clansmanEdit.vue'
 import Generation from './generation.vue'
+import Record from './record.vue'
 
 const components = [
   Genealogy,
@@ -17,6 +18,7 @@ const components = [
   GenealogyEdit,
   ClansmanAdd,
   Generation,
+  Record,
   ClansmanEdit
 ]
 

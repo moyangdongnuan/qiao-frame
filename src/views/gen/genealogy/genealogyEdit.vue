@@ -11,8 +11,8 @@
         el-input(v-model="formModel.genealogyname")
       el-form-item(label="谱属地" prop="genealogysite" label-width="120px" )
         kalix-font-cascader(v-on:change="getValue" v-bind:defaultOptions="defaultOptions")
-      el-form-item(label="详细地址" prop="address" label-width="120px" )
-        el-input(v-model="formModel.address" v-on:change="getValue")
+      el-form-item(label="详细地址" prop="streets" label-width="120px" )
+        el-input(v-model="formModel.streets")
       el-form-item(label="概况" prop="summarize" label-width="120px" )
         el-input(v-model="formModel.summarize")
       el-form-item(label="备注" prop="remarks" label-width="120px")
@@ -42,7 +42,7 @@
           .then(res => {
             this.formModel = res.data.data[0]
             this.defaultOptions = res.data.data[0].defaultOption.data
-            console.log('---defaultOption----', this.defaultOptions)
+            console.log('---defaultOption----', res.data.data[0].defaultOption.data)
           })
       },
       getValue(data) {

@@ -19,7 +19,7 @@
           v-bind:btnSelfClick="btnClick"
           v-bind:jsonStr="jsonStr"
           v-bind:noSearchParam:sync="noSearchParam"
-          v-bind:isColumnfixed="false" bizSearch="QiaoReplySearch"
+          v-bind:isColumnfixed="false" bizSearch="ClansmanSearch"
           v-bind:optActions="optActions"
           )
 </template>
@@ -84,6 +84,17 @@
           }).then(response => {
             this.$refs.kalixTreeGrid.getData()
           }).catch(() => {
+          })
+        } else {
+          let that = this
+          this.$refs.kalixTreeGrid.getKalixDialog('record', (_kalixDialog) => {
+            this.kalixDialog = _kalixDialog
+            setTimeout(() => {
+              this.kalixDialog.$refs.kalixBizDialog.open('添加族人记事', false, this.addFormModel)
+              if (typeof (that.kalixDialog.init) === 'function') {
+                that.kalixDialog.init(val.id) //  需要传参数，就在dialog里面定义init方法
+              }
+            }, 20)
           })
         }
       },
@@ -160,7 +171,7 @@
           {id: 'addChildren', dialog: 'clansmanAdd'},
           {id: 'edit', dialog: 'clansmanEdit'},
           {id: 'add', dialog: 'clansmanAdd'},
-          {id: 'addUser', dialog: 'GenealogyAddUser'}
+          {id: 'record', dialog: 'record'}
         ],
         noSearchParam: true,
         itemBasePath: QiaoClansmanURL,
@@ -191,7 +202,7 @@
             text: '家人',
             icon: 'el-icon-edit'
           }, {
-            type: 'content',
+            type: 'record',
             text: '记事',
             icon: 'el-icon-edit'
           }, {
@@ -211,32 +222,20 @@
           width: '0'
         }, {
           type: 'hidden',
-          key: 'parentId',
+          key: 'clansmanId',
           width: '0'
         }, {
           title: '族人姓名',
           key: 'name',
           width: '150'
         }, {
-          title: '回复内容',
-          key: 'content',
+          title: '性别',
+          key: 'sex',
           width: '120'
         }, {
-          title: '回复时间',
+          title: '添加时间',
           key: 'creationDate',
-          width: '120'
-        }, {
-          title: '审核状态',
-          key: 'categoryName',
-          width: '120'
-        }, {
-          type: 'hidden',
-          key: 'category',
-          width: '0'
-        }, {
-          type: 'hidden',
-          key: 'postId',
-          width: '0'
+          width: '150'
         }],
         jsonMsg: {
           0: 'a',

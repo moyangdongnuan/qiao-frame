@@ -16,7 +16,7 @@ const FormModel = {
   part: null, // 部id（字典表）
   unit: null, // 卷id（字典表）
   volume: null, // 册id（字典表）
-  address: null, // 谱属地详细地址 验证用
+  // address: null, // 谱属地详细地址 验证用
   defaultOption: null
 }
 

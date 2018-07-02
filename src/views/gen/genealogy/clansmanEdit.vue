@@ -12,7 +12,9 @@
       el-form-item(label="字号" prop="monicker" label-width="120px" )
         el-input(v-model="formModel.monicker")
       el-form-item(label="性别" prop="sex" label-width="120px" )
-        el-input(v-model="formModel.sex")
+        el-radio-group(v-model="formModel.sex" v-on:change="change")
+          el-radio(label="男") 男
+          el-radio(label="女") 女
       el-form-item(label="学历" prop="education" label-width="120px" )
         kalix-select(v-model="formModel.education" v-bind:requestUrl="dictURL"
         appName="education"  placeholder="请选择学历"  v-bind:defaultSelectLabel="educationDefaultLabel"
@@ -33,17 +35,51 @@
         kalix-select(v-model="formModel.gradeid" v-bind:requestUrl="generationURL"
         v-bind:appName="appName"  placeholder="请选择字辈"
         v-bind:defaultSelect="true" label="label" id="value" v-bind:defaultSelectLabel="gradeIdDefaultLabel")
+      el-form-item(label="身高" prop="stature" label-width="120px" )
+        el-input(v-model="formModel.stature")
+      el-form-item(label="体重" prop="weight" label-width="120px" )
+        el-input(v-model="formModel.weight")
+      el-form-item(label="官爵" prop="duty" label-width="120px" )
+        el-input(v-model="formModel.duty")
+      el-form-item(label="健康状况" prop="health" label-width="120px" )
+        el-input(v-model="formModel.health")
+      el-form-item(label="外貌" prop="appearance" label-width="120px" )
+        el-input(v-model="formModel.appearance")
+      el-form-item(label="荣誉" prop="honor" label-width="120px" )
+        el-input(v-model="formModel.honor")
+      el-form-item(label="爱好" prop="hobby" label-width="120px" )
+        el-input(v-model="formModel.hobby")
+      el-form-item(label="出生日期" prop="birth" label-width="120px" )
+        el-date-picker(v-model="formModel.birth")
+      el-form-item(label="家庭地址" prop="homeaddress" label-width="120px" )
+        kalix-font-cascader(v-on:change="getValue" v-bind:defaultOptions="defaultOptions")
+      el-form-item(label="详细地址" prop="detailedAddress" label-width="120px" )
+        el-input(v-model="formModel.detailedAddress")
+      el-form-item(label="死亡日期" prop="datetime" label-width="120px" )
+        el-date-picker(v-model="formModel.datetime")
+      el-form-item(label="埋葬地" prop="necropolis" label-width="120px" )
+        kalix-font-cascader(v-on:change="getValueTwo" v-bind:defaultOptions="defaultOptionsTwo")
+      el-form-item(label="详细地址" prop="necropolisAddress" label-width="120px" )
+        el-input(v-model="formModel.necropolisAddress")
       el-form-item(label="图片" prop="imgurl" label-width="120px" )
-        kalix-clansman-upload(:action="action" v-on:filePath="getFilePath" :fileList="fileList" fileType="img")
+        kalix-clansman-upload(:action="action" v-on:filePath="getFilePath" :fileList="fileList" fileType="img"
+        tipText="只能上传jpg/png文件，且不超过2MB")
+      el-form-item(label="视频" prop="videourl" label-width="120px" )
+        kalix-clansman-upload(:action="action" v-on:filePath="getVideoFilePath" :fileList="videoFileList" fileType="video"
+        tipText="只能上传mp4/avi文件，且不超过2MB")
+      el-form-item(label="音频" prop="voiceurl" label-width="120px" )
+        kalix-clansman-upload(:action="action" v-on:filePath="getVoiceFilePath" :fileList="voiceFileList" fileType="voice"
+        tipText="只能上传mp4/avi文件，且不超过2MB")
 
 </template>
 
 <script type="text/ecmascript-6">
   import {QiaoClansmanURL, QiaoGenerationURL, DictURL, baseURL} from '../config.toml'
   import KalixClansmanUpload from '../../../components/fileUpload/upload'
+  import KalixFontCascader from '../../../components/cascader/ThreeCascader'
   export default {
     name: 'ClansmanEdit',
-    components: {KalixClansmanUpload},
+    components: {KalixFontCascader, KalixClansmanUpload},
     data() {
       return {
         action: baseURL + '/camel/rest/upload',
@@ -52,7 +88,11 @@
         generationUrl: '',
         generation: '',
         fileList: [],
+        videoFileList: [],
+        voiceFileList: [],
         dictURL: DictURL,
+        defaultOptions: [],
+        defaultOptionsTwo: [],
         generationsParamObj: {type: '世代'},
         sequenceParamObj: {type: '排行'},
         matrimonyParamObj: {type: '婚姻'},
@@ -86,9 +126,31 @@
       }
     },
     methods: {
+      getValue(data) {
+        this.formModel.homeaddress = data.toString()
+        console.log('---this.data---', data)
+      },
+      getValueTwo(data) {
+        this.formModel.necropolis = data.toString()
+        console.log('---this.data---', data)
+      },
+      change(data) {
+        console.log('-- redio --', data)
+        this.formModel.sex = data
+      },
       getFilePath(filePath, fileName) {
         this.formModel.imgurl = filePath
         this.formModel.imgName = fileName
+      },
+      getVideoFilePath(filePath, fileName) {
+        console.log('--getFilePath---', fileName)
+        this.formModel.videourl = filePath
+        this.formModel.videoName = fileName
+      },
+      getVoiceFilePath(filePath, fileName) {
+        console.log('--getFilePath---', fileName)
+        this.formModel.voiceurl = filePath
+        this.formModel.voiceName = fileName
       },
       init(dialogOption) {
         console.log('---dialogOption----', dialogOption)
@@ -99,11 +161,29 @@
         this.sequenceDefaultLabel = dialogOption.sequence
         this.generationsDefaultLabel = dialogOption.generations
         this.gradeIdDefaultLabel = dialogOption.gradeid
-        let file = {
-          name: dialogOption.imgName,
-          url: dialogOption.imgurl
+        if (dialogOption.imgName !== null) {
+          let file = {
+            name: dialogOption.imgName,
+            url: dialogOption.imgurl
+          }
+          this.fileList.push(file)
         }
-        this.fileList.push(file)
+        if (dialogOption.videoName !== null) {
+          let videoFile = {
+            name: dialogOption.videoName,
+            url: dialogOption.videourl
+          }
+          this.videoFileList.push(videoFile)
+        }
+        if (dialogOption.voiceName !== null) {
+          let voiceFile = {
+            name: dialogOption.voiceName,
+            url: dialogOption.voiceurl
+          }
+          this.voiceFileList.push(voiceFile)
+        }
+        this.defaultOptions = dialogOption.homeaddress.split(',')
+        this.defaultOptionsTwo = dialogOption.necropolis.split(',')
         this.getAppName(dialogOption.id)
       },
       getAppName(index) {

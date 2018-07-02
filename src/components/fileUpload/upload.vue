@@ -12,8 +12,8 @@
     :on-exceed="handleExceed"
     :file-list="fileListData"
     list-type="picture")
-    el-button(size="small" type="primary") 点击上传
-    div(slot="tip" class="el-upload__tip") 只能上传jpg/png文件,且不超过2MB
+    el-button(size="small" type="primary") {{btnText}}
+    div(slot="tip" class="el-upload__tip") {{tipText}}
 </template>
 <script type="text/ecmascript-6">
   import Cache from '../../../src/common/cache.js'
@@ -27,6 +27,12 @@
       },
       fileType: {
         type: String
+      },
+      btnText: {
+        type: String, default: '点击上传'
+      },
+      tipText: {
+        type: String, default: ''
       },
       fileList: {
         type: Array,
@@ -92,19 +98,27 @@
           isJPG = file.type === 'video/avi' || file.type === 'video/mp4'
           isLt2M = file.size / 1024 / 1024 < 2
           if (!isJPG) {
-            Message.error('上传头像图片只能是 JPG 或 PNG 格式!')
+            Message.error('上传视频只能是 MP4 或 avi 格式!')
+            this.fileListData = []
+            return
           }
           if (!isLt2M) {
-            Message.error('上传头像图片大小不能超过 2MB!')
+            Message.error('上传视频大小不能超过 2MB!')
+            this.fileListData = []
+            return
           }
         } else {
           isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
           isLt2M = file.size / 1024 / 1024 < 2
           if (!isJPG) {
-            Message.error('上传头像图片只能是 JPG 或 PNG 格式!')
+            Message.error('上传音频只能是 JPG 或 PNG 格式!')
+            this.fileListData = []
+            return
           }
           if (!isLt2M) {
-            Message.error('上传头像图片大小不能超过 2MB!')
+            Message.error('上传音频大小不能超过 2MB!')
+            this.fileListData = []
+            return
           }
         }
         if (!isJPG || !isLt2M) {

@@ -19,3 +19,6 @@ QiaoClansmanURL = "/camel/rest/clansmans"
 #字辈管理
 QiaoGenerationURL = "/camel/rest/generations"
 
+#族人纪事描述
+QiaoRecordURL = "/camel/rest/records"
+
