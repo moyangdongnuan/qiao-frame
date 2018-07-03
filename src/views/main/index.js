@@ -29,6 +29,7 @@ import Blogroll from '../sys/blogroll/index'
 import Dict from '../sys/dict/index'
 import District from '../sys/district/index'
 import Setting from '../sys/setting/index'
+import Station from '../sys/station/index'
 
 Dataauth.install(Vue)
 Role.install(Vue)
@@ -56,3 +57,4 @@ Blogroll.install(Vue)
 Dict.install(Vue)
 District.install(Vue)
 Setting.install(Vue)
+Station.install(Vue)

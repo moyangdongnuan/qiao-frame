@@ -13,7 +13,7 @@
         v-bind:defaultSelect="true" v-on:selectChange="setGroup")
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
         kalix-select(v-model="formModel.categorytype" v-bind:requestUrl="dictURL" appName="dictMenu"  placeholder="请选择类型标识"
-        v-bind:paramObj="dictParam" v-bind:defaultSelect="true" id="label" v-on:selectChange="selectChange")
+        v-bind:paramObj="dictParam" v-bind:defaultSelect="true" v-on:selectChange="selectChange")
 </template>
 
 <script type="text/ecmascript-6">
@@ -29,7 +29,7 @@
         formModel: Object.assign({}, FormModel),
         labelWidth: '120px',
         rules: {
-          // idcard: [{required: true, message: '请输入发帖人别名', trigger: 'blur'}],
+          idcard: this.$KalixCatch.get('user_name'),
           title: [{required: true, message: '请输入帖子标题', trigger: 'blur'}],
           content: [{required: true, message: '请输入帖子内容', trigger: 'blur'}],
           menuName: [{required: true, message: '请输入留言分类', trigger: 'blur'}],
@@ -49,10 +49,11 @@
       init(dialogOption) {
       },
       setGroup(item) {
+        console.log('-----------------item---setGroup-----------------', item)
         this.formModel.menuName = item.name
       },
       selectChange(item) {
-        console.log('-----------------item--------------------', item)
+        console.log('-----------------item---selectChange-----------------', item)
         this.formModel.categorytype = item.label
       }
     }

@@ -10,3 +10,5 @@ QiaoAdvertURL = "/camel/rest/adverts"
 QiaoBlogrollURL = "/camel/rest/blogrolls"
 # 公司信息
 QiaoSettingURL = "/camel/rest/settings"
+# 站长信息
+QiaoStationURL = "/camel/rest/stations"
