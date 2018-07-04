@@ -22,3 +22,5 @@ QiaoGenerationURL = "/camel/rest/generations"
 #族人纪事描述
 QiaoRecordURL = "/camel/rest/records"
 
+#家族迁徙记录
+QiaoLocationURL = "/camel/rest/locations"

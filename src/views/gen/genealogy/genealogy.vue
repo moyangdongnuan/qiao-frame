@@ -5,7 +5,6 @@
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
           kalix-qiao-tree(v-bind:bizDialog="bizDialog" v-bind:requestUrl="treeDefaultRequestUrl" v-on:setNodeId="getNodeId")
         el-col.duty-col(:span="16")
-         <!--kalix-qiao-form(value="" organizationId="")-->
           kalix-tree-grid-1.duty-wrapper(bizKey="clansman" title="族人管理"
           style="padding-top:0"
           ref="kalixTreeGrid"
