@@ -49,7 +49,6 @@
       init(dialogOption) {
       },
       setGroup(item) {
-        console.log('-----------------item---setGroup-----------------', item)
         this.formModel.menuName = item.name
       },
       selectChange(item) {

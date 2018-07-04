@@ -1,5 +1,5 @@
 <template lang="pug">
-  kalix-dialog.user-add(title='添加' bizKey="station" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
+  kalix-dialog.user-add(title='编辑' bizKey="station" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
       el-form-item(label="站长图片" prop="imgurl" v-bind:label-width="labelWidth" v-bind:rules="rules.imgurl")
         el-input(v-model="formModel.imgurl")
