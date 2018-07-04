@@ -1,7 +1,11 @@
-import Search from './search'
+import Location from './location'
+import QiaoLocationAdd from './locationAdd'
+import QiaoLocationEdit from './locationEdit'
 
 const components = [
-  Search
+  Location,
+  QiaoLocationEdit,
+  QiaoLocationAdd
 ]
 
 const main = {

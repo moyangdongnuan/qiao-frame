@@ -6,11 +6,11 @@
 <template lang="pug">
   div.kalix-article
     keep-alive
-      component(
-      v-bind:is="bizSearch"
-      ref="bizSearchRef"
-      v-if="bizSearch"
-      v-on:onSearchBtnClick="onSearchClick")
+      <!--component(-->
+      <!--v-bind:is="bizSearch"-->
+      <!--ref="bizSearchRef"-->
+      <!--v-if="bizSearch"-->
+      <!--v-on:onSearchBtnClick="onSearchClick")-->
     div.kalix-wrapper(v-bind:style="setWrapperStyle()" style="bottom:8px;")
       div.kalix-wrapper-hd
         i(v-bind:class="iconCls")
