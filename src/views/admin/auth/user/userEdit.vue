@@ -48,6 +48,8 @@
         // 暂无
       el-form-item(label="姓名" prop="name" v-bind:rules="rules.name" v-bind:label-width="labelWidth")
         el-input(v-model="formModel.name")
+      el-form-item(label="别名" prop="idCard" v-bind:rules="rules.idCard" v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.idCard")
       el-form-item(label="性别" prop="sex" v-bind:label-width="labelWidth")
         el-radio-group(v-model="formModel.sex")
           el-radio(label="男")
