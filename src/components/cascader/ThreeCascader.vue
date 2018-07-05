@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-cascader(v-bind:options="options" style="width:100%;" v-on:change="change" v-model="defaultOptions")
+  el-cascader(v-bind:options="options" style="width:100%;" v-on:change="change" v-model="defaultOption")
 </template>
 <script type="text/ecmascript-6">
   import Cache from '../../common/cache'
@@ -24,7 +24,10 @@
         type: Boolean, default: false
       },
       defaultOptions: {
-        type: Array, default: null
+        type: Array,
+        default() {
+          return []
+        }
       },
       cascaderType: { // 三级联动所属字段
         type: String, default: ''
@@ -32,7 +35,8 @@
     },
     data() {
       return {
-        initOpt: []
+        initOpt: [],
+        defaultOption: []
       }
     },
     created() {
@@ -44,6 +48,11 @@
       options: function () { // 所有选项集合
         // `this` points to the vm instance
         return this.initOpt
+      }
+    },
+    watch: {
+      defaultOptions () {
+        this.defaultOption = this.defaultOptions
       }
     },
     methods: {

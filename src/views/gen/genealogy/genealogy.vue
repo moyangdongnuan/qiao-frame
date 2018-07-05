@@ -151,7 +151,7 @@
     },
     data() {
       return {
-        flag: 0,
+        flag: '',
         treeUrl: '',
         generation: '',
         dialogOptions: {},
@@ -186,7 +186,7 @@
         addFormModel: Object.assign({}, ClansmanModel),
         editFormModel: Object.assign({}, ClansmanModel),
         auditingFormModel: Object.assign({}, ClansmanModel),
-        postId: '0',
+        postId: '',
         froumTitle: undefined,
         parentId: undefined,
         kalixDialog: undefined,

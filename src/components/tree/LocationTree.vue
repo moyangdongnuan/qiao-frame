@@ -105,7 +105,7 @@
       handleNodeClick(data) {
         console.log('---handleNodeClick--', data)
         this.modelId = data.modelId
-        this.$emit('setNodeId', this.modelId)
+        this.$emit('setNodeId', this.modelId, data)
       }
     },
     remove(data) {
