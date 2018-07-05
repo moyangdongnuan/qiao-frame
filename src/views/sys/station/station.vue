@@ -30,7 +30,7 @@
           params: {}
         }).then(res => {
           this.formModel = res.data.data[0]
-          console.log('this.formModel:---', this.formModel)
+          console.log('this.formModel.introduce:---', this.formModel.introduce)
         })
       }
     }
