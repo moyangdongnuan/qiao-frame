@@ -60,6 +60,10 @@
       }
     },
     methods: {
+      refreshData() {
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&==refreshData===refreshData==')
+        this.$refs.kalixBaseTable.getData()
+      },
       callCustomTableTool(row, btnId, that) {
         if (btnId === 'deleteOne') {
           console.log('==deleteOne=====', row)

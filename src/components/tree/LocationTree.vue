@@ -79,7 +79,7 @@
         whichBizDialog: '',
         filterText: '',
         modelId: 0,
-        treeData: ''
+        treeData: []
       }
     },
     watch: {

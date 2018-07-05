@@ -30,7 +30,7 @@
           .get(QiaoLocationURL + '/getLocationForMap?genealogyId=' + data, {})
           .then(res => {
             this.coords = res.data.data
-            this.$refs.genealogyMap.initChart()
+            // this.$refs.genealogyMap.initChart()
           })
       }
     },

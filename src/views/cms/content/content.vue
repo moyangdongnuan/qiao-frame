@@ -9,6 +9,7 @@
           v-bind:tableFields="tableFields"
           v-bind:targetURL="contentURL"
           v-bind:bizDialog="contentDialog"
+          v-bind:customTableTool="callCustomTableTool"
           v-bind:btnList="contentBtnList")
             template(slot="tableColumnSlot")
               el-table-column(prop="title"  label="标题")
@@ -22,6 +23,7 @@
   import {contentConfigBtnList} from './config'
   import KalixTableTree from '../../../components/cascader/tableTree'
   import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
+  import Message from '../../../common/message'
 
   export default {
     components: {KalixTable, KalixTableTree},
@@ -49,6 +51,26 @@
       }
     },
     methods: {
+      callCustomTableTool(row, btnId, that) {
+        if (btnId === 'deleteOne') {
+          console.log('==deleteOne=====', row)
+          this.$confirm('确定要删除吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            return this.$http
+              .get('/camel/rest/contents/deleteById?id=' + row.id, {})
+              .then(res => {
+                console.info('----treeData------', res)
+                Message.success(res.data)
+                this.$refs.kalixBaseTable.getData()
+              })
+          }).then(response => {
+          }).catch(() => {
+          })
+        }
+      },
       onTableTreeClick(data) {
         console.log('org data is ', data.label)
         if (data.flag === 'menu') {

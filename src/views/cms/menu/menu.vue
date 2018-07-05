@@ -5,6 +5,7 @@
     v-bind:targetURL="menuURL"
     v-bind:bizDialog="menuDialog"
     v-bind:btnList="menuBtnList"
+    v-bind:customTableTool="callCustomTableTool"
     bizSearch="QiaoMenuSearch")
 </template>
 
@@ -12,6 +13,7 @@
   import {QiaoMenuListURL} from '../config.toml' // QiaoMenuListURL
   import {menuConfigBtnList} from './config'
   import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
+  import Message from '../../../common/message'
 
   export default {
     name: 'kalix-qiao-menu',
@@ -33,6 +35,28 @@
           {id: 'edit', dialog: 'QiaoMenuEdit'}
         ],
         menuBtnList: menuConfigBtnList
+      }
+    },
+    methods: {
+      callCustomTableTool(row, btnId, that) {
+        if (btnId === 'deleteOne') {
+          console.log('==deleteOne=====', row)
+          this.$confirm('确定要删除吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            return this.$http
+              .get('/camel/rest/menus/deleteById?id=' + row.id, {})
+              .then(res => {
+                console.info('----treeData------', res)
+                Message.success(res.data)
+                this.$refs.kalixTable.getData()
+              })
+          }).then(response => {
+          }).catch(() => {
+          })
+        }
       }
     }
   }

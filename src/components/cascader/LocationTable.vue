@@ -246,6 +246,7 @@
       this.getData()
     },
     activated() {
+      this.$KalixEventBus.$on('refreshData', this.refresh)
       console.log(this.bizKey + '  is activated')
       EventBus.$on(ON_SEARCH_BUTTON_CLICK, this.onSearchClick)
       EventBus.$on(ON_REFRESH_DATA, this.refresh)
@@ -257,10 +258,10 @@
       })
     },
     deactivated() {
+      this.$KalixEventBus.$off('refreshData')
       console.log(this.bizKey + '  is deactivated')
       EventBus.$off(ON_SEARCH_BUTTON_CLICK)
       EventBus.$off(ON_REFRESH_DATA)
-      // 11
       EventBus.$off(this.bizKey + '-' + 'KalixDialogClose')
     },
     mounted() {
