@@ -1,22 +1,27 @@
 <template lang="pug">
   table-station(title="站长信息管理组件" bizkey="station" ref="tableStation"  v-bind:formModel.sync="formModel")
     div.el-form(slot="dialogFormSlot")
-      el-form-item(label="站长图片")
-        el-input(v-model="formModel.imgurl")
-      el-form-item(label="站长信息")
+      <!--el-form-item(label="站长图片")-->
+        <!--el-input(v-model="formModel.imgurl")-->
+      el-form-item(label="站长图片" prop="imgurl")
+        kalix-clansman-upload(:action="action" v-on:filePath="getVoiceFilePath" fileType="img" tipText="只能上传jpg/png文件，且不超过2MB")
+      el-form-item(label="站长信息" prop="introduce")
         mavon-editor(v-model="formModel.introduce")
 </template>
 
 <script type="text/ecmascript-6">
   import FormModel from './model'
+  import {baseURL} from '../config.toml'
   import TableStation from '../../../components/cascader/tableStation'
+  import KalixClansmanUpload from '../../../components/fileUpload/upload'
   export default {
     name: 'kalix-qiao-station',
-    components: {TableStation},
+    components: {KalixClansmanUpload, TableStation},
     data() {
       return {
         formModel: Object.assign({}, FormModel),
-        item: []
+        item: [],
+        action: baseURL + '/camel/rest/upload' // http://localhost:8181/camel/rest/upload
       }
     },
     mounted() {
@@ -30,8 +35,13 @@
           params: {}
         }).then(res => {
           this.formModel = res.data.data[0]
-          console.log('this.formModel:---', this.formModel)
+          console.log('this.formModel.introduce:---', this.formModel.introduce)
         })
+      },
+      getVoiceFilePath(filePath, fileName) {
+        console.log('--getFilePath---', fileName)
+        this.formModel.voiceurl = filePath
+        this.formModel.voiceName = fileName
       }
     }
   }

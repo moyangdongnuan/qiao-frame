@@ -20,6 +20,7 @@
         el-table-column(prop="sex" label="性别" align="center" width="100px")
         el-table-column(prop="birthdate" label="出生日期" align="center" width="100px")
         el-table-column(prop="idNumber" label="身份证号" align="center" width="100px")
+        el-table-column(prop="idCard" label="别名" align="center" width="100px")
         el-table-column(prop="email" label="邮箱" align="center" width="150px")
         el-table-column(prop="phone" label="固定电话" align="center" width="150px")
         el-table-column(prop="mobile" label="手机" align="center" width="150px")

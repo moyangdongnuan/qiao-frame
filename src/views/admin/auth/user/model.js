@@ -18,7 +18,8 @@ const FormModel = {
   address: null, // 地址
   apanage: null, // 谱属地
   ancestralhome: null, // 祖籍
-  audit: null // 审核标识
+  audit: null, // 审核标识
+  idCard: null
 }
 
 export default FormModel

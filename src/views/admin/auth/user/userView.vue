@@ -64,6 +64,8 @@
         // 暂无
       el-form-item(label="姓名" prop="name"  v-bind:label-width="labelWidth")
         el-input(v-model="formModel.name" readonly)
+      el-form-item(label="别名" prop="idCard"  v-bind:label-width="labelWidth")
+        el-input(v-model="formModel.idCard" readonly)
       el-form-item(label="性别" prop="sex" v-bind:label-width="labelWidth")
         el-radio-group(v-model="formModel.sex" disabled)
           el-radio(label="男")
