@@ -83,7 +83,7 @@
         defaultProps: '',
         whichBizDialog: '',
         filterText: '',
-        modelId: 0,
+        modelId: '',
         treeData: ''
       }
     },

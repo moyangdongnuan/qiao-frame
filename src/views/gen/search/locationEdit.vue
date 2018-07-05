@@ -37,20 +37,22 @@
       init(dialogOption) {
         console.log('==dialogOption==', dialogOption)
         this.$http
-          .get(QiaoLocationURL + '/' + dialogOption, {})
+          .get(QiaoLocationURL + '/' + dialogOption.id, {})
           .then(res => {
             console.log('----treeData------', res)
+            this.defaultOptions = res.data.startProvince.split(',')
+            this.defaultOptionsTwo = res.data.endProvince.split(',')
           })
       },
       getStartCity(data) {
         this.formModel.startProvince = data.toString()
-        this.formModel.startCity = data[1]
-        console.log('---getStartCity--', this.formModel.startProvince, this.formModel.startCity)
+        this.formModel.startCity = data[1].substring(0, data[1].length - 1)
+        console.log('---getStartCity--', this.formModel.startCity)
       },
       getEndCity(data) {
         this.formModel.endProvince = data.toString()
-        this.formModel.endCity = data[1]
-        console.log('---getEndCity--', data)
+        this.formModel.endCity = data[1].substring(0, data[1].length - 1)
+        console.log('---getEndCity--', this.formModel.endCity)
       }
     }
   }

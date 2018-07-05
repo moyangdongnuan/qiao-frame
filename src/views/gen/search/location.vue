@@ -23,7 +23,8 @@
   import {QiaoLocationURL, QiaoGenealogyTreeURL} from '../config.toml'
   import {locationConfigBtnList} from './config'
   import KalixLocationTree from '../../../components/tree/LocationTree'
-  import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
+  import KalixTable from '../../../components/cascader/LocationTable'
+  import Message from '../../../common/message'
 
   export default {
     components: {KalixTable, KalixLocationTree},
@@ -49,11 +50,12 @@
     },
     computed: {
       jsonStr() {
-        return this.flag + ''
+        return this.flag.modelId + ''
       }
     },
     watch: {
-      jsonStr(newVal) {
+      jsonStr(newVal, oldVal) {
+        console.log('jsonStr(newVal)', newVal, oldVal)
         this.$refs.kalixBaseTable.getData()
       }
     },
@@ -61,22 +63,26 @@
       callCustomTableTool(row, btnId, that) {
         if (btnId === 'deleteOne') {
           console.log('==deleteOne=====', row)
-          // ajax
+          this.$confirm('确定要删除吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            return this.$http
+              .get('/camel/rest/locations/deleteById?id=' + row.id, {})
+              .then(res => {
+                console.info('----treeData------', res)
+                Message.success(res.data)
+                this.$refs.kalixBaseTable.getData()
+              })
+          }).then(response => {
+          }).catch(() => {
+          })
         }
       },
-      onTableTreeClick(data) {
-        console.log('org data is ', data.label)
-        /* if (data.flag === 'menu') {
-          this.contentURL = QiaoContentURL + '/getContentByMenuId?menuId=' + data.modelId
-        }
-        if (data.flag === 'columnMenu' && this.flag === 0) {
-          this.contentURL = QiaoContentURL + '/getContentByMenuId?menuId=' + data.modelId
-          this.flag = 1
-        } */
-      },
-      getNodeId(data) {
-        console.log('==getNodeId====', data)
-        this.flag = data + ''
+      getNodeId(data, row) {
+        console.log('==getNodeId====', row)
+        this.flag = row
       }
     }
   }
