@@ -10,6 +10,7 @@
       input(v-model="formModel.parentId" type="hidden")
       input(v-model="formModel.postId" type="hidden")
       input(v-model="formModel.isLeaf" type="hidden")
+      input(v-model="formModel.username=username" type="hidden")
       el-form-item(label="所属帖子标题" prop="postId" label-width="120px" v-bind:rules="rules.forumTitle")
         el-input(v-text="formModel.forumTitle")
       el-form-item(label="上级回复人姓名" prop="parentName" label-width="120px" v-bind:rules="rules.parentName")
@@ -36,6 +37,7 @@
           content: [{required: true, message: '请输入回复内容', trigger: 'blur'}]
         },
         targetURL: QiaoReplyURL,
+        username: this.$KalixCatch.get('user_name'),
         labelWidth: '110px'
       }
     },

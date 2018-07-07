@@ -15,11 +15,11 @@ import Tinymce from './components/Tinymce'
 import Squire from './components/squire/Squire'
 import SIdentify from './components/identify/identify'
 import './views/main/index'
-import mavonEditor from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+// import mavonEditor from 'mavon-editor'
+// import 'mavon-editor/dist/css/index.css'
 // use
-Vue.use(mavonEditor)
-Vue.config.productionTip = false
+// Vue.use(mavonEditor)
+// Vue.config.productionTip = false
 // Vue.use(ElementUI)
 
 Es6Promise.polyfill()
