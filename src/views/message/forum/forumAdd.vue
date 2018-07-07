@@ -8,12 +8,11 @@
       el-form-item(label="帖子内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
         el-input(v-model="formModel.content")
       el-form-item(label="留言分类" prop="menuName" v-bind:label-width="labelWidth" v-bind:rules="rules.menuName")
-        kalix-select(v-model="formModel.menuName" v-bind:requestUrl="menuURL"
-        appName="forumMenu"  placeholder="请选择菜单分类" v-bind:paramObj="menuParam"
-        v-bind:defaultSelect="true" v-on:selectChange="setGroup")
+        kalix-select(v-model="formModel.menuName" v-bind:requestUrl="menuURL" appName="forumMenu"  placeholder="请选择菜单分类"
+        v-bind:paramObj="menuParam" v-bind:defaultSelect="true" v-on:selectChange="selectChange")
       el-form-item(label="类型标识" prop="categorytype" v-bind:label-width="labelWidth" v-bind:rules="rules.categorytype")
         kalix-select(v-model="formModel.categorytype" v-bind:requestUrl="dictURL" appName="dictMenu"  placeholder="请选择类型标识"
-        v-bind:paramObj="dictParam" v-bind:defaultSelect="true" v-on:selectChange="selectChange")
+        v-bind:paramObj="dictParam" v-bind:defaultSelect="false" id="label")
 </template>
 
 <script type="text/ecmascript-6">
@@ -42,18 +41,18 @@
         menuParam: undefined,
         dictParam: {type: '类型标识'},
         options: [],
-        name: ''
+        name: '',
+        label: ''
       }
     },
     methods: {
       init(dialogOption) {
       },
-      setGroup(item) {
-        this.formModel.menuName = item.name
-      },
       selectChange(item) {
-        console.log('-----------------item---selectChange-----------------', item)
-        this.formModel.categorytype = item.label
+        this.formModel.menuName = item.name
+        // this.formModel.categorytype = item.label
+        console.log('--------------item.name------------', item.name)
+        // console.log('--------------item.label------------', item.label)
       }
     }
   }

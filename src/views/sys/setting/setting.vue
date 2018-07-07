@@ -30,20 +30,20 @@
       this.getData()
     },
     watch: {
-      targetURL(oldVal, newVal) {
-        console.log('oldVal----------------', oldVal)
-        console.log('newVal----------------', newVal)
-        this.$confirm('确定要离开吗? 系统可能不会保存您所做的更改！', '提示', {
-          confirmButtonText: '离开',
-          cancelButtonText: '留下',
-          type: 'warning'
-        }).then(() => {
-          return this.axios.request({
-            url: newVal
-          })
-        }).catch(() => {
-        })
-      }
+      // targetURL(oldVal, newVal) {
+      //   console.log('oldVal----------------', oldVal)
+      //   console.log('newVal----------------', newVal)
+      //   this.$confirm('确定要离开吗? 系统可能不会保存您所做的更改！', '提示', {
+      //     confirmButtonText: '离开',
+      //     cancelButtonText: '留下',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     return this.axios.request({
+      //       url: newVal
+      //     })
+      //   }).catch(() => {
+      //   })
+      // }
     },
     methods: {
       getData() {
