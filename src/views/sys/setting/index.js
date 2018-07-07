@@ -1,13 +1,7 @@
 import Setting from './setting.vue'
-import SettingEdit from './settingEdit.vue'
-import SettingSearch from './settingSearch.vue'
-import SettingView from './settingView.vue'
 
 const components = [
-  Setting,
-  SettingEdit,
-  SettingSearch,
-  SettingView
+  Setting
 ]
 
 const main = {

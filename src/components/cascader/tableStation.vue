@@ -5,14 +5,14 @@
 -->
 <template lang="pug">
     div.kalix-wrapper
-      div.kalix-wrapper-hd 站长信息管理
+      div.kalix-wrapper-hd {{title}}
       div.kalix-wrapper-bd
         div.kalix-table-container
           el-form(ref="dialogForm" v-bind:model="formModel")
             slot(name="dialogFormSlot")
           div.dialog-footer(slot="footer")
             // el-button(v-on:click="onCancelClick") 取消
-            el-button(type="primary" v-on:click="onSubmitClick") 提交
+            el-button(type="primary" v-on:click="submitClick") 提交
 </template>
 
 <script type="text/ecmascript-6">
@@ -29,7 +29,10 @@
       targetURL: { // 业务数据提交的url,包括add，delete，update
         type: String
       },
-      title: '',
+      title: { // 标题
+        type: String,
+        required: true
+      },
       submitBefore: { // 提交前执行  submitBefore(baseDialog,function Submit)
         type: Function
       },
@@ -41,7 +44,7 @@
       }
     },
     methods: {
-      onSubmitClick() {
+      submitClick() {
         if (this.submitCustom && typeof (this.submitCustom) === 'function') {
           this.submitCustom(this)
         } else if (this.submitBefore && typeof (this.submitBefore) === 'function') {
@@ -52,18 +55,9 @@
           this.submitAction()
         }
       },
-      submitComplete(_flag) { // 提交完成后执行
-        if (this.submitAfter && typeof (this.submitAfter) === 'function') {
-          this.submitAfter(this)
-        } else {
-          if (_flag !== false) {
-            this.onCancelClick()
-          }
-        }
-      },
       submitAction() { // 提交
         this.$refs.dialogForm.validate((valid) => {
-          console.log('valid', valid)
+          console.log('valid====================', valid)
           if (valid) {
             this.axios.request({
               method: this.isEdit ? 'PUT' : 'POST',
@@ -74,17 +68,15 @@
               if (response.data.success) {
                 // Message.success(response.data.msg)
                 this.visible = false
-                this.$refs.dialogForm.resetFields()
-                this.submitComplete()
+                this.$alert('提交成功').then(response => {
+                  window.location.reload() // 页面加载
+                })
               } else {
-                // Message.error(response.data.msg)
-                this.submitComplete()
+                this.$alert('提交失败,请重新编辑！')
               }
             })
           } else {
-            // Message.error('请检查输入项！')
-            this.submitComplete(false)
-            return false
+            console.log('==========请检查输入项=======')
           }
         })
       }

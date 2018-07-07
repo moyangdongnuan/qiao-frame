@@ -10,9 +10,9 @@
       el-form-item(label="排序" prop="sequence" v-bind:label-width="labelWidth" v-bind:rules="rules.sequence")
         el-input(v-model="formModel.sequence" type="number" min="1")
       el-form-item(label="内容" prop="content" v-bind:label-width="labelWidth" v-bind:rules="rules.content")
-        // el-input(v-model="formModel.content")
-        div.content
-          mavon-editor(v-model="formModel.content")
+        el-input(v-model="formModel.content")
+        <!--div.content-->
+          <!--mavon-editor(v-model="formModel.content")-->
 </template>
 
 <script type="text/ecmascript-6">

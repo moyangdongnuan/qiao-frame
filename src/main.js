@@ -6,7 +6,7 @@ import axios from 'config/axios'
 import VueAxios from 'vue-axios'
 import Es6Promise from 'es6-promise'
 import KalixVueNavigate from 'kalix-vue-navigate'
-import KalixVueLib from 'kalix-vue-lib-qiao/src/main/index' // /src/main/index
+import KalixVueLib from 'kalix-vue-lib-qiao' // /src/main/index
 import KalixVueBiz from 'kalix-vue-biz-qiao'
 
 // import KalixVueAdmin from 'kalix-vue-admin'
@@ -15,11 +15,11 @@ import Tinymce from './components/Tinymce'
 import Squire from './components/squire/Squire'
 import SIdentify from './components/identify/identify'
 import './views/main/index'
-import mavonEditor from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+// import mavonEditor from 'mavon-editor'
+// import 'mavon-editor/dist/css/index.css'
 // use
-Vue.use(mavonEditor)
-Vue.config.productionTip = false
+// Vue.use(mavonEditor)
+// Vue.config.productionTip = false
 // Vue.use(ElementUI)
 
 Es6Promise.polyfill()
