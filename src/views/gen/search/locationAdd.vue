@@ -7,8 +7,7 @@
 <template lang="pug">
   kalix-dialog.user-add(bizKey="location" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
-      el-form-item(label="所属家谱" prop="" label-width="120px" )
-        el-input(v-model="home" v-bind:disabled="disabled")
+      el-form-item(label="所属家谱" prop="" label-width="120px" ) {{"< "+home+" >"}}
       el-form-item(label="起始城市" prop="" label-width="120px" )
         kalix-font-cascader(:requestUrl="cascaderUrl" appName="location" v-on:change="getStartCity" v-bind:defaultOptions="defaultOptions")
       el-form-item(label="终止城市" prop="" label-width="120px" )

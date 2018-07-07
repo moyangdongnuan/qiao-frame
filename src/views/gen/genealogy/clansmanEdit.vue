@@ -161,6 +161,7 @@
         this.sequenceDefaultLabel = dialogOption.sequence
         this.generationsDefaultLabel = dialogOption.generations
         this.gradeIdDefaultLabel = dialogOption.gradeid
+        console.log('====this.defaultOptionTwo===', this.defaultOptionsTwo)
         if (dialogOption.imgName !== null) {
           let file = {
             name: dialogOption.imgName,
@@ -182,9 +183,9 @@
           }
           this.voiceFileList.push(voiceFile)
         }
+        this.getAppName(dialogOption.id)
         this.defaultOptions = dialogOption.homeaddress.split(',')
         this.defaultOptionsTwo = dialogOption.necropolis.split(',')
-        this.getAppName(dialogOption.id)
       },
       getAppName(index) {
         this.generation = ''

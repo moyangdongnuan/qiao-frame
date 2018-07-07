@@ -42,7 +42,6 @@
           .then(res => {
             this.formModel = res.data.data[0]
             this.defaultOptions = res.data.data[0].defaultOption.data
-            console.log('---defaultOption----', res.data.data[0].defaultOption.data)
           })
       },
       getValue(data) {

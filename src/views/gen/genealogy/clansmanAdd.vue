@@ -54,7 +54,7 @@
       el-form-item(label="家庭地址" prop="homeaddress" label-width="120px" )
         kalix-font-cascader(v-on:change="getValue" v-bind:defaultOptions="defaultOptions")
       el-form-item(label="详细地址" prop="DetailedAddress" label-width="120px" )
-        el-input(v-model="formModel.DetailedAddress" :disabled="disabled")
+        el-input(v-model="formModel.detailedAddress" :disabled="disabled")
       el-form-item(label="死亡日期" prop="datetime" label-width="120px" )
         el-date-picker(v-model="formModel.datetime")
       el-form-item(label="埋葬地" prop="necropolis" label-width="120px" )

@@ -52,6 +52,7 @@
     },
     watch: {
       defaultOptions () {
+        console.log('===default==Options==', this.defaultOptions)
         this.defaultOption = this.defaultOptions
       }
     },
