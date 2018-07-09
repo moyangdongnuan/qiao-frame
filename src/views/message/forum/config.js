@@ -24,7 +24,7 @@ const forumConfigBtnList = [
     isPermission: true, // 是否进行权限认证
     cond: startedCond
   }, {
-    id: 'delete',
+    id: 'deleteAll',
     title: '删除',
     isShow: true, // 是否显示
     isPermission: true // 是否进行权限认证

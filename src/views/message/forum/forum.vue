@@ -5,7 +5,7 @@
     v-bind:targetURL="forumURL"
     v-bind:bizDialog="forumDialog"
     v-bind:btnList="forumBtnList"
-    v-bind:customTableTool="customTableTool"
+    v-bind:customTableTool="customTableToolAll"
     bizSearch="QiaoForumSearch" v-bind:dictDefine="dictDefine")
 </template>
 
@@ -42,10 +42,9 @@
       }
     },
     methods: {
-      customTableTool(row, btnId, that) {
+      customTableToolAll(row, btnId) {
         switch (btnId) {
-          case 'auditing': {
-            // 审核功能
+          case 'auditing': { // 审核功能
             this.$confirm('确定要审核吗?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
@@ -53,9 +52,26 @@
             }).then(() => {
               return this.$http
                 .get(ForumCategoryURL + '?id=' + row.id, {})
-                // .then(res => {
-                //   console.log('-----this.initOpt------', res.data)
-                // })
+                .then(res => {
+                  console.log('----shenhe- res.data------', res.data)
+                })
+            }).then(response => {
+              this.$refs.kalixTable.getData()
+            }).catch(() => {
+            })
+            break
+          }
+          case 'deleteAll': { // 删除功能
+            this.$confirm('确定要删除帖子及帖子下所有回复吗?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              return this.$http
+                .get('/camel/rest/forums/deleteAllById?id=' + row.id, {})
+                .then(res => {
+                  console.log('---deleteAll--res.data------', res.data)
+                })
             }).then(response => {
               this.$refs.kalixTable.getData()
             }).catch(() => {
