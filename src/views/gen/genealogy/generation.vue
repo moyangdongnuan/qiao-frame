@@ -8,7 +8,8 @@
   kalix-dialog.user-add(bizKey="generation" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
       el-form-item(label="字辈" prop="grade" label-width="120px" )
-        el-input(v-model="formModel.grade"  placeholder="例：赵钱孙李")
+        el-input(v-model="formModel.grade"  placeholder="例：赵钱孙李 中间不能插入符号、空格等其他与字辈无关信息")
+        div 例：赵钱孙李&nbsp;&nbsp;&nbsp;&nbsp;中间不能插入符号、空格等其他与字辈无关信息
 
 
 </template>
