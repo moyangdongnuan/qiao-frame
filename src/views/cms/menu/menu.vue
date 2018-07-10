@@ -12,12 +12,14 @@
 <script type="text/ecmascript-6">
   import {QiaoMenuListURL} from '../config.toml' // QiaoMenuListURL
   import {menuConfigBtnList} from './config'
-  import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
+  // import KalixTable from 'kalix-vue-lib-qiao'
   import Message from '../../../common/message'
 
   export default {
     name: 'kalix-qiao-menu',
-    components: {KalixTable},
+    components: {
+      // KalixTable
+    },
     data() {
       return {
         menuURL: QiaoMenuListURL, // QiaoMenuListURL

@@ -80,9 +80,9 @@
 
 <script type="text/ecmascript-6">
   import {PageConfig, SecurityBtnUrl} from '../../config/global.toml'
-  import TableTool from 'kalix-vue-lib-qiao/src/components/common/baseTableTool'
-  import ToolBar from 'kalix-vue-lib-qiao/src/components/common/baseToolBar'
-  import Dialog from 'kalix-vue-lib-qiao/src/components/common/baseDialog.vue'
+  // import TableTool from 'kalix-vue-lib-qiao/src/components/common/baseTableTool'
+  // import ToolBar from 'kalix-vue-lib-qiao/src/components/common/baseToolBar'
+  // import Dialog from 'kalix-vue-lib-qiao/src/components/common/baseDialog.vue'
   import Message from '../../common/message'
   import EventBus from '../../common/eventbus'
   import Cache from '../../common/cache'
@@ -629,9 +629,9 @@
       }
     },
     components: {
-      KalixTableTool: TableTool,
-      KalixToolBar: ToolBar,
-      KalixDialog: Dialog
+      // KalixTableTool: TableTool,
+      // KalixToolBar: ToolBar,
+      // KalixDialog: Dialog
     },
     computed: {
       searchCls() {

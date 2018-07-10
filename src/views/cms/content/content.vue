@@ -22,11 +22,11 @@
   import {QiaoContentURL} from '../config.toml'
   import {contentConfigBtnList} from './config'
   import KalixTableTree from '../../../components/cascader/tableTree'
-  import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
+  // import KalixTable from 'kalix-vue-lib-qiao/src/components/common/baseTable'
   import Message from '../../../common/message'
 
   export default {
-    components: {KalixTable, KalixTableTree},
+    components: {KalixTableTree},
     name: 'kalix-qiao-content',
     data() {
       return {

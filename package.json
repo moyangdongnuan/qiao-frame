@@ -14,9 +14,8 @@
     "axios": "^0.18.0",
     "element-ui": "^2.3.4",
     "kalix-vue-biz-qiao": "^0.1.0",
-    "kalix-vue-lib-qiao": "^0.1.0",
+    "kalix-vue-lib-qiao": "^0.1.2",
     "kalix-vue-navigate": "^1.0.7",
-    "mavon-editor": "^2.5.9",
     "vue": "^2.5.16",
     "vue-axios": "^2.1.1",
     "vue-router": "^3.0.1"
