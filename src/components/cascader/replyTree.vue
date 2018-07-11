@@ -126,4 +126,5 @@ export default {
         padding 0 12px
         box-sizing border-box
         overflow auto
+        height 784px
 </style>

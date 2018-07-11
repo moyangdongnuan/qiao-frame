@@ -70,6 +70,7 @@
                 this.visible = false
                 this.$alert('提交成功').then(response => {
                   window.location.reload() // 页面加载
+                  // this.$refs.tableStation.getData()
                 })
               } else {
                 this.$alert('提交失败,请重新编辑！')

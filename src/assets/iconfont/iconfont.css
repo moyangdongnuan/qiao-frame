@@ -28,6 +28,9 @@
 .icon-qiao-export:before { content: "\e63a"; }
 .icon-qiao-dict:before { content: "\e6a0"; }
 .icon-qiao-district:before { content: "\e6a0"; }
+.icon-qiao-station:before { content: "\e6a0"; }
 .icon-qiao-advert:before { content: "\e6a0"; }
 .icon-qiao-blogroll:before { content: "\e6a0"; }
 .icon-qiao-setting:before { content: "\e6a0"; }
+.icon-qiao-map:before { content: "\e616"; }
+.icon-qiao-home:before { content: "\e61b"; }

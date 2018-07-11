@@ -677,6 +677,15 @@
 </style>
 <style scoped lang="stylus" type="text/stylus">
   @import "../../assets/stylus/baseTable.styl"
+  .kalix-wrapper
+    margin 0px
+    position absolute
+    bottom 20px
+    top 8px
+    left 20px
+    box-sizing border-box
+    right 20px
+    background-color #ffffff
   .tree-icon
     margin-right 8px
     color #dd9e4a

@@ -2,7 +2,7 @@
   kalix-dialog.user-add(title='添加' bizKey="district" ref="kalixBizDialog" v-bind:formModel.sync="formModel" v-bind:targetURL="targetURL")
     div.el-form(slot="dialogFormSlot")
       el-form-item(label="地区编码" prop="coding" v-bind:label-width="labelWidth" v-bind:rules="rules.coding")
-        el-input(v-model="formModel.coding")
+        el-input(v-model="formModel.coding" type="number" maxlength="6")
       el-form-item(label="地区描述" prop="bewrite" v-bind:label-width="labelWidth" v-bind:rules="rules.bewrite")
         el-input(v-model="formModel.bewrite")
       el-form-item(label="上级地区编码" prop="parentencoding" v-bind:label-width="labelWidth" v-bind:rules="rules.parentencoding")
