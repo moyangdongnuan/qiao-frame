@@ -6,21 +6,23 @@
 
 <template lang="pug">
   keep-alive
-    div.block
-      el-tree.filter-tree(node-key="modelId" default-expand-all
-      v-bind:expand-on-click-node="false"
-      v-bind:data="treeData"
-      v-bind:props="defaultProps"
-      accordion
-      highlight-current
-      v-on:node-click="handleNodeClick"
-      ref="orgTree")
-        span.custom-tree-node(slot-scope="{ node, data }")
-          span {{ node.label }}
-          span
-      component(:is="whichBizDialog" ref="kalixDialog"
-      v-bind:formModel="formModel"
-      v-bind:formRules="formRules")
+    div.org-tree
+      div.org-tree-bd 家谱列表
+      div.kalix-tree-wrapper
+        el-tree.filter-tree(node-key="modelId" default-expand-all
+        v-bind:expand-on-click-node="false"
+        v-bind:data="treeData"
+        v-bind:props="defaultProps"
+        accordion
+        highlight-current
+        v-on:node-click="handleNodeClick"
+        ref="orgTree")
+          span.custom-tree-node(slot-scope="{ node, data }")
+            span {{ node.label }}
+            span
+        component(:is="whichBizDialog" ref="kalixDialog"
+        v-bind:formModel="formModel"
+        v-bind:formRules="formRules")
 </template>
 
 <script type="text/ecmascript-6">
@@ -191,11 +193,14 @@
   .org-tree
     display flex
     flex-flow column
+    background-color #ffffff
+    height 888px
     .org-tree-bd
-      flex 1
-      display flex
-      flex-flow column
-      padding 0
+      background-color #a8967d
+      color #ffffff
+      line-height 44px
+      padding 0 15px
+      text-align left
       .ipt-wrapper
         padding 8px 12px
       .kalix-tree-wrapper

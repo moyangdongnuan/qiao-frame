@@ -6,26 +6,30 @@
 
 <template lang="pug">
   keep-alive
-    div.block
-      el-button(v-on:click="onAddClick") 新增家谱
-      el-tree.filter-tree(node-key="id" default-expand-all
-      v-bind:expand-on-click-node="false"
-      v-bind:data="treeData"
-      v-bind:props="defaultProps"
-      accordion
-      highlight-current
-      v-on:node-click="handleNodeClick"
-      ref="orgTree")
-        span.custom-tree-node(slot-scope="{ node, data }")
-          span {{ node.label }}
-          span
-            el-button(type="text" size="mini" v-on:click="() => generationInfo(data)") 字辈
-            el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
-            el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
-            el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
-      component(:is="whichBizDialog" ref="kalixDialog"
-      v-bind:formModel="formModel"
-      v-bind:formRules="formRules")
+    div.org-tree
+      div.org-tree-bd
+        i.tit_icon.iconfont.icon-organization   家谱管理
+      div.ipt-wrapper
+        el-button.el-button-add(v-on:click="onAddClick") 新增家谱
+      div.kalix-tree-wrapper
+        el-tree.filter-tree(node-key="id" default-expand-all
+        v-bind:expand-on-click-node="false"
+        v-bind:data="treeData"
+        v-bind:props="defaultProps"
+        accordion
+        highlight-current
+        v-on:node-click="handleNodeClick"
+        ref="orgTree")
+          span.custom-tree-node(slot-scope="{ node, data }")
+            span {{ node.label }}
+            span
+              el-button(type="text" size="mini" v-on:click="() => generationInfo(data)") 字辈
+              el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
+              el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
+              el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
+        component(:is="whichBizDialog" ref="kalixDialog"
+        v-bind:formModel="formModel"
+        v-bind:formRules="formRules")
 </template>
 
 <script type="text/ecmascript-6">
@@ -197,15 +201,23 @@
 </script>
 <style scoped lang="stylus" type="text/stylus">
   .org-tree
+    margin-top 8px
     display flex
     flex-flow column
+    background-color #ffffff
+    height 888px
     .org-tree-bd
-      flex 1
-      display flex
-      flex-flow column
-      padding 0
-      .ipt-wrapper
-        padding 8px 12px
+      background-color #a8967d
+      color #ffffff
+      line-height 44px
+      padding 0 15px
+      text-align left
+    .ipt-wrapper
+      padding 8px 12px
+      .el-button-add
+        background-color: #f3f3f3;
+        border-color: #dfdfdf;
+        color: #707070;
       .kalix-tree-wrapper
         flex 1
         padding 0 12px
