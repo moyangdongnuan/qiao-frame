@@ -85,7 +85,7 @@
            **/
           this.which_to_show = 'kalix-' + app + '-' + fun.toLowerCase()
         } else {
-          this.which_to_show = 'Welcome'
+          this.which_to_show = 'Welcome' + app
         }
         this.initTheme()
       },
