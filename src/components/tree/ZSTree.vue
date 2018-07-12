@@ -6,26 +6,29 @@
 
 <template lang="pug">
   keep-alive
-    div.block
-      el-button(v-on:click="onAddClick") 新增家谱
-      el-tree.filter-tree(node-key="id" default-expand-all
-      v-bind:expand-on-click-node="false"
-      v-bind:data="treeData"
-      v-bind:props="defaultProps"
-      accordion
-      highlight-current
-      v-on:node-click="handleNodeClick"
-      ref="orgTree")
-        span.custom-tree-node(slot-scope="{ node, data }")
-          span {{ node.label }}
-          span
-            el-button(type="text" size="mini" v-on:click="() => generationInfo(data)") 字辈
-            el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
-            el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
-            el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
-      component(:is="whichBizDialog" ref="kalixDialog"
-      v-bind:formModel="formModel"
-      v-bind:formRules="formRules")
+    div.kalix-search-hd
+      i.tit_icon.iconfont.icon-organization
+      | {{treeTitle}}
+      div.kalix-tree-wrapper
+        el-button(v-on:click="onAddClick") 新增家谱
+        el-tree.filter-tree(node-key="id" default-expand-all
+        v-bind:expand-on-click-node="false"
+        v-bind:data="treeData"
+        v-bind:props="defaultProps"
+        accordion
+        highlight-current
+        v-on:node-click="handleNodeClick"
+        ref="orgTree")
+          span.custom-tree-node(slot-scope="{ node, data }")
+            span {{ node.label }}
+            span
+              el-button(type="text" size="mini" v-on:click="() => generationInfo(data)") 字辈
+              el-button(type="text" size="mini" v-on:click="() => onViewClick(data)") 查看
+              el-button(type="text" size="mini" v-on:click="() => onEditClick(data)") 修改
+              el-button(type="text" size="mini" v-on:click="() => remove(data)") 删除
+        component(:is="whichBizDialog" ref="kalixDialog"
+        v-bind:formModel="formModel"
+        v-bind:formRules="formRules")
 </template>
 
 <script type="text/ecmascript-6">
@@ -220,5 +223,4 @@
     font-size: 14px;
     padding-right: 8px;
   }
-
 </style>

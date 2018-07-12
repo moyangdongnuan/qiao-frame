@@ -6,21 +6,24 @@
 
 <template lang="pug">
   keep-alive
-    div.block
-      el-tree.filter-tree(node-key="modelId" default-expand-all
-      v-bind:expand-on-click-node="false"
-      v-bind:data="treeData"
-      v-bind:props="defaultProps"
-      accordion
-      highlight-current
-      v-on:node-click="handleNodeClick"
-      ref="orgTree")
-        span.custom-tree-node(slot-scope="{ node, data }")
-          span {{ node.label }}
-          span
-      component(:is="whichBizDialog" ref="kalixDialog"
-      v-bind:formModel="formModel"
-      v-bind:formRules="formRules")
+    div.kalix-search-hd
+      i.tit_icon.iconfont.icon-organization
+      | {{treeTitle}}
+      div.kalix-tree-wrapper
+        el-tree.filter-tree(node-key="modelId" default-expand-all
+        v-bind:expand-on-click-node="false"
+        v-bind:data="treeData"
+        v-bind:props="defaultProps"
+        accordion
+        highlight-current
+        v-on:node-click="handleNodeClick"
+        ref="orgTree")
+          span.custom-tree-node(slot-scope="{ node, data }")
+            span {{ node.label }}
+            span
+        component(:is="whichBizDialog" ref="kalixDialog"
+        v-bind:formModel="formModel"
+        v-bind:formRules="formRules")
 </template>
 
 <script type="text/ecmascript-6">
