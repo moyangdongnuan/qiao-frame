@@ -3,7 +3,7 @@
     keep-alive
       el-row.duty-row(:gutter="0")
         el-col.duty-col(:span="8" style="padding:8px 0 8px 8px;")
-          kalix-location-tree(v-bind:requestUrl="treeDefaultRequestUrl" v-on:setNodeId="getNodeId")
+          kalix-location-tree(v-bind:requestUrl="treeDefaultRequestUrl" treeTitle="家谱树" v-on:setNodeId="getNodeId")
         el-col.duty-col(:span="16")
           echarts-map(v-bind:coords="coords" ref="genealogyMap")
 </template>
